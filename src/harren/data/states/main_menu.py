@@ -125,6 +125,7 @@ class Instructions(tools._State):
         """
         if not os.path.isfile('save.p'):
             next_scene = c.OVERWORLD
+            # next_scene = c.BIG_WORLD
         else:
             next_scene = c.LOADGAME
         return next_scene
