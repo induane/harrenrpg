@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="30" height="37" tilewidth="16" tileheight="16">
+ <tileset firstgid="1" name="tileset1" tilewidth="16" tileheight="16">
+  <image source="../graphics/tileset1.png" width="160" height="80"/>
+ </tileset>
+ <tileset firstgid="51" name="tileset2" tilewidth="16" tileheight="16">
+  <image source="../graphics/tileset2.png" width="160" height="180"/>
+ </tileset>
+ <tileset firstgid="161" name="evilcastle" tilewidth="16" tileheight="16">
+  <image source="../graphics/evilcastle.png" width="64" height="64"/>
+ </tileset>
+ <tileset firstgid="177" name="houseoverworld" tilewidth="16" tileheight="16">
+  <image source="../graphics/houseoverworld.png" width="64" height="64"/>
+ </tileset>
+ <tileset firstgid="193" name="house1" tilewidth="16" tileheight="16">
+  <image source="../graphics/house1.png" width="16" height="16"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="30" height="37">
+  <data encoding="base64" compression="zlib">
+   eJztltEKgzAMRftRcw5xiHuQTf//fxahhSzErFkSX9aHg6WIt/cmlQwppeHPmIAX8MzPlazvQbozsAk03XN0t4Pa4z3aE9z69oOuBw9G9wJ0wDUToUv9cnQn+JW0cQ5aHZphjV+O0TnTWpaATJvf5lfzX/P0q8nZ068mZ0+/mpxbP7d+jsjZeyarmQei5kApb01dJ4Ilb0td6TkoWr94prWca8l15mpNv7sa6iDB3Wk8y+P93ui3RpvirVl0e0EvQvOb512zzNERumP6nNPLOson5ujece++AX1UE2k=
+  </data>
+ </layer>
+ <layer name="Tile Layer 2" width="30" height="37">
+  <data encoding="base64" compression="zlib">
+   eJztzlkOglAAQ9G3/12oOAAyqDgwCjvjJuyhBNKbnO82BKfugCNOiIS7Z1xwxU24GyNBirtwN0OOAqVwd29Nax9wzjnn3GZ74IkXKuHuGx988RPu1mjQohPu9hjwxyjcdc4tzdmDFtI=
+  </data>
+ </layer>
+ <objectgroup name="Object Layer 1" width="30" height="37">
+  <object name="blocker" gid="120" x="272" y="576"/>
+  <object name="blocker" gid="120" x="272" y="560"/>
+  <object name="blocker" gid="120" x="336" y="480"/>
+  <object name="blocker" gid="120" x="336" y="496"/>
+  <object name="blocker" gid="120" x="336" y="464"/>
+  <object name="blocker" gid="120" x="352" y="496"/>
+  <object name="blocker" gid="120" x="336" y="448"/>
+  <object name="blocker" gid="120" x="352" y="432"/>
+  <object name="blocker" gid="120" x="368" y="416"/>
+  <object name="blocker" gid="120" x="368" y="400"/>
+  <object name="blocker" gid="120" x="368" y="384"/>
+  <object name="blocker" gid="120" x="368" y="368"/>
+  <object name="blocker" gid="120" x="288" y="480"/>
+  <object name="blocker" gid="120" x="288" y="464"/>
+  <object name="blocker" gid="120" x="288" y="448"/>
+  <object name="blocker" gid="120" x="288" y="432"/>
+  <object name="blocker" gid="120" x="272" y="432"/>
+  <object name="blocker" gid="120" x="256" y="432"/>
+  <object name="blocker" gid="120" x="240" y="448"/>
+  <object name="blocker" gid="120" x="240" y="464"/>
+  <object name="blocker" gid="120" x="240" y="480"/>
+  <object name="blocker" gid="120" x="256" y="544"/>
+  <object name="blocker" gid="120" x="256" y="528"/>
+  <object name="blocker" gid="120" x="240" y="512"/>
+  <object name="blocker" gid="120" x="224" y="512"/>
+  <object name="blocker" gid="120" x="208" y="512"/>
+  <object name="blocker" gid="120" x="192" y="496"/>
+  <object name="blocker" gid="120" x="192" y="480"/>
+  <object name="blocker" gid="120" x="192" y="464"/>
+  <object name="blocker" gid="120" x="192" y="448"/>
+  <object name="blocker" gid="120" x="176" y="432"/>
+  <object name="blocker" gid="120" x="160" y="416"/>
+  <object name="blocker" gid="120" x="160" y="400"/>
+  <object name="blocker" gid="120" x="160" y="336"/>
+  <object name="blocker" gid="120" x="160" y="336"/>
+  <object name="blocker" gid="120" x="160" y="352"/>
+  <object name="blocker" gid="120" x="160" y="352"/>
+  <object name="blocker" gid="120" x="160" y="368"/>
+  <object name="blocker" gid="120" x="160" y="384"/>
+  <object name="blocker" gid="120" x="160" y="320"/>
+  <object name="blocker" gid="120" x="160" y="304"/>
+  <object name="blocker" gid="120" x="160" y="288"/>
+  <object name="blocker" gid="120" x="160" y="272"/>
+  <object name="blocker" gid="120" x="160" y="256"/>
+  <object name="blocker" gid="120" x="160" y="240"/>
+  <object name="blocker" gid="120" x="160" y="240"/>
+  <object name="blocker" gid="120" x="160" y="224"/>
+  <object name="blocker" gid="120" x="160" y="192"/>
+  <object name="blocker" gid="120" x="160" y="208"/>
+  <object name="blocker" gid="120" x="144" y="192"/>
+  <object name="blocker" gid="120" x="128" y="192"/>
+  <object name="blocker" gid="120" x="112" y="192"/>
+  <object name="blocker" gid="120" x="96" y="176"/>
+  <object name="blocker" gid="120" x="80" y="160"/>
+  <object name="blocker" gid="120" x="64" y="160"/>
+  <object name="blocker" gid="120" x="48" y="160"/>
+  <object name="blocker" gid="120" x="32" y="160"/>
+  <object name="blocker" gid="120" x="16" y="160"/>
+  <object name="blocker" gid="120" x="0" y="144"/>
+  <object name="blocker" gid="120" x="0" y="128"/>
+  <object name="blocker" gid="120" x="0" y="112"/>
+  <object name="blocker" gid="120" x="0" y="96"/>
+  <object name="blocker" gid="120" x="0" y="80"/>
+  <object name="blocker" gid="120" x="0" y="64"/>
+  <object name="blocker" gid="120" x="16" y="48"/>
+  <object name="blocker" gid="120" x="32" y="32"/>
+  <object name="blocker" gid="120" x="48" y="32"/>
+  <object name="blocker" gid="120" x="64" y="32"/>
+  <object name="blocker" gid="120" x="80" y="32"/>
+  <object name="blocker" gid="120" x="96" y="32"/>
+  <object name="blocker" gid="120" x="112" y="32"/>
+  <object name="blocker" gid="120" x="128" y="32"/>
+  <object name="blocker" gid="120" x="144" y="32"/>
+  <object name="blocker" gid="120" x="160" y="48"/>
+  <object name="blocker" gid="120" x="160" y="64"/>
+  <object name="blocker" gid="120" x="160" y="80"/>
+  <object name="blocker" gid="120" x="160" y="96"/>
+  <object name="blocker" gid="120" x="176" y="96"/>
+  <object name="blocker" gid="120" x="192" y="96"/>
+  <object name="blocker" gid="120" x="224" y="96"/>
+  <object name="blocker" gid="120" x="208" y="96"/>
+  <object name="blocker" gid="120" x="240" y="96"/>
+  <object name="blocker" gid="120" x="256" y="96"/>
+  <object name="blocker" gid="120" x="272" y="96"/>
+  <object name="blocker" gid="120" x="288" y="96"/>
+  <object name="blocker" gid="120" x="304" y="96"/>
+  <object name="blocker" gid="120" x="320" y="96"/>
+  <object name="blocker" gid="120" x="336" y="96"/>
+  <object name="blocker" gid="120" x="352" y="96"/>
+  <object name="blocker" gid="120" x="368" y="96"/>
+  <object name="blocker" gid="120" x="384" y="96"/>
+  <object name="blocker" gid="120" x="400" y="96"/>
+  <object name="blocker" gid="120" x="416" y="96"/>
+  <object name="blocker" gid="120" x="432" y="96"/>
+  <object name="blocker" gid="120" x="448" y="112"/>
+  <object name="blocker" gid="120" x="448" y="128"/>
+  <object name="blocker" gid="120" x="448" y="144"/>
+  <object name="blocker" gid="120" x="448" y="160"/>
+  <object name="blocker" gid="120" x="448" y="176"/>
+  <object name="blocker" gid="120" x="432" y="192"/>
+  <object name="blocker" gid="120" x="416" y="192"/>
+  <object name="blocker" gid="120" x="400" y="192"/>
+  <object name="blocker" gid="120" x="384" y="192"/>
+  <object name="blocker" gid="120" x="368" y="192"/>
+  <object name="blocker" gid="120" x="368" y="208"/>
+  <object name="blocker" gid="120" x="368" y="224"/>
+  <object name="blocker" gid="120" x="368" y="240"/>
+  <object name="blocker" gid="120" x="368" y="256"/>
+  <object name="blocker" gid="120" x="368" y="272"/>
+  <object name="blocker" gid="120" x="368" y="288"/>
+  <object name="blocker" gid="120" x="368" y="304"/>
+  <object name="blocker" gid="120" x="368" y="320"/>
+  <object name="blocker" gid="120" x="368" y="336"/>
+  <object name="blocker" gid="120" x="368" y="352"/>
+  <object name="blocker" gid="120" x="96" y="112"/>
+  <object name="blocker" gid="120" x="48" y="112"/>
+  <object name="blocker" gid="120" x="48" y="96"/>
+  <object name="blocker" gid="120" x="48" y="80"/>
+  <object name="blocker" gid="120" x="48" y="64"/>
+  <object name="blocker" gid="120" x="64" y="64"/>
+  <object name="blocker" gid="120" x="80" y="64"/>
+  <object name="blocker" gid="120" x="96" y="64"/>
+  <object name="blocker" gid="120" x="96" y="80"/>
+  <object name="blocker" gid="120" x="96" y="96"/>
+  <object name="portal" type="town" gid="139" x="272" y="480"/>
+  <object name="portal" type="town" gid="139" x="256" y="480"/>
+  <object name="start point" gid="123" x="272" y="496">
+   <properties>
+    <property name="direction" value="down"/>
+    <property name="state" value="town"/>
+   </properties>
+  </object>
+  <object name="start point" gid="123" x="432" y="496">
+   <properties>
+    <property name="direction" value="down"/>
+    <property name="state" value="instructions"/>
+   </properties>
+  </object>
+  <object name="portal" type="brotherhouse" gid="139" x="400" y="144"/>
+  <object name="start point" gid="123" x="400" y="160">
+   <properties>
+    <property name="direction" value="down"/>
+    <property name="state" value="brotherhouse"/>
+   </properties>
+  </object>
+  <object name="start point" gid="123" x="80" y="128">
+   <properties>
+    <property name="direction" value="down"/>
+    <property name="state" value="dungeon"/>
+   </properties>
+  </object>
+  <object name="portal" type="dungeon" gid="139" x="80" y="112"/>
+  <object name="portal" type="dungeon" gid="139" x="64" y="112"/>
+  <object name="blocker" gid="120" x="352" y="592"/>
+  <object name="blocker" gid="120" x="320" y="592"/>
+  <object name="blocker" gid="120" x="304" y="592"/>
+  <object name="blocker" gid="120" x="288" y="592"/>
+  <object name="blocker" gid="120" x="336" y="592"/>
+  <object name="blocker" gid="120" x="368" y="592"/>
+  <object name="blocker" gid="120" x="384" y="592"/>
+  <object name="blocker" gid="120" x="368" y="496"/>
+  <object name="blocker" gid="120" x="400" y="464"/>
+  <object name="blocker" gid="120" x="416" y="464"/>
+  <object name="blocker" gid="120" x="432" y="464"/>
+  <object name="blocker" gid="120" x="416" y="576"/>
+  <object name="blocker" gid="120" x="400" y="576"/>
+  <object name="start point" gid="123" x="432" y="496">
+   <properties>
+    <property name="direction" value="down"/>
+    <property name="state" value="load game"/>
+   </properties>
+  </object>
+  <object name="blocker" gid="120" x="432" y="560"/>
+  <object name="blocker" gid="120" x="432" y="544"/>
+  <object name="blocker" gid="120" x="448" y="528"/>
+  <object name="blocker" gid="120" x="464" y="512"/>
+  <object name="blocker" gid="120" x="464" y="480"/>
+  <object name="blocker" gid="120" x="464" y="496"/>
+  <object name="blocker" gid="120" x="448" y="464"/>
+  <object name="blocker" gid="120" x="384" y="480"/>
+ </objectgroup>
+</map>

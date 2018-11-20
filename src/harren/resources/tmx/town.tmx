@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="25" height="51" tilewidth="16" tileheight="16">
+ <tileset firstgid="1" name="tileset1" tilewidth="16" tileheight="16">
+  <image source="../graphics/tileset1.png" width="160" height="80"/>
+ </tileset>
+ <tileset firstgid="51" name="tileset2" tilewidth="16" tileheight="16">
+  <image source="../graphics/tileset2.png" width="160" height="180"/>
+ </tileset>
+ <tileset firstgid="161" name="medievalsigns" tilewidth="16" tileheight="16">
+  <image source="../graphics/medievalsigns.png" width="64" height="64"/>
+ </tileset>
+ <tileset firstgid="177" name="shopsigns" tilewidth="16" tileheight="16">
+  <image source="../graphics/shopsigns.png" width="64" height="16"/>
+ </tileset>
+ <tileset firstgid="181" name="tileset3" tilewidth="16" tileheight="16">
+  <image source="../graphics/tileset3.png" width="176" height="192"/>
+ </tileset>
+ <tileset firstgid="313" name="castledoor" tilewidth="16" tileheight="16">
+  <image source="../graphics/castledoor.png" width="32" height="48"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="25" height="51">
+  <data encoding="base64" compression="zlib">
+   eJztlc8KgCAMh733Rl58gB2jl4q6Rc+bBwOJmVv5Z8iC7yDu54eOGBhjQFEGZ/Vs6iBxeE4BPcNwDL5kXMb/ZA7UvLM6xnHsEdg656DkWziWCGydc1DyLRyAZLGz3nrOyZdkxP+Dev4UqOGJz2/lqf1eUntuGdwOTsYO9Fbq6ONIzU9OjQRHav5xaiQ4gLCfqynp6DHHOff4izrqO1p8Fz0Qegc=
+  </data>
+ </layer>
+ <layer name="Tile Layer 2" width="25" height="51">
+  <data encoding="base64" compression="zlib">
+   eJztVkFuAjEMzDM4o3Dd/gj6QQ4tFbBwKbDtQwpX4At4pUSyLDtxSNLSFSON4izOOCbxeq2pCwts0HwNbIEb4Bb4AzwCT0obr8X6FsU4ADvgF/AbeAZegFeljddifRoH46okB6rfj5+FY3B5lI7xSHnkQJtHyTgefX0sgSvGbpGfr4FWsD2k+tgB94zdIT9fA51gh/KIYeSYghT9e2P0kGqcw9gxVT81l1SE3lWl8MxDjyHm8UF+WyRqvZP5mxtxHlPiQ+cxSOt/8zxqxaE9qgY03z650H5jYcyArxn6sTheXxMnpN8gn1CcXH1j8u5Ag0ZL5jVQ+z1FUfPu+nGINVgynuYO5+K/6xtBv9Q5zN1YMw/aY7k8Uvu4hL8676HUBVfnkzu0Q/vneuGLUhfvPdZbG+JvCel+pf9C01txbpiGeU79Jc3auAHzA5GD
+  </data>
+ </layer>
+ <layer name="Tile Layer 3" width="25" height="51">
+  <data encoding="base64" compression="zlib">
+   eJzt0zsOgEAIBFC4glqqpVqqnd/7H8s5AGTZSDkvmY4MCQkiIg3SIp3853X1yICMCTu8rgmZkSVhh9e1IhuyJ+yo6bLueqjIqeW5KOuuF/pvLc9FWXd90P9qeS4qetfoXOZ/eDL/w5P5H57M/yAiIiIiIiKieh8VTwlk
+  </data>
+ </layer>
+ <layer name="Tile Layer 4" width="25" height="51">
+  <data encoding="base64" compression="zlib">
+   eJztzTEOQBEAREGHkajdv1E7lQv8fIRCmCm32BfCXcrGr/qxxU4jDW5/jZ48uK00Zmm81wAAAADO0wDcCwil
+  </data>
+ </layer>
+ <layer name="Tile Layer 5" width="25" height="51">
+  <data encoding="base64" compression="zlib">
+   eJztzkEOQwAQRmGKKku1xErKSnD/w/WdQLowjcj7kredf5LkGlJ6UEYvqqgOuJ1TQU8qf9gaT/rhyPKHDV1DQ29qAzc66mkI3PjQRHPgxkob7YEbkiRJkiTdzReuiwJD
+  </data>
+ </layer>
+ <objectgroup name="Object Layer 1" width="25" height="51">
+  <object name="start point" gid="123" x="176" y="800">
+   <properties>
+    <property name="direction" value="up"/>
+    <property name="state" value="overworld"/>
+   </properties>
+  </object>
+  <object name="blocker" gid="120" x="112" y="800"/>
+  <object name="blocker" gid="120" x="112" y="784"/>
+  <object name="blocker" gid="120" x="96" y="768"/>
+  <object name="blocker" gid="120" x="80" y="784"/>
+  <object name="blocker" gid="120" x="64" y="768"/>
+  <object name="blocker" gid="120" x="64" y="752"/>
+  <object name="blocker" gid="120" x="48" y="768"/>
+  <object name="blocker" gid="120" x="32" y="752"/>
+  <object name="blocker" gid="120" x="32" y="736"/>
+  <object name="blocker" gid="120" x="32" y="720"/>
+  <object name="blocker" gid="120" x="32" y="704"/>
+  <object name="blocker" gid="120" x="48" y="688"/>
+  <object name="blocker" gid="120" x="80" y="688"/>
+  <object name="blocker" gid="120" x="80" y="672"/>
+  <object name="blocker" gid="120" x="80" y="640"/>
+  <object name="blocker" gid="120" x="80" y="656"/>
+  <object name="blocker" gid="120" x="64" y="640"/>
+  <object name="blocker" gid="120" x="48" y="624"/>
+  <object name="blocker" gid="120" x="64" y="608"/>
+  <object name="blocker" gid="120" x="64" y="592"/>
+  <object name="blocker" gid="120" x="48" y="608"/>
+  <object name="blocker" gid="120" x="32" y="592"/>
+  <object name="blocker" gid="120" x="16" y="576"/>
+  <object name="blocker" gid="120" x="16" y="544"/>
+  <object name="blocker" gid="120" x="16" y="560"/>
+  <object name="blocker" gid="120" x="16" y="512"/>
+  <object name="blocker" gid="120" x="32" y="528"/>
+  <object name="blocker" gid="120" x="64" y="528"/>
+  <object name="blocker" gid="120" x="80" y="528"/>
+  <object name="blocker" gid="120" x="96" y="528"/>
+  <object name="blocker" gid="120" x="128" y="528"/>
+  <object name="blocker" gid="120" x="112" y="528"/>
+  <object name="blocker" gid="120" x="144" y="528"/>
+  <object name="blocker" gid="120" x="160" y="528"/>
+  <object name="blocker" gid="120" x="48" y="528"/>
+  <object name="blocker" gid="120" x="32" y="496"/>
+  <object name="blocker" gid="120" x="48" y="480"/>
+  <object name="blocker" gid="120" x="80" y="496"/>
+  <object name="blocker" gid="120" x="80" y="480"/>
+  <object name="blocker" gid="120" x="48" y="464"/>
+  <object name="blocker" gid="120" x="32" y="448"/>
+  <object name="blocker" gid="120" x="16" y="432"/>
+  <object name="blocker" gid="120" x="16" y="416"/>
+  <object name="blocker" gid="120" x="16" y="400"/>
+  <object name="blocker" gid="120" x="0" y="384"/>
+  <object name="blocker" gid="120" x="16" y="368"/>
+  <object name="blocker" gid="120" x="48" y="368"/>
+  <object name="blocker" gid="120" x="48" y="336"/>
+  <object name="blocker" gid="120" x="48" y="352"/>
+  <object name="blocker" gid="120" x="48" y="320"/>
+  <object name="blocker" gid="120" x="32" y="320"/>
+  <object name="blocker" gid="120" x="16" y="320"/>
+  <object name="blocker" gid="120" x="80" y="368"/>
+  <object name="blocker" gid="120" x="112" y="368"/>
+  <object name="blocker" gid="120" x="112" y="352"/>
+  <object name="blocker" gid="120" x="112" y="336"/>
+  <object name="blocker" gid="120" x="112" y="320"/>
+  <object name="blocker" gid="120" x="96" y="320"/>
+  <object name="blocker" gid="120" x="80" y="320"/>
+  <object name="blocker" gid="120" x="80" y="336"/>
+  <object name="blocker" gid="120" x="80" y="352"/>
+  <object name="blocker" gid="120" x="272" y="368"/>
+  <object name="blocker" gid="120" x="272" y="352"/>
+  <object name="blocker" gid="120" x="272" y="320"/>
+  <object name="blocker" gid="120" x="272" y="336"/>
+  <object name="blocker" gid="120" x="288" y="320"/>
+  <object name="blocker" gid="120" x="304" y="320"/>
+  <object name="blocker" gid="120" x="304" y="320"/>
+  <object name="blocker" gid="120" x="304" y="336"/>
+  <object name="blocker" gid="120" x="304" y="336"/>
+  <object name="blocker" gid="120" x="304" y="352"/>
+  <object name="blocker" gid="120" x="304" y="368"/>
+  <object name="blocker" gid="120" x="336" y="368"/>
+  <object name="blocker" gid="120" x="336" y="336"/>
+  <object name="blocker" gid="120" x="336" y="352"/>
+  <object name="blocker" gid="120" x="336" y="320"/>
+  <object name="blocker" gid="120" x="352" y="320"/>
+  <object name="blocker" gid="120" x="368" y="320"/>
+  <object name="blocker" gid="120" x="368" y="336"/>
+  <object name="blocker" gid="120" x="368" y="336"/>
+  <object name="blocker" gid="120" x="368" y="352"/>
+  <object name="blocker" gid="120" x="368" y="352"/>
+  <object name="blocker" gid="120" x="368" y="368"/>
+  <object name="blocker" gid="120" x="400" y="384"/>
+  <object name="blocker" gid="120" x="400" y="384"/>
+  <object name="blocker" gid="120" x="400" y="384"/>
+  <object name="blocker" gid="120" x="384" y="384"/>
+  <object name="blocker" gid="120" x="368" y="400"/>
+  <object name="blocker" gid="120" x="368" y="416"/>
+  <object name="blocker" gid="120" x="368" y="432"/>
+  <object name="blocker" gid="120" x="368" y="432"/>
+  <object name="blocker" gid="120" x="352" y="448"/>
+  <object name="blocker" gid="120" x="336" y="464"/>
+  <object name="blocker" gid="120" x="320" y="480"/>
+  <object name="blocker" gid="120" x="320" y="496"/>
+  <object name="blocker" gid="120" x="336" y="480"/>
+  <object name="blocker" gid="120" x="352" y="496"/>
+  <object name="blocker" gid="120" x="368" y="512"/>
+  <object name="blocker" gid="120" x="224" y="528"/>
+  <object name="blocker" gid="120" x="208" y="528"/>
+  <object name="blocker" gid="120" x="256" y="528"/>
+  <object name="blocker" gid="120" x="240" y="528"/>
+  <object name="blocker" gid="120" x="288" y="528"/>
+  <object name="blocker" gid="120" x="272" y="528"/>
+  <object name="blocker" gid="120" x="320" y="528"/>
+  <object name="blocker" gid="120" x="320" y="528"/>
+  <object name="blocker" gid="120" x="336" y="528"/>
+  <object name="blocker" gid="120" x="352" y="528"/>
+  <object name="blocker" gid="120" x="304" y="528"/>
+  <object name="blocker" gid="120" x="368" y="544"/>
+  <object name="blocker" gid="120" x="368" y="560"/>
+  <object name="blocker" gid="120" x="368" y="560"/>
+  <object name="blocker" gid="120" x="368" y="576"/>
+  <object name="blocker" gid="120" x="368" y="592"/>
+  <object name="blocker" gid="120" x="368" y="608"/>
+  <object name="blocker" gid="120" x="368" y="608"/>
+  <object name="blocker" gid="120" x="352" y="624"/>
+  <object name="blocker" gid="120" x="336" y="624"/>
+  <object name="blocker" gid="120" x="320" y="624"/>
+  <object name="blocker" gid="120" x="304" y="624"/>
+  <object name="blocker" gid="120" x="304" y="624"/>
+  <object name="blocker" gid="120" x="304" y="640"/>
+  <object name="blocker" gid="120" x="304" y="656"/>
+  <object name="blocker" gid="120" x="304" y="656"/>
+  <object name="blocker" gid="120" x="304" y="672"/>
+  <object name="blocker" gid="120" x="336" y="672"/>
+  <object name="blocker" gid="120" x="352" y="688"/>
+  <object name="blocker" gid="120" x="336" y="704"/>
+  <object name="blocker" gid="120" x="336" y="720"/>
+  <object name="blocker" gid="120" x="336" y="736"/>
+  <object name="blocker" gid="120" x="320" y="752"/>
+  <object name="blocker" gid="120" x="304" y="752"/>
+  <object name="blocker" gid="120" x="288" y="768"/>
+  <object name="blocker" gid="120" x="272" y="784"/>
+  <object name="blocker" gid="120" x="256" y="768"/>
+  <object name="blocker" gid="120" x="256" y="784"/>
+  <object name="blocker" gid="120" x="272" y="800"/>
+  <object name="blocker" gid="120" x="0" y="304"/>
+  <object name="blocker" gid="120" x="0" y="272"/>
+  <object name="blocker" gid="120" x="0" y="288"/>
+  <object name="blocker" gid="120" x="0" y="256"/>
+  <object name="blocker" gid="120" x="0" y="224"/>
+  <object name="blocker" gid="120" x="0" y="224"/>
+  <object name="blocker" gid="120" x="0" y="240"/>
+  <object name="blocker" gid="120" x="16" y="208"/>
+  <object name="blocker" gid="120" x="32" y="208"/>
+  <object name="blocker" gid="120" x="48" y="208"/>
+  <object name="blocker" gid="120" x="64" y="208"/>
+  <object name="blocker" gid="120" x="80" y="208"/>
+  <object name="blocker" gid="120" x="96" y="208"/>
+  <object name="blocker" gid="120" x="112" y="208"/>
+  <object name="blocker" gid="120" x="128" y="208"/>
+  <object name="blocker" gid="120" x="144" y="208"/>
+  <object name="blocker" gid="120" x="160" y="208"/>
+  <object name="blocker" gid="120" x="224" y="208"/>
+  <object name="blocker" gid="120" x="208" y="208"/>
+  <object name="blocker" gid="120" x="240" y="208"/>
+  <object name="blocker" gid="120" x="256" y="208"/>
+  <object name="blocker" gid="120" x="272" y="208"/>
+  <object name="blocker" gid="120" x="288" y="208"/>
+  <object name="blocker" gid="120" x="304" y="208"/>
+  <object name="blocker" gid="120" x="320" y="208"/>
+  <object name="blocker" gid="120" x="336" y="208"/>
+  <object name="blocker" gid="120" x="368" y="208"/>
+  <object name="blocker" gid="120" x="352" y="208"/>
+  <object name="blocker" gid="120" x="400" y="304"/>
+  <object name="blocker" gid="120" x="384" y="304"/>
+  <object name="blocker" gid="120" x="384" y="272"/>
+  <object name="blocker" gid="120" x="384" y="288"/>
+  <object name="blocker" gid="120" x="384" y="256"/>
+  <object name="blocker" gid="120" x="384" y="240"/>
+  <object name="blocker" gid="120" x="384" y="224"/>
+  <object name="portal" type="overworld" gid="139" x="192" y="816"/>
+  <object name="portal" type="overworld" gid="139" x="176" y="816"/>
+  <object name="portal" type="house" gid="139" x="64" y="688"/>
+  <object name="portal" type="Inn" gid="139" x="320" y="672"/>
+  <object name="portal" type="armor shop" gid="139" x="96" y="368"/>
+  <object name="portal" type="weapon shop" gid="139" x="32" y="368"/>
+  <object name="portal" type="potion shop" gid="139" x="288" y="368"/>
+  <object name="portal" type="magic shop" gid="139" x="352" y="368"/>
+  <object name="start point" gid="123" x="320" y="688">
+   <properties>
+    <property name="direction" value="down"/>
+    <property name="state" value="Inn"/>
+   </properties>
+  </object>
+  <object name="start point" gid="123" x="64" y="704">
+   <properties>
+    <property name="direction" value="down"/>
+    <property name="state" value="house"/>
+   </properties>
+  </object>
+  <object name="start point" gid="123" x="352" y="384">
+   <properties>
+    <property name="direction" value="down"/>
+    <property name="state" value="magic shop"/>
+   </properties>
+  </object>
+  <object name="start point" gid="123" x="288" y="384">
+   <properties>
+    <property name="direction" value="down"/>
+    <property name="state" value="potion shop"/>
+   </properties>
+  </object>
+  <object name="start point" gid="123" x="96" y="384">
+   <properties>
+    <property name="direction" value="down"/>
+    <property name="state" value="armor shop"/>
+   </properties>
+  </object>
+  <object name="start point" gid="123" x="32" y="384">
+   <properties>
+    <property name="direction" value="down"/>
+    <property name="state" value="weapon shop"/>
+   </properties>
+  </object>
+  <object name="sprite" type="bluedressgirl" gid="124" x="144" y="752">
+   <properties>
+    <property name="dialogue length" value="3"/>
+    <property name="dialogue0" value="Welcome to our town, traveller!"/>
+    <property name="dialogue1" value="Our King protects us against the evil forces of the outside world."/>
+    <property name="dialogue2" value="As long as we never leave, we have nothing to fear!"/>
+    <property name="direction" value="right"/>
+   </properties>
+  </object>
+  <object name="sprite" type="femalewarrior" gid="124" x="240" y="640">
+   <properties>
+    <property name="dialogue length" value="2"/>
+    <property name="dialogue0" value="You seem tired from your travels."/>
+    <property name="dialogue1" value="Why not rest at our Inn and stay awhile?"/>
+   </properties>
+  </object>
+  <object name="sprite" type="devil" gid="124" x="288" y="464">
+   <properties>
+    <property name="dialogue length" value="3"/>
+    <property name="dialogue0" value="Don't be frightened. I'm a friendly Demon."/>
+    <property name="dialogue1" value="My brothers and sisters, however, are not so nice."/>
+    <property name="dialogue2" value="Be careful not to run into them."/>
+   </properties>
+  </object>
+  <object name="blocker" gid="120" x="208" y="176"/>
+  <object name="blocker" gid="120" x="208" y="160"/>
+  <object name="blocker" gid="120" x="240" y="160"/>
+  <object name="blocker" gid="120" x="224" y="160"/>
+  <object name="blocker" gid="120" x="272" y="160"/>
+  <object name="blocker" gid="120" x="256" y="160"/>
+  <object name="blocker" gid="120" x="256" y="176"/>
+  <object name="blocker" gid="120" x="240" y="176"/>
+  <object name="blocker" gid="120" x="224" y="176"/>
+  <object name="blocker" gid="120" x="272" y="176"/>
+  <object name="blocker" gid="120" x="304" y="176"/>
+  <object name="blocker" gid="120" x="288" y="176"/>
+  <object name="blocker" gid="120" x="320" y="192"/>
+  <object name="blocker" gid="120" x="288" y="160"/>
+  <object name="blocker" gid="120" x="304" y="160"/>
+  <object name="blocker" gid="120" x="320" y="160"/>
+  <object name="blocker" gid="120" x="320" y="144"/>
+  <object name="blocker" gid="120" x="336" y="128"/>
+  <object name="blocker" gid="120" x="336" y="96"/>
+  <object name="blocker" gid="120" x="336" y="112"/>
+  <object name="blocker" gid="120" x="336" y="80"/>
+  <object name="blocker" gid="120" x="320" y="64"/>
+  <object name="blocker" gid="120" x="304" y="48"/>
+  <object name="blocker" gid="120" x="288" y="48"/>
+  <object name="blocker" gid="120" x="272" y="48"/>
+  <object name="blocker" gid="120" x="256" y="64"/>
+  <object name="blocker" gid="120" x="272" y="80"/>
+  <object name="blocker" gid="120" x="288" y="80"/>
+  <object name="blocker" gid="120" x="288" y="96"/>
+  <object name="blocker" gid="120" x="288" y="112"/>
+  <object name="blocker" gid="120" x="288" y="112"/>
+  <object name="blocker" gid="120" x="288" y="128"/>
+  <object name="blocker" gid="120" x="272" y="128"/>
+  <object name="blocker" gid="120" x="256" y="112"/>
+  <object name="blocker" gid="120" x="256" y="128"/>
+  <object name="blocker" gid="120" x="240" y="112"/>
+  <object name="blocker" gid="120" x="224" y="112"/>
+  <object name="blocker" gid="120" x="208" y="112"/>
+  <object name="blocker" gid="120" x="160" y="112"/>
+  <object name="blocker" gid="120" x="144" y="112"/>
+  <object name="blocker" gid="120" x="128" y="128"/>
+  <object name="blocker" gid="120" x="112" y="128"/>
+  <object name="blocker" gid="120" x="96" y="112"/>
+  <object name="blocker" gid="120" x="96" y="128"/>
+  <object name="blocker" gid="120" x="96" y="96"/>
+  <object name="blocker" gid="120" x="96" y="80"/>
+  <object name="blocker" gid="120" x="112" y="64"/>
+  <object name="blocker" gid="120" x="96" y="48"/>
+  <object name="blocker" gid="120" x="80" y="48"/>
+  <object name="blocker" gid="120" x="64" y="48"/>
+  <object name="blocker" gid="120" x="48" y="64"/>
+  <object name="blocker" gid="120" x="32" y="80"/>
+  <object name="blocker" gid="120" x="32" y="96"/>
+  <object name="blocker" gid="120" x="32" y="96"/>
+  <object name="blocker" gid="120" x="32" y="112"/>
+  <object name="blocker" gid="120" x="32" y="128"/>
+  <object name="blocker" gid="120" x="48" y="144"/>
+  <object name="blocker" gid="120" x="64" y="160"/>
+  <object name="blocker" gid="120" x="80" y="160"/>
+  <object name="blocker" gid="120" x="96" y="160"/>
+  <object name="blocker" gid="120" x="112" y="160"/>
+  <object name="blocker" gid="120" x="144" y="160"/>
+  <object name="blocker" gid="120" x="128" y="160"/>
+  <object name="blocker" gid="120" x="160" y="160"/>
+  <object name="blocker" gid="120" x="160" y="176"/>
+  <object name="blocker" gid="120" x="144" y="176"/>
+  <object name="blocker" gid="120" x="144" y="176"/>
+  <object name="blocker" gid="120" x="128" y="176"/>
+  <object name="blocker" gid="120" x="112" y="176"/>
+  <object name="blocker" gid="120" x="96" y="176"/>
+  <object name="blocker" gid="120" x="80" y="176"/>
+  <object name="blocker" gid="120" x="64" y="160"/>
+  <object name="blocker" gid="120" x="64" y="176"/>
+  <object name="blocker" gid="120" x="48" y="192"/>
+  <object name="sprite" type="soldier" gid="124" x="160" y="128">
+   <properties>
+    <property name="dialogue length" value="2"/>
+    <property name="dialogue0" value="I have heard rumours that the King has lost something..."/>
+    <property name="dialogue1" value="Perhaps you should pay him a visit."/>
+   </properties>
+  </object>
+  <object name="sprite" type="soldier" gid="124" x="208" y="128">
+   <properties>
+    <property name="dialogue length" value="1"/>
+    <property name="dialogue0" value="Welcome to the castle, citizen."/>
+   </properties>
+  </object>
+  <object name="sprite" type="soldier" gid="124" x="160" y="224">
+   <properties>
+    <property name="dialogue length" value="2"/>
+    <property name="dialogue0" value="The castle to the NorthWest is very dangerous."/>
+    <property name="dialogue1" value="Make sure to buy a Long Sword before attempting to enter it."/>
+   </properties>
+  </object>
+  <object name="sprite" type="soldier" gid="124" x="208" y="224">
+   <properties>
+    <property name="" value=""/>
+    <property name="dialogue length" value="2"/>
+    <property name="dialogue0" value="Armor is important to protect you from monsters."/>
+    <property name="dialogue1" value="The Armor Shop sells excellent shields and chain mail."/>
+   </properties>
+  </object>
+  <object name="portal" type="castle" gid="139" x="176" y="112"/>
+  <object name="portal" type="castle" gid="139" x="192" y="112"/>
+  <object name="start point" gid="123" x="192" y="128">
+   <properties>
+    <property name="direction" value="down"/>
+    <property name="state" value="castle"/>
+   </properties>
+  </object>
+  <object name="start point" gid="123" x="176" y="128">
+   <properties>
+    <property name="direction" value="down"/>
+    <property name="state" value="castle"/>
+   </properties>
+  </object>
+  <object name="blocker" gid="120" x="240" y="784"/>
+  <object name="blocker" gid="120" x="224" y="784"/>
+  <object name="blocker" gid="120" x="208" y="784"/>
+  <object name="blocker" gid="120" x="208" y="800"/>
+  <object name="blocker" gid="120" x="160" y="800"/>
+  <object name="blocker" gid="120" x="160" y="784"/>
+  <object name="blocker" gid="120" x="144" y="784"/>
+  <object name="blocker" gid="120" x="128" y="784"/>
+  <object name="blocker" gid="120" x="112" y="768"/>
+  <object name="blocker" gid="120" x="112" y="752"/>
+  <object name="start point" gid="123" x="320" y="688">
+   <properties>
+    <property name="direction" value="down"/>
+    <property name="state" value="death scene"/>
+   </properties>
+  </object>
+  <object name="start point" gid="123" x="320" y="688">
+   <properties>
+    <property name="direction" value="down"/>
+    <property name="state" value="load game"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>
