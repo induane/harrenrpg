@@ -1,9 +1,11 @@
 """This is a test of using the pytmx library with Tiled."""
 import logging
 
+import six
 import pygame as pg
+from harren.utils import color
 from harren.pytmx.util_pygame import load_pygame
-from harren.pytmx import TiledObjectGroup, TiledImageLayer, TiledTileLayer
+from harren.pytmx import TiledImageLayer, TiledTileLayer
 
 LOG = logging.getLogger(__name__)
 
@@ -21,16 +23,11 @@ class Renderer(object):
         th = self.tmx_data.tileheight
         gt = self.tmx_data.get_tile_image_by_gid
 
-        if self.tmx_data.background_color:
-            print(dir(self.tmx_data))
-            try:
-                surface.fill(self.tmx_data.background_color)
-            except Exception:
-                print('Background Color: {}'.format(self.tmx_data.background_color))
-                try:
-                    surface.fill(self.tmx_data.backgroundcolor)
-                except Exception:
-                    LOG.exception('Ooops, cannot render bg')
+        bg_color = self.tmx_data.background_color
+        if isinstance(bg_color, six.string_types):
+            bg_color = color.hex_to_rgb(bg_color)
+        if bg_color:
+            surface.fill(bg_color)
 
         for layer in self.tmx_data.visible_layers:
             if isinstance(layer, TiledTileLayer):
@@ -38,8 +35,6 @@ class Renderer(object):
                     tile = gt(gid)
                     if tile:
                         surface.blit(tile, (x * tw, y * th))
-            elif isinstance(layer, TiledObjectGroup):
-                pass
             elif isinstance(layer, TiledImageLayer):
                 image = gt(layer.gid)
                 if image:

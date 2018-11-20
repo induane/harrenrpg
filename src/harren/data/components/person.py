@@ -11,8 +11,7 @@ if sys.version_info[0] == 2:
 
 
 class Person(pg.sprite.Sprite):
-    """Base class for all world characters
-    controlled by the computer"""
+    """Base class for all world characters controlled by the computer."""
 
     def __init__(self, sheet_key, x, y, direction='down', state='resting', index=0):
         super(Person, self).__init__()
