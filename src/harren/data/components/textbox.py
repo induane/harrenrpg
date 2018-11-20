@@ -1,62 +1,27 @@
 import logging
 import pygame as pg
-from harren.data import setup, observer, tools
-from harren.data import constants as c
 
+from harren import base
+from harren.data import constants as c
+from harren.data import setup, observer
 
 LOG = logging.getLogger(__name__)
 
 
 class NextArrow(pg.sprite.Sprite):
-    """Flashing arrow indicating more dialogue"""
+    """Flashing arrow indicating more dialogue."""
+
     def __init__(self):
         super(NextArrow, self).__init__()
         self.image = setup.GFX['fancyarrow']
-        self.rect = self.image.get_rect(right=780,
-                                        bottom=135)
+        self.rect = self.image.get_rect(right=780, bottom=135)
 
 
-class ItemBox(object):
-    """Text box for items??"""
-    def __init__(self, text, item):
-        # Not sure what to do with the item right now...
-        self.text = text
-        self.observers = [observer.SoundEffects()]
-        self.notify = tools.notify_observers
-        self.notify(self, c.CLICK)
+class DialogueBox(base.BaseEntity):
+    """Text box used for dialogue."""
 
-    def make_box_image(self):
-        """Make image of the box."""
-        image = pg.Surface(self.rect.size)
-        image.set_colorkey(c.BLACK)
-        image.blit(self.bground, (0, 0))
-        box_image = self.font.render(self.text, True, c.NEAR_BLACK)
-        box_rect = box_image.get_rect(left=50, top=50)
-        image.blit(box_image, box_rect)
-        return image
-
-    def update(self, keys, current_time):
-        """Updates scrolling text"""
-        self.current_time = current_time
-        self.draw_box(current_time)
-        self.terminate_check(keys)
-
-    def draw_box(self, current_time, x=400):
-        """Reveal text on box"""
-        self.image = self.make_box_image()
-
-    def terminate_check(self, keys):
-        """Remove textbox from sprite group after 2 seconds."""
-        if keys[pg.K_SPACE] and self.allow_input:
-            self.done = True
-
-        if not keys[pg.K_SPACE]:
-            self.allow_input = True
-
-
-class DialogueBox(object):
-    """Text box used for dialogue"""
     def __init__(self, dialogue, index=0, image_key='dialoguebox', item=None):
+        super(DialogueBox, self).__init__(ovservers=[observer.SoundEffects()])
         self.item = item
         self.bground = setup.GFX[image_key]
         self.rect = self.bground.get_rect(centerx=400)
@@ -70,9 +35,7 @@ class DialogueBox(object):
         self.done = False
         self.allow_input = False
         self.name = image_key
-        self.observers = [observer.SoundEffects()]
-        self.notify = tools.notify_observers
-        self.notify(self, c.CLICK)
+        self.notify_observers(c.CLICK)
 
     def make_dialogue_box_image(self):
         """Make the image of the dialogue box."""
@@ -108,17 +71,16 @@ class DialogueBox(object):
             self.allow_input = True
 
     def check_to_draw_arrow(self):
-        """
-        Blink arrow if more text needs to be read.
-        """
+        """Blink arrow if more text needs to be read."""
         if self.index < len(self.dialogue_list) - 1:
             self.image.blit(self.arrow.image, self.arrow.rect)
 
 
-class TextHandler(object):
-    """Handles interaction between sprites to create dialogue boxes"""
+class TextHandler(base.BaseEntity):
+    """Handles interaction between sprites to create dialogue boxes."""
 
     def __init__(self, level):
+        super(TextHandler, self).__init__(ovservers=[observer.SoundEffects()])
         self.player = level.player
         self.sprites = level.sprites
         self.talking_sprite = None
@@ -127,8 +89,6 @@ class TextHandler(object):
         self.level = level
         self.last_textbox_timer = 0.0
         self.game_data = level.game_data
-        self.observers = [observer.SoundEffects()]
-        self.notify = tools.notify_observers
 
     def update(self, keys, current_time):
         """Checks for the creation of Dialogue boxes"""
@@ -144,15 +104,14 @@ class TextHandler(object):
                 self.open_chest(self.talking_sprite)
 
             self.textbox.update(keys, current_time)
-            LOG.debug('TALKING SPRITE NAME: %s', self.talking_sprite.name)
             if self.textbox.done:
                 if self.textbox.index < (len(self.textbox.dialogue_list) - 1):
                     index = self.textbox.index + 1
                     dialogue = self.textbox.dialogue_list
                     if self.textbox.name == 'dialoguebox':
                         self.textbox = DialogueBox(dialogue, index)
-                    elif self.textbox.name == 'infobox':
-                        self.textbox = ItemBox(dialogue, index)
+                    # elif self.textbox.name == 'infobox':
+                        # self.textbox = ItemBox(dialogue, index)
                 elif self.talking_sprite.item:
                     self.check_for_item()
                 elif self.talking_sprite.battle:
@@ -209,13 +168,12 @@ class TextHandler(object):
         self.textbox = None
         self.last_textbox_timer = current_time
         self.reset_sprite_direction()
-        self.notify(self, c.CLICK)
+        self.notify_observers(c.CLICK)
 
     def check_for_dialogue(self, sprite):
-        """Checks if a sprite is in the correct location to give dialogue"""
+        """Checks if a sprite is in the correct location to give dialogue."""
         player = self.player
         tile_x, tile_y = player.location
-
         if player.direction == 'up':
             if sprite.location == [tile_x, tile_y - 1]:
                 self.textbox = DialogueBox(sprite.dialogue)
@@ -284,25 +242,25 @@ class TextHandler(object):
             self.game_data['brother elixir'] = False
 
     def reset_sprite_direction(self):
-        """Reset sprite to default direction"""
+        """Reset sprite to default direction."""
         for sprite in self.sprites:
             if sprite.state == 'resting':
                 sprite.direction = sprite.default_direction
 
     def draw(self, surface):
-        """Draws textbox to surface"""
+        """Draws textbox to surface."""
         if self.textbox:
             surface.blit(self.textbox.image, self.textbox.rect)
 
     def make_textbox(self, name, dialogue, item=None):
-        """Make textbox on demand"""
-        if name == 'itembox':
-            textbox = ItemBox(dialogue, item)
-        elif name == 'dialoguebox':
+        """Make textbox on demand."""
+
+        if name == 'dialoguebox':
             textbox = DialogueBox(dialogue)
+        # elif name == 'itembox':
+        #     textbox = ItemBox(dialogue, item)
         else:
             textbox = None
-
         return textbox
 
     def open_chest(self, sprite):

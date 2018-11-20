@@ -10,7 +10,7 @@ from harren.py_compat import pickle
 
 
 class Gui(object):
-    """Class that controls the GUI of the shop state"""
+    """Class that controls the GUI of the shop state."""
 
     def __init__(self, level):
         self.level = level
@@ -330,9 +330,7 @@ class Gui(object):
             pickle.dump(self.game_data, open('save.p', 'wb'))
 
     def confirm_sell(self, keys, current_time):
-        """
-        Confirm player wants to sell item.
-        """
+        """Confirm player wants to sell item."""
         dialogue = ['Are you sure?']
         choices = ['Yes', 'No']
         self.dialogue_box = self.make_dialogue_box(dialogue, 0)
@@ -362,9 +360,7 @@ class Gui(object):
             self.allow_input = True
 
     def sell_item_from_inventory(self):
-        """
-        Allow player to sell item to shop.
-        """
+        """Allow player to sell item to shop."""
         item_price = self.item_to_be_sold['price']
         item_name = self.item_to_be_sold['type']
 
@@ -386,9 +382,7 @@ class Gui(object):
             self.sell_inventory_data_adjust(item_price, item_name)
 
     def sell_inventory_data_adjust(self, item_price, item_name):
-        """
-        Add gold and subtract item during sale.
-        """
+        """Add gold and subtract item during sale."""
         self.player_inventory['GOLD']['quantity'] += (item_price / 2)
         self.state = 'acceptsell'
         if self.player_inventory[item_name]['quantity'] > 1:

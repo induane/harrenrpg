@@ -169,6 +169,7 @@ def get_image(x, y, width, height, sprite_sheet):
 
     return image
 
+
 def get_tile(x, y, tileset, width=16, height=16, scale=1):
     """Gets the surface and rect for a tile"""
     surface = get_image(x, y, width, height, tileset)
@@ -180,12 +181,14 @@ def get_tile(x, y, tileset, width=16, height=16, scale=1):
 
     return tile_dict
 
+
 def notify_observers(self, event):
     """
     Notify all observers of events.
     """
     for each_observer in self.observers:
         each_observer.on_notify(event)
+
 
 def create_game_data_dict():
     """Create a dictionary of persistant values the player

@@ -44,8 +44,8 @@ class Person(pg.sprite.Sprite):
         self.state = state
         self.blockers = self.set_blockers()
         self.location = self.get_tile_location()
-        # self.dialogue = ['Location: ' + str(self.location)]
-        self.dialogue = []
+        self.dialogue = ['Location: ' + str(self.location)]
+        # self.dialogue = []
         self.default_direction = direction
         self.item = None
         self.wander_box = self.make_wander_box()
@@ -55,9 +55,7 @@ class Person(pg.sprite.Sprite):
         self.battle = None
 
     def create_spritesheet_dict(self, sheet_key):
-        """
-        Make a dictionary of images from sprite sheet.
-        """
+        """Make a dictionary of images from sprite sheet."""
         image_list = []
         image_dict = {}
         sheet = setup.GFX[sheet_key]
@@ -78,9 +76,7 @@ class Person(pg.sprite.Sprite):
         return image_dict
 
     def create_animation_dict(self):
-        """
-        Return a dictionary of image lists for animation.
-        """
+        """Return a dictionary of image lists for animation."""
         image_dict = self.spritesheet_dict
 
         left_list = [image_dict['facing left 1'], image_dict['facing left 2']]
@@ -88,31 +84,29 @@ class Person(pg.sprite.Sprite):
         up_list = [image_dict['facing up 1'], image_dict['facing up 2']]
         down_list = [image_dict['facing down 1'], image_dict['facing down 2']]
 
-        direction_dict = {'left': left_list,
-                          'right': right_list,
-                          'up': up_list,
-                          'down': down_list}
-
-        return direction_dict
+        return {
+            'left': left_list,
+            'right': right_list,
+            'up': up_list,
+            'down': down_list
+        }
 
     def create_state_dict(self):
-        """
-        Return a dictionary of all state methods.
-        """
-        state_dict = {'resting': self.resting,
-                      'moving': self.moving,
-                      'animated resting': self.animated_resting,
-                      'autoresting': self.auto_resting,
-                      'automoving': self.auto_moving,
-                      'battle resting': self.battle_resting,
-                      'attack': self.attack,
-                      'enemy attack': self.enemy_attack,
-                      c.RUN_AWAY: self.run_away,
-                      c.VICTORY_DANCE: self.victory_dance,
-                      c.KNOCK_BACK: self.knock_back,
-                      c.FADE_DEATH: self.fade_death}
-
-        return state_dict
+        """Return a dictionary of all state methods."""
+        return {
+            'resting': self.resting,
+            'moving': self.moving,
+            'animated resting': self.animated_resting,
+            'autoresting': self.auto_resting,
+            'automoving': self.auto_moving,
+            'battle resting': self.battle_resting,
+            'attack': self.attack,
+            'enemy attack': self.enemy_attack,
+            c.RUN_AWAY: self.run_away,
+            c.VICTORY_DANCE: self.victory_dance,
+            c.KNOCK_BACK: self.knock_back,
+            c.FADE_DEATH: self.fade_death
+        }
 
     def create_vector_dict(self):
         """
@@ -122,9 +116,7 @@ class Person(pg.sprite.Sprite):
         return self.MOVE_DATA
 
     def update(self, current_time, *args):
-        """
-        Update sprite.
-        """
+        """Update sprite."""
         self.blockers = self.set_blockers()
         self.current_time = current_time
         self.image_list = self.animation_dict[self.direction]
@@ -133,9 +125,7 @@ class Person(pg.sprite.Sprite):
         self.location = self.get_tile_location()
 
     def set_blockers(self):
-        """
-        Sets blockers to prevent collision with other sprites.
-        """
+        """Sets blockers to prevent collision with other sprites."""
         blockers = []
 
         if self.state == 'resting' or self.state == 'autoresting':
@@ -161,9 +151,7 @@ class Person(pg.sprite.Sprite):
         return blockers
 
     def get_tile_location(self):
-        """
-        Convert pygame coordinates into tile coordinates.
-        """
+        """Convert pygame coordinates into tile coordinates."""
         if self.rect.x == 0:
             tile_x = 0
         elif self.rect.x % 32 == 0:
@@ -218,9 +206,7 @@ class Person(pg.sprite.Sprite):
             self.correct_position(self.rect.x)
 
     def moving(self):
-        """
-        Increment index and set self.image for animation.
-        """
+        """Increment index and set self.image for animation."""
         self.animation()
         assert(self.rect.x % 32 == 0 or self.rect.y % 32 == 0), \
             'Not centered on tile'
@@ -229,22 +215,17 @@ class Person(pg.sprite.Sprite):
         self.animation(500)
 
     def animation(self, freq=100):
-        """
-        Adjust sprite image frame based on timer.
-        """
+        """Adjust sprite image frame based on timer."""
         if (self.current_time - self.timer) > freq:
             if self.index < (len(self.image_list) - 1):
                 self.index += 1
             else:
                 self.index = 0
             self.timer = self.current_time
-
         self.image = self.image_list[self.index]
 
     def begin_moving(self, direction):
-        """
-        Transition the player into the 'moving' state.
-        """
+        """Transition the player into the 'moving' state."""
         self.direction = direction
         self.image_list = self.animation_dict[direction]
         self.timer = self.current_time
@@ -257,9 +238,7 @@ class Person(pg.sprite.Sprite):
             self.x_vel = self.vector_dict[self.direction][0]
 
     def begin_resting(self):
-        """
-        Transition the player into the 'resting' state.
-        """
+        """Transition the player into the 'resting' state."""
         self.state = 'resting'
         self.index = 1
         self.x_vel = self.y_vel = 0
@@ -305,9 +284,7 @@ class Person(pg.sprite.Sprite):
             self.move_timer = self.current_time
 
     def correct_position(self, rect_pos):
-        """
-        Adjust sprite position to be centered on tile.
-        """
+        """Adjust sprite position to be centered on tile."""
         diff = rect_pos % 32
         if diff <= 16:
             rect_pos - diff
@@ -315,24 +292,18 @@ class Person(pg.sprite.Sprite):
             rect_pos + diff
 
     def battle_resting(self):
-        """
-        Player stays still during battle state unless he attacks.
-        """
+        """Player stays still during battle state unless he attacks."""
         pass
 
     def enter_attack_state(self, enemy):
-        """
-        Set values for attack state.
-        """
+        """Set values for attack state."""
         self.notify(c.SWORD)
         self.attacked_enemy = enemy
         self.x_vel = -5
         self.state = 'attack'
 
     def attack(self):
-        """
-        Player does an attack animation.
-        """
+        """Player does an attack animation."""
         FAST_FORWARD = -5
         FAST_BACK = 5
 
@@ -354,18 +325,14 @@ class Person(pg.sprite.Sprite):
                 self.notify(c.PLAYER_FINISHED_ATTACK)
 
     def enter_enemy_attack_state(self):
-        """
-        Set values for enemy attack state.
-        """
+        """Set values for enemy attack state."""
         self.x_vel = -5
         self.state = 'enemy attack'
         self.origin_pos = self.rect.topleft
         self.move_counter = 0
 
     def enemy_attack(self):
-        """
-        Enemy does an attack animation.
-        """
+        """Enemy does an attack animation."""
         FAST_LEFT = -5
         FAST_RIGHT = 5
         STARTX = self.origin_pos[0]
@@ -387,9 +354,7 @@ class Person(pg.sprite.Sprite):
                 self.x_vel = FAST_LEFT
 
     def auto_moving(self):
-        """
-        Animate sprite and check to stop.
-        """
+        """Animate sprite and check to stop."""
         self.animation()
 
         assert(self.rect.x % 32 == 0 or self.rect.y % 32 == 0), \
@@ -513,9 +478,7 @@ class Player(Person):
         self.location = self.get_tile_location()
 
     def damage_animation(self):
-        """
-        Put a red overlay over sprite to indicate damage.
-        """
+        """Put a red overlay over sprite to indicate damage."""
         if self.damaged:
             self.image = copy.copy(self.spritesheet_dict['facing left 2'])
             self.image = pg.transform.scale2x(self.image).convert_alpha()
@@ -537,9 +500,7 @@ class Player(Person):
                     self.image = pg.transform.scale2x(self.image)
 
     def healing_animation(self):
-        """
-        Put a green overlay over sprite to indicate healing.
-        """
+        """Put a green overlay over sprite to indicate healing."""
         if self.healing:
             self.image = copy.copy(self.spritesheet_dict['facing left 2'])
             self.image = pg.transform.scale2x(self.image).convert_alpha()
@@ -573,9 +534,7 @@ class Player(Person):
                 self.begin_moving('right')
 
     def calculate_hit(self):
-        """
-        Calculate hit strength based on attack stats.
-        """
+        """Calculate hit strength based on attack stats."""
         weapon = self.game_data['player inventory']['equipped weapon']
         weapon_power = self.game_data['player inventory'][weapon]['power']
         max_strength = weapon_power
@@ -584,9 +543,8 @@ class Player(Person):
 
 
 class Enemy(Person):
-    """
-    Enemy sprite.
-    """
+    """Enemy sprite."""
+
     def __init__(self, sheet_key, x, y, direction='down', state='resting', index=0):
         super(Enemy, self).__init__(sheet_key, x, y, direction, state, index)
         self.level = 1
@@ -594,9 +552,8 @@ class Enemy(Person):
 
 
 class Chest(Person):
-    """
-    Treasure chest that contains items to collect.
-    """
+    """Treasure chest that contains items to collect."""
+
     def __init__(self, x, y, id):
         super(Chest, self).__init__('treasurechest', x, y)
         self.spritesheet_dict = self.make_image_dict()

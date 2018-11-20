@@ -31,22 +31,18 @@ class Player_Menu(object):
         return background
 
     def make_sprite(self, key, coordx, coordy, x=40, y=25):
-        """
-        Get the image for the player.
-        """
+        """Get the image for the player."""
         spritesheet = setup.GFX[key]
         surface = pg.Surface((32, 32))
         surface.set_colorkey(c.BLACK)
         image = self.get_image(coordx, coordy, 32, 32, spritesheet)
         rect = image.get_rect()
         surface.blit(image, rect)
-
         surface = pg.transform.scale(surface, (192, 192))
         rect = surface.get_rect(left=x, top=y)
         sprite = pg.sprite.Sprite()
         sprite.image = surface
         sprite.rect = rect
-
         return sprite
 
     def update(self, surface, keys):

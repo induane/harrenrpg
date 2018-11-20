@@ -17,7 +17,8 @@ from harren.data import constants
 from harren.data.collision import CollisionHandler
 from harren.data.components import person, textbox, portal
 from harren.data.states import player_menu
-from harren.py_compat import range
+# from harren.py_compat import range
+from harren.utils.dialog import dialog_from_props
 
 LOG = logging.getLogger(__name__)
 
@@ -147,7 +148,6 @@ class LevelState(data.tools._State):
     def make_sprites(self):
         """Make any sprites for the level as needed."""
         sprites = pg.sprite.Group()
-
         for obj in self.renderer.tmx_data.objects:
             properties = obj.__dict__
             if properties['name'] == 'sprite':
@@ -184,8 +184,7 @@ class LevelState(data.tools._State):
                 x = properties['x'] * 2
                 y = ((properties['y']) * 2) - 32
 
-                sprite_dict = {'oldman': person.Person('oldman',
-                                                       x, y, direction),
+                sprite_dict = {'oldman': person.Person('oldman', x, y, direction),
                                'bluedressgirl': person.Person('femalevillager',
                                                               x, y, direction,
                                                               'resting', 1),
@@ -231,15 +230,10 @@ class LevelState(data.tools._State):
         """
         Assign dialogue from object property dictionaries in tmx maps to sprites.
         """
-        dialogue_list = []
-        for i in range(int(property_dict.get('dialogue length', 0))):
-            dialogue_list.append(property_dict['dialogue' + str(i)])
-            sprite.dialogue = dialogue_list
-
+        sprite.dialogue = dialog_from_props(property_dict)
         if sprite.name == 'oldman':
             quest_in_process_dialogue = ['Hurry to the NorthEast Shores!',
                                          'I do not have much time left.']
-
             if self.game_data['has brother elixir']:
                 if self.game_data['elixir received']:
                     sprite.dialogue = ['My good health is thanks to you.',
@@ -250,10 +244,8 @@ class LevelState(data.tools._State):
                                        'As a reward, I will teach you a magic spell.',
                                        'Use it wisely.',
                                        'You learned FIRE BLAST.']
-
             elif self.game_data['talked to sick brother']:
                 sprite.dialogue = quest_in_process_dialogue
-
             elif not self.game_data['talked to sick brother']:
                 self.reset_dialogue = (sprite, quest_in_process_dialogue)
         elif sprite.name == 'oldmanbrother':
@@ -290,9 +282,7 @@ class LevelState(data.tools._State):
                 sprite.index = 1
 
     def make_state_dict(self):
-        """
-        Make a dictionary of states the level can be in.
-        """
+        """Make a dictionary of states the level can be in."""
         return {
             'normal': self.running_normally,
             'dialogue': self.handling_dialogue,
