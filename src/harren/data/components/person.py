@@ -1,17 +1,25 @@
 from __future__ import division
+import copy
+import math
+import random
 from itertools import izip
-import math, random, copy, sys
+
 import pygame as pg
+
 from harren.data import setup, observer
 from harren.data import constants as c
-
-#Python 2/3 compatibility.
-if sys.version_info[0] == 2:
-    range = xrange
+from harren.py_compat import range
 
 
 class Person(pg.sprite.Sprite):
     """Base class for all world characters controlled by the computer."""
+
+    MOVE_DATA = {
+        'up': (0, -1),
+        'down': (0, 1),
+        'left': (-1, 0),
+        'right': (1, 0)
+    }
 
     def __init__(self, sheet_key, x, y, direction='down', state='resting', index=0):
         super(Person, self).__init__()
@@ -36,7 +44,8 @@ class Person(pg.sprite.Sprite):
         self.state = state
         self.blockers = self.set_blockers()
         self.location = self.get_tile_location()
-        self.dialogue = ['Location: ' + str(self.location)]
+        # self.dialogue = ['Location: ' + str(self.location)]
+        self.dialogue = []
         self.default_direction = direction
         self.item = None
         self.wander_box = self.make_wander_box()
@@ -110,12 +119,7 @@ class Person(pg.sprite.Sprite):
         Return a dictionary of x and y velocities set to
         direction keys.
         """
-        vector_dict = {'up': (0, -1),
-                       'down': (0, 1),
-                       'left': (-1, 0),
-                       'right': (1, 0)}
-
-        return vector_dict
+        return self.MOVE_DATA
 
     def update(self, current_time, *args):
         """
@@ -175,7 +179,6 @@ class Person(pg.sprite.Sprite):
             tile_y = 0
 
         return [tile_x, tile_y]
-
 
     def make_wander_box(self):
         """
@@ -253,7 +256,6 @@ class Person(pg.sprite.Sprite):
         if self.rect.y % 32 == 0:
             self.x_vel = self.vector_dict[self.direction][0]
 
-
     def begin_resting(self):
         """
         Transition the player into the 'resting' state.
@@ -281,7 +283,6 @@ class Person(pg.sprite.Sprite):
         self.index = 1
         self.x_vel = self.y_vel = 0
         self.move_timer = self.current_time
-
 
     def auto_resting(self):
         """
@@ -313,7 +314,6 @@ class Person(pg.sprite.Sprite):
         else:
             rect_pos + diff
 
-
     def battle_resting(self):
         """
         Player stays still during battle state unless he attacks.
@@ -328,7 +328,6 @@ class Person(pg.sprite.Sprite):
         self.attacked_enemy = enemy
         self.x_vel = -5
         self.state = 'attack'
-
 
     def attack(self):
         """
@@ -397,16 +396,12 @@ class Person(pg.sprite.Sprite):
             'Not centered on tile'
 
     def notify(self, event):
-        """
-        Notify all observers of events.
-        """
-        for observer in self.observers:
-            observer.on_notify(event)
+        """Notify all observers of events."""
+        for o in self.observers:
+            o.on_notify(event)
 
     def calculate_hit(self, armor_list, inventory):
-        """
-        Calculate hit strength based on attack stats.
-        """
+        """Calculate hit strength based on attack stats."""
         armor_power = 0
         for armor in armor_list:
             armor_power += inventory[armor]['power']
@@ -415,9 +410,7 @@ class Person(pg.sprite.Sprite):
         return random.randint(min_strength, max_strength)
 
     def run_away(self):
-        """
-        Run away from battle state.
-        """
+        """Run away from battle state."""
         X_VEL = 5
         self.rect.x += X_VEL
         self.direction = 'right'
@@ -428,9 +421,7 @@ class Person(pg.sprite.Sprite):
         self.animation()
 
     def victory_dance(self):
-        """
-        Post Victory Dance.
-        """
+        """Post Victory Dance."""
         self.small_image_list = self.animation_dict[self.direction]
         self.image_list = []
         for image in self.small_image_list:
@@ -438,9 +429,7 @@ class Person(pg.sprite.Sprite):
         self.animation(500)
 
     def knock_back(self):
-        """
-        Knock back when hit.
-        """
+        """Knock back when hit."""
         FORWARD_VEL = -2
 
         self.rect.x += self.x_vel
@@ -461,9 +450,7 @@ class Person(pg.sprite.Sprite):
                 self.x_vel = 0
 
     def fade_death(self):
-        """
-        Make character become transparent in death.
-        """
+        """Make character become transparent in death."""
         self.image = pg.Surface((64, 64)).convert()
         self.image.set_colorkey(c.BLACK)
         self.image.set_alpha(self.alpha)
@@ -473,11 +460,8 @@ class Person(pg.sprite.Sprite):
             self.kill()
             self.notify(c.ENEMY_DEAD)
 
-
     def enter_knock_back_state(self):
-        """
-        Set values for entry to knock back state.
-        """
+        """Set values for entry to knock back state."""
         if self.name == 'player':
             self.x_vel = 4
         else:
@@ -488,9 +472,13 @@ class Person(pg.sprite.Sprite):
 
 
 class Player(Person):
-    """
-    User controlled character.
-    """
+    """User controlled character."""
+    MOVE_DATA = {
+        'up': (0, -2),
+        'down': (0, 2),
+        'left': (-2, 0),
+        'right': (2, 0)
+    }
 
     def __init__(self, direction, game_data, x=0, y=0, state='resting', index=0):
         super(Player, self).__init__('player', x, y, direction, state, index)
@@ -505,21 +493,12 @@ class Player(Person):
 
     @property
     def level(self):
-        """
-        Make level property equal to player level in game_data.
-        """
+        """Make level property equal to player level in game_data."""
         return self.game_data['player stats']['Level']
 
-
     def create_vector_dict(self):
-        """Return a dictionary of x and y velocities set to
-        direction keys."""
-        vector_dict = {'up': (0, -2),
-                       'down': (0, 2),
-                       'left': (-2, 0),
-                       'right': (2, 0)}
-
-        return vector_dict
+        """Return a dictionary of x and y velocities set to direction keys."""
+        return self.MOVE_DATA
 
     def update(self, keys, current_time):
         """Updates player behavior"""

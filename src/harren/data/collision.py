@@ -1,6 +1,5 @@
-import random
 import pygame as pg
-from harren.data import constants as c
+
 
 class CollisionHandler(object):
     """Handles collisions between the user, blockers and computer
@@ -89,7 +88,6 @@ class CollisionHandler(object):
             for blocker in sprite.wander_box:
                 if sprite.rect.colliderect(blocker):
                     sprite_collided_list.append(sprite)
-
 
         for sprite in sprite_collided_list:
             self.reset_after_collision(sprite)

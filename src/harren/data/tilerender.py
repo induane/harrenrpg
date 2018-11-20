@@ -1,8 +1,11 @@
-"""This is a test of using the pytmx library with Tiled."""
+# Standard
 import logging
 
+# Third Party
 import six
 import pygame as pg
+
+# Project
 from harren.utils import color
 from harren.pytmx.util_pygame import load_pygame
 from harren.pytmx import TiledImageLayer, TiledTileLayer

@@ -1,8 +1,10 @@
-__author__ = 'justinarmstrong'
-import copy
+import logging
 import pygame as pg
 from harren.data import setup, observer, tools
 from harren.data import constants as c
+
+
+LOG = logging.getLogger(__name__)
 
 
 class NextArrow(pg.sprite.Sprite):
@@ -12,6 +14,44 @@ class NextArrow(pg.sprite.Sprite):
         self.image = setup.GFX['fancyarrow']
         self.rect = self.image.get_rect(right=780,
                                         bottom=135)
+
+
+class ItemBox(object):
+    """Text box for items??"""
+    def __init__(self, text, item):
+        # Not sure what to do with the item right now...
+        self.text = text
+        self.observers = [observer.SoundEffects()]
+        self.notify = tools.notify_observers
+        self.notify(self, c.CLICK)
+
+    def make_box_image(self):
+        """Make image of the box."""
+        image = pg.Surface(self.rect.size)
+        image.set_colorkey(c.BLACK)
+        image.blit(self.bground, (0, 0))
+        box_image = self.font.render(self.text, True, c.NEAR_BLACK)
+        box_rect = box_image.get_rect(left=50, top=50)
+        image.blit(box_image, box_rect)
+        return image
+
+    def update(self, keys, current_time):
+        """Updates scrolling text"""
+        self.current_time = current_time
+        self.draw_box(current_time)
+        self.terminate_check(keys)
+
+    def draw_box(self, current_time, x=400):
+        """Reveal text on box"""
+        self.image = self.make_box_image()
+
+    def terminate_check(self, keys):
+        """Remove textbox from sprite group after 2 seconds."""
+        if keys[pg.K_SPACE] and self.allow_input:
+            self.done = True
+
+        if not keys[pg.K_SPACE]:
+            self.allow_input = True
 
 
 class DialogueBox(object):
@@ -35,19 +75,17 @@ class DialogueBox(object):
         self.notify(self, c.CLICK)
 
     def make_dialogue_box_image(self):
-        """
-        Make the image of the dialogue box.
-        """
+        """Make the image of the dialogue box."""
         image = pg.Surface(self.rect.size)
         image.set_colorkey(c.BLACK)
         image.blit(self.bground, (0, 0))
-
-        dialogue_image = self.font.render(self.dialogue_list[self.index],
-                                          True,
-                                          c.NEAR_BLACK)
+        dialogue_image = self.font.render(
+            self.dialogue_list[self.index],
+            True,
+            c.NEAR_BLACK
+        )
         dialogue_rect = dialogue_image.get_rect(left=50, top=50)
         image.blit(dialogue_image, dialogue_rect)
-
         return image
 
     def update(self, keys, current_time):
@@ -106,9 +144,8 @@ class TextHandler(object):
                 self.open_chest(self.talking_sprite)
 
             self.textbox.update(keys, current_time)
-
+            LOG.debug('TALKING SPRITE NAME: %s', self.talking_sprite.name)
             if self.textbox.done:
-
                 if self.textbox.index < (len(self.textbox.dialogue_list) - 1):
                     index = self.textbox.index + 1
                     dialogue = self.textbox.dialogue_list
@@ -147,7 +184,6 @@ class TextHandler(object):
                     else:
                         self.end_dialogue(current_time)
                 elif self.talking_sprite.name == 'king':
-
                     if not self.game_data['talked to king']:
                         self.game_data['talked to king'] = True
                         new_dialogue = ['Hurry to the castle in the NorthWest!',
@@ -163,14 +199,11 @@ class TextHandler(object):
                 else:
                     self.end_dialogue(current_time)
 
-
         if not keys[pg.K_SPACE]:
             self.allow_input = True
 
     def end_dialogue(self, current_time):
-        """
-        End dialogue state for level.
-        """
+        """End dialogue state for level."""
         self.talking_sprite = None
         self.level.state = 'normal'
         self.textbox = None
@@ -234,10 +267,10 @@ class TextHandler(object):
         inventory = self.game_data['player inventory']
         potions = ['Healing Potion', 'Ether Potion']
         if item in potions:
-            inventory[item] = dict([('quantity',1),
-                                    ('value',15)])
+            inventory[item] = dict([('quantity', 1),
+                                    ('value', 15)])
         elif item == 'ELIXIR':
-            inventory[item] = dict([('quantity',1)])
+            inventory[item] = dict([('quantity', 1)])
         elif item == 'Fire Blast':
             inventory[item] = dict([('magic points', 40),
                                     ('power', 15)])
@@ -256,12 +289,10 @@ class TextHandler(object):
             if sprite.state == 'resting':
                 sprite.direction = sprite.default_direction
 
-
     def draw(self, surface):
         """Draws textbox to surface"""
         if self.textbox:
             surface.blit(self.textbox.image, self.textbox.rect)
-
 
     def make_textbox(self, name, dialogue, item=None):
         """Make textbox on demand"""

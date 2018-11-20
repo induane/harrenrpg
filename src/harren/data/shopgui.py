@@ -11,6 +11,7 @@ from harren.py_compat import pickle
 
 class Gui(object):
     """Class that controls the GUI of the shop state"""
+
     def __init__(self, level):
         self.level = level
         self.game_data = self.level.game_data

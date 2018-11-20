@@ -1,18 +1,20 @@
 """
-This is the base class for all level states (i.e. states
-where the player can move around the screen).  Levels are
-differentiated by self.name and self.tmx_map.
-This class inherits from the generic state class
-found in the tools.py module.
+This is the base class for all level states (i.e. states where the player can
+move around the screen). Levels are differentiated by self.name and
+self.tmx_map. This class inherits from the generic state class found in the
+tools.py module.
 """
+# Standard
 import copy
 import logging
 
+# Third Party
 import pygame as pg
-from harren.data import constants as c
-from harren.data import setup
-from harren.data import tilerender
-from harren.data import tools, collision
+
+# Project
+from harren import data
+from harren.data import constants
+from harren.data.collision import CollisionHandler
 from harren.data.components import person, textbox, portal
 from harren.data.states import player_menu
 from harren.py_compat import range
@@ -20,11 +22,11 @@ from harren.py_compat import range
 LOG = logging.getLogger(__name__)
 
 
-class LevelState(tools._State):
+class LevelState(data.tools._State):
     def __init__(self, name, battles=False):
         super(LevelState, self).__init__()
         self.name = name
-        self.tmx_map = setup.TMX[name]
+        self.tmx_map = data.setup.TMX[name]
         self.allow_battles = battles
         self.music_title = None
         self.previous_music = None
@@ -43,7 +45,7 @@ class LevelState(tools._State):
         self.use_portal = False
         self.allow_input = False
         self.cut_off_bottom_map = ['castle', 'town', 'dungeon']
-        self.renderer = tilerender.Renderer(self.tmx_map)
+        self.renderer = data.tilerender.Renderer(self.tmx_map)
         self.map_image = self.renderer.make_2x_map()
 
         self.viewport = self.make_viewport(self.map_image)
@@ -54,45 +56,49 @@ class LevelState(tools._State):
         self.blockers = self.make_blockers()
         self.sprites = self.make_sprites()
 
-        self.collision_handler = collision.CollisionHandler(self.player,
-                                                            self.blockers,
-                                                            self.sprites,
-                                                            self.portals,
-                                                            self)
+        self.collision_handler = CollisionHandler(
+            self.player,
+            self.blockers,
+            self.sprites,
+            self.portals,
+            self
+        )
         self.dialogue_handler = textbox.TextHandler(self)
         self.state_dict = self.make_state_dict()
         self.menu_screen = player_menu.Player_Menu(game_data, self)
-        self.transition_rect = setup.SCREEN.get_rect()
+        self.transition_rect = data.setup.SCREEN.get_rect()
         self.transition_alpha = 255
 
     def set_music(self):
         """Set music based on name."""
-        music_dict = {c.TOWN: ('town_theme', .4),
-                      c.OVERWORLD: ('overworld', .4),
-                      c.CASTLE: ('town_theme', .4),
-                      c.DUNGEON: ('dungeon_theme', .4),
-                      c.DUNGEON2: ('dungeon_theme', .4),
-                      c.DUNGEON3: ('dungeon_theme', .4),
-                      c.DUNGEON4: ('dungeon_theme', .4),
-                      c.DUNGEON5: ('dungeon_theme', .4),
-                      c.HOUSE: ('pleasant_creek', .1),
-                      c.BROTHER_HOUSE: ('pleasant_creek', .1)}
+        music_dict = {
+            constants.TOWN: ('town_theme', .4),
+            constants.OVERWORLD: ('overworld', .4),
+            constants.CASTLE: ('town_theme', .4),
+            constants.DUNGEON: ('dungeon_theme', .4),
+            constants.DUNGEON2: ('dungeon_theme', .4),
+            constants.DUNGEON3: ('dungeon_theme', .4),
+            constants.DUNGEON4: ('dungeon_theme', .4),
+            constants.DUNGEON5: ('dungeon_theme', .4),
+            constants.HOUSE: ('pleasant_creek', .1),
+            constants.BROTHER_HOUSE: ('pleasant_creek', .1)
+        }
 
-        if self.game_data['crown quest'] and (self.name == c.TOWN or self.name == c.CASTLE):
+        if self.game_data['crown quest'] and (self.name == constants.TOWN or self.name == constants.CASTLE):
             self.music_title = 'kings_theme'
-            return setup.MUSIC['kings_theme'], .4
+            return data.setup.MUSIC['kings_theme'], .4
         elif self.name in music_dict:
             music = music_dict[self.name][0]
             volume = music_dict[self.name][1]
             self.music_title = music
-            return setup.MUSIC[music], volume
+            return data.setup.MUSIC[music], volume
         else:
             return None, None
 
     def make_viewport(self, map_image):
         """Create the viewport to view the level through."""
         map_rect = map_image.get_rect()
-        return setup.SCREEN.get_rect(bottom=map_rect.bottom)
+        return data.setup.SCREEN.get_rect(bottom=map_rect.bottom)
 
     def make_level_surface(self, map_image):
         """Create the surface all images are blitted to."""
@@ -361,7 +367,7 @@ class LevelState(tools._State):
     def check_for_end_of_game(self):
         """Switch scene to credits if main quest is complete."""
         if self.game_data['delivered crown']:
-            self.next = c.CREDITS
+            self.next = constants.CREDITS
             self.state = 'slow transition out'
 
     def set_new_start_pos(self):
@@ -398,11 +404,11 @@ class LevelState(tools._State):
     def transition_out(self, surface, *args):
         """Transition level to new scene."""
         transition_image = pg.Surface(self.transition_rect.size)
-        transition_image.fill(c.TRANSITION_COLOR)
+        transition_image.fill(constants.TRANSITION_COLOR)
         transition_image.set_alpha(self.transition_alpha)
         self.draw_level(surface)
         surface.blit(transition_image, self.transition_rect)
-        self.transition_alpha += c.TRANSITION_SPEED
+        self.transition_alpha += constants.TRANSITION_SPEED
         if self.transition_alpha >= 255:
             self.transition_alpha = 255
             self.done = True
@@ -410,7 +416,7 @@ class LevelState(tools._State):
     def slow_fade_out(self, surface, *args):
         """Transition level to new scene."""
         transition_image = pg.Surface(self.transition_rect.size)
-        transition_image.fill(c.TRANSITION_COLOR)
+        transition_image.fill(constants.TRANSITION_COLOR)
         transition_image.set_alpha(self.transition_alpha)
         self.draw_level(surface)
         surface.blit(transition_image, self.transition_rect)
@@ -423,11 +429,11 @@ class LevelState(tools._State):
         """Transition into level."""
         self.viewport_update()
         transition_image = pg.Surface(self.transition_rect.size)
-        transition_image.fill(c.TRANSITION_COLOR)
+        transition_image.fill(constants.TRANSITION_COLOR)
         transition_image.set_alpha(self.transition_alpha)
         self.draw_level(surface)
         surface.blit(transition_image, self.transition_rect)
-        self.transition_alpha -= c.TRANSITION_SPEED
+        self.transition_alpha -= constants.TRANSITION_SPEED
         if self.transition_alpha <= 0:
             self.state = 'normal'
             self.transition_alpha = 0

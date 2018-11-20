@@ -11,9 +11,8 @@ from harren.py_compat import range
 
 
 class SmallArrow(pg.sprite.Sprite):
-    """
-    Small arrow for menu.
-    """
+    """Small arrow for menu."""
+
     def __init__(self, info_box):
         super(SmallArrow, self).__init__()
         self.image = data.setup.GFX['smallarrow']
