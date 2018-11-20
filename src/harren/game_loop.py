@@ -1,8 +1,13 @@
-import sys
+# Standard
 import logging
+import os
+import sys
 
 # Third Party
 import pygame as pg
+
+# Project
+from harren import resources
 
 LOG = logging.getLogger(__name__)
 
@@ -38,8 +43,24 @@ class GameState(object):
 
     @property
     def screen_rectangle(self):
-        """Return the size of the current display surface."""
+        """Return the current display surface rectangle."""
         return self.screen.get_rect()
+
+    def get_font(name, size=20):
+        """Return a font instance from pygame for a given font."""
+        if not name.lower().endswith('ttf'):
+            name = '{}.ttf'.format(name)
+        path = os.path.join(resources.FONT_FOLDER, name)
+        return pg.font.Font(path, size)
+
+    @property
+    def main_font(self):
+        """Return the main font."""
+        try:
+            return self._main_font
+        except AttributeError:
+            self._main_font = self.get_font('Triforce.ttf', size=20)
+        return self._main_font
 
     def main(self):
         """Main loop for entire program."""
