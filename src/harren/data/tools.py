@@ -1,4 +1,4 @@
-import os, random
+import os
 import pygame as pg
 from harren.data import constants as c
 

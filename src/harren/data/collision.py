@@ -104,7 +104,8 @@ class CollisionHandler(object):
         """
         Switch scene to battle 1/5 times if battles are allowed.
         """
-        if self.level.allow_battles:
-            self.level.game_data['battle counter'] -= 5
-            if self.level.game_data['battle counter'] <= 0:
-                self.level.switch_to_battle = True
+        self.level.switch_to_battle = False
+        # if self.level.allow_battles:
+        #     self.level.game_data['battle counter'] -= 5
+        #     if self.level.game_data['battle counter'] <= 0:
+        #         self.level.switch_to_battle = True
