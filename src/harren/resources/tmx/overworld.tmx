@@ -15,7 +15,6 @@
  <tileset firstgid="193" name="house1" tilewidth="16" tileheight="16" tilecount="1" columns="1">
   <image source="../graphics/house1.png" width="16" height="16"/>
  </tileset>
- <tileset firstgid="194" source="treefire.tsx"/>
  <layer name="Tile Layer 1" width="30" height="37">
   <data encoding="base64" compression="zlib">
    eJztltEKgzAMRftRcw5xiHuQTf//fxahhSzErFkSX9aHg6WIt/cmlQwppeHPmIAX8MzPlazvQbozsAk03XN0t4Pa4z3aE9z69oOuBw9G9wJ0wDUToUv9cnQn+JW0cQ5aHZphjV+O0TnTWpaATJvf5lfzX/P0q8nZ068mZ0+/mpxbP7d+jsjZeyarmQei5kApb01dJ4Ilb0td6TkoWr94prWca8l15mpNv7sa6iDB3Wk8y+P93ui3RpvirVl0e0EvQvOb512zzNERumP6nNPLOson5ujece++AX1UE2k=
@@ -23,10 +22,10 @@
  </layer>
  <layer name="Tile Layer 2" width="30" height="37">
   <data encoding="base64" compression="zlib">
-   eJztzssNggAABFH670J+oiiooKAoyJGumMQeFiE7yTvvBoFTt0OICLFwN0GKPTLh7gFH5DgJd88oUOIi3N1a49IHnFtB09IHnHPuT7vihgq1cPeOBxq0wt0nXujwFu5+0GPAV7jrnPs1A71nF5s=
+   eJztzlkOglAAQ9G3/12oOAAyqDgwCjvjJuyhBNKbnO82BKfugCNOiIS7Z1xwxU24GyNBirtwN0OOAqVwd29Nax9wzjnn3GZ74IkXKuHuGx988RPu1mjQohPu9hjwxyjcdc4tzdmDFtI=
   </data>
  </layer>
- <objectgroup name="Object Layer 1" visible="0">
+ <objectgroup name="Object Layer 1">
   <object id="1" name="blocker" gid="120" x="272" y="576" width="16" height="16"/>
   <object id="2" name="blocker" gid="120" x="272" y="560" width="16" height="16"/>
   <object id="3" name="blocker" gid="120" x="336" y="480" width="16" height="16"/>

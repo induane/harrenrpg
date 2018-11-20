@@ -42,10 +42,23 @@ def run_game():
     parser.add_argument(
         '-V',
         '--version',
-        dest='version',
         action='version',
         version=pkg_version,
         help='Display the version number.'
+    )
+    parser.add_argument(
+        '-n',
+        '--new-engine',
+        dest='new_engine',
+        action='store_true',
+        help='Launch the new game engine',
+    )
+    parser.add_argument(
+        '-g',
+        '--fullscreen',
+        dest='fullscreen',
+        action='store_true',
+        help='Launch the new game in fullscreen mode',
     )
 
     parsed_args = parser.parse_args()
@@ -127,21 +140,46 @@ def run_game():
     dictConfig(BASE_CONFIG)
 
     LOG.info('#g<Launching Harren RPG!>')
+    # Setup SDL Environment Variables
+    os.environ['SDL_VIDEO_CENTERED'] = '1'
 
+    try:
+        import pygame  # noqa
+    except ImportError:
+        LOG.exception('PyGame not found... exiting.')
+        sys.exit(1)
+
+    if parsed_args.new_engine:
+        from harren.game_loop import GameState
+        game = GameState(fullscreen=parsed_args.fullscreen)
+        game.main()
+        __exit()
+    else:
+        # Now we can import the setup tools and other pieces
+        # and run the old game engine
+        from harren.data import setup
+        from harren.data.main import main
+
+        setup.GAME
+        main()
+        __exit()
+
+
+def __exit(code=0):
     try:
         import pygame
     except ImportError:
         LOG.exception('PyGame not found... exiting.')
         sys.exit(1)
-
-    # Now we can import the setup tools and other pieces
-    from harren.data import setup
-    from harren.data.main import main
-
-    setup.GAME
-    main()
-    pygame.quit()
-    sys.exit()
+    try:
+        pygame.display.quit()
+    except Exception:
+        pass
+    try:
+        pygame.quit()
+    except Exception:
+        pass
+    sys.exit(code)
 
 
 def main():
@@ -150,7 +188,7 @@ def main():
     except KeyboardInterrupt:
         # Write a nice message to stderr
         sys.stderr.write(u'\n\u2717 Operation canceled by user.\n')
-        sys.exit(1)
+        __exit(code=1)
 
 
 if __name__ == '__main__':

@@ -16,7 +16,6 @@ POTION_SHOP = 'potion shop'
 PLAYER_MENU = 'player menu'
 OVERWORLD = 'overworld'
 BROTHER_HOUSE = 'brotherhouse'
-BIG_WORLD = 'WorldOfHarren'
 BATTLE = 'battle'
 DUNGEON = 'dungeon'
 DUNGEON2 = 'dungeon2'
@@ -36,9 +35,7 @@ def main():
                   TOWN: levels.LevelState(TOWN),
                   CASTLE: levels.LevelState(CASTLE),
                   HOUSE: levels.LevelState(HOUSE),
-                  BIG_WORLD: levels.LevelState(BIG_WORLD),
                   OVERWORLD: levels.LevelState(OVERWORLD, True),
-                  # OVERWORLD: levels.LevelState('village_12', True),
                   BROTHER_HOUSE: levels.LevelState(BROTHER_HOUSE),
                   INN: shop.Inn(),
                   ARMOR_SHOP: shop.ArmorShop(),
