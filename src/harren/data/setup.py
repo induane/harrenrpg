@@ -13,12 +13,14 @@ DATA_FOLDER = os.path.dirname(__file__)
 PROJECT_ROOT = os.path.dirname(DATA_FOLDER)
 RESOURCES = os.path.join(PROJECT_ROOT, 'resources')
 
-os.environ['SDL_VIDEO_CENTERED'] = '1'
-pg.init()
-pg.event.set_allowed([pg.KEYDOWN, pg.KEYUP, pg.QUIT])
-pg.display.set_caption(ORIGINAL_CAPTION)
-SCREEN = pg.display.set_mode((800, 608))
-SCREEN_RECT = SCREEN.get_rect()
+def init():
+    os.environ['SDL_VIDEO_CENTERED'] = '1'
+    pg.init()
+    pg.event.set_allowed([pg.KEYDOWN, pg.KEYUP, pg.QUIT])
+    pg.display.set_caption(ORIGINAL_CAPTION)
+    SCREEN = pg.display.set_mode((800, 608))
+    SCREEN_RECT = SCREEN.get_rect()
+    return SCREEN, SCREEN_RECT
 
 FONTS = tools.load_all_fonts(os.path.join(RESOURCES, 'fonts'))
 MUSIC = tools.load_all_music(os.path.join(RESOURCES, 'music'))

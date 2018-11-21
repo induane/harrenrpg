@@ -1,14 +1,14 @@
 # Standard
 import logging
-import os
 import sys
 
 # Third Party
 import pygame as pg
 
 # Project
-from harren import resources
 from harren.key_handler import KeyHandler
+from harren.levels.loadscreen import LoadScreen
+from harren.utils.pg_utils import get_font
 
 LOG = logging.getLogger(__name__)
 
@@ -21,7 +21,9 @@ class GameState(KeyHandler):
         yres = kwargs.get('yres', 608)
         fullscreen = kwargs.get('fullscreen', False)
         self.caption = 'Harren'
-        self.state = {}
+        self.state = {
+            'volume': 0.4,
+        }
 
         # Set allowed event types
         pg.event.set_allowed([pg.KEYDOWN, pg.KEYUP, pg.QUIT])
@@ -30,30 +32,23 @@ class GameState(KeyHandler):
         pg.display.set_caption(self.caption)
 
         if fullscreen:
-            pg.display.set_mode((xres, yres), pg.FULLSCREEN)
+            self.surface = pg.display.set_mode((xres, yres), pg.FULLSCREEN)
         else:
-            pg.display.set_mode((xres, yres))
+            self.surface = pg.display.set_mode((xres, yres))
 
         self.clock = pg.time.Clock()
         self.fps = kwargs.get('fps', 60)
         LOG.debug('Launching with target FPS: %s', self.fps)
         self.current_time = long(0.0)  # Initial time game counter
 
-    @property
-    def screen(self):
-        return pg.display.get_surface()
+        # As soon as we're to this point, draw the main loading screen
+        self.current_screen = LoadScreen(self)
+        self.current_screen()  # Initial draw
 
     @property
     def screen_rectangle(self):
         """Return the current display surface rectangle."""
-        return self.screen.get_rect()
-
-    def get_font(name, size=20):
-        """Return a font instance from pygame for a given font."""
-        if not name.lower().endswith('ttf'):
-            name = '{}.ttf'.format(name)
-        path = os.path.join(resources.FONT_FOLDER, name)
-        return pg.font.Font(path, size)
+        return self.surface.get_rect()
 
     @property
     def main_font(self):
@@ -61,11 +56,12 @@ class GameState(KeyHandler):
         try:
             return self._main_font
         except AttributeError:
-            self._main_font = self.get_font('Triforce.ttf', size=20)
+            self._main_font = get_font('Triforce.ttf', size=20)
         return self._main_font
 
     def main(self):
         """Main loop for entire program."""
+
         while True:
             pressed = pg.key.get_pressed()
             alt_held = pressed[pg.K_LALT] or pressed[pg.K_RALT]
@@ -88,7 +84,8 @@ class GameState(KeyHandler):
                     keydown.append(event)
 
             self.current_time = pg.time.get_ticks()
-            pg.display.update()
+            self.current_screen.draw()
+            pg.display.flip()
             self.clock.tick(self.fps)
 
         LOG.info('Exiting...')

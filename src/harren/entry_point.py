@@ -166,7 +166,7 @@ def run_game():
         # and run the old game engine
         from harren.data import setup
         from harren.data.main import main
-
+        setup.SCREEN, setup.SCREEN_RECT = setup.init()
         setup.GAME
         main()
         __exit()

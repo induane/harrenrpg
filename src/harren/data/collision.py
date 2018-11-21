@@ -13,9 +13,7 @@ class CollisionHandler(object):
         self.level = level
 
     def make_blocker_list(self, blockers, sprites):
-        """
-        Return a combined list of sprite blockers and object blockers.
-        """
+        """Return a combined list of sprite blockers and object blockers."""
         blocker_list = []
 
         for blocker in blockers:
@@ -104,8 +102,8 @@ class CollisionHandler(object):
         """
         Switch scene to battle 1/5 times if battles are allowed.
         """
-        self.level.switch_to_battle = False
-        # if self.level.allow_battles:
-        #     self.level.game_data['battle counter'] -= 5
-        #     if self.level.game_data['battle counter'] <= 0:
-        #         self.level.switch_to_battle = True
+        # self.level.switch_to_battle = False
+        if self.level.allow_battles:
+            self.level.game_data['battle counter'] -= 5
+            if self.level.game_data['battle counter'] <= 0:
+                self.level.switch_to_battle = True
