@@ -60,10 +60,16 @@ class Person(pg.sprite.Sprite):
         image_dict = {}
         sheet = setup.GFX[sheet_key]
 
-        image_keys = ['facing up 1', 'facing up 2',
-                      'facing down 1', 'facing down 2',
-                      'facing left 1', 'facing left 2',
-                      'facing right 1', 'facing right 2']
+        image_keys = [
+            'facing up 1',
+            'facing up 2',
+            'facing down 1',
+            'facing down 2',
+            'facing left 1',
+            'facing left 2',
+            'facing right 1',
+            'facing right 2'
+        ]
 
         for row in range(2):
             for column in range(4):

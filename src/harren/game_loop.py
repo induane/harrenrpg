@@ -8,11 +8,12 @@ import pygame as pg
 
 # Project
 from harren import resources
+from harren.key_handler import KeyHandler
 
 LOG = logging.getLogger(__name__)
 
 
-class GameState(object):
+class GameState(KeyHandler):
 
     def __init__(self, *args, **kwargs):
         pg.init()
@@ -20,6 +21,7 @@ class GameState(object):
         yres = kwargs.get('yres', 608)
         fullscreen = kwargs.get('fullscreen', False)
         self.caption = 'Harren'
+        self.state = {}
 
         # Set allowed event types
         pg.event.set_allowed([pg.KEYDOWN, pg.KEYUP, pg.QUIT])

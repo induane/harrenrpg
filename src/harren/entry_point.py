@@ -9,6 +9,10 @@ from logging.config import dictConfig
 # Third Party
 from log_color import ColorStripper, ColorFormatter
 
+# Project
+from harren import resources
+from harren.py_compat import mkdir_p
+
 LOG = logging.getLogger(__name__)
 
 
@@ -135,7 +139,6 @@ def run_game():
         # Set a more noisy formatter
         BASE_CONFIG['handlers']['console']['formatter'] = 'VerboseFormatter'
 
-    # print('sadl;fkjsdkl;fjsdkl;fdjsfljsdal;kfjsdl;kja')
     # Setup the loggers
     dictConfig(BASE_CONFIG)
 
@@ -149,6 +152,10 @@ def run_game():
         LOG.exception('PyGame not found... exiting.')
         sys.exit(1)
 
+    # Make the config folder if it doesn't already exist
+    mkdir_p(resources.CONFIG_FOLDER)
+
+    # If we're launching the new engine, start the system from the GameState
     if parsed_args.new_engine:
         from harren.game_loop import GameState
         game = GameState(fullscreen=parsed_args.fullscreen)

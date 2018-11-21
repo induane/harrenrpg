@@ -4,18 +4,24 @@ from __future__ import unicode_literals, absolute_import
 import os
 import logging
 
+# Third Party
+import pygame as pg
+
+# Project
 from harren import resources
+from harren.key_handler import KeyHandler
 from harren.tilerender import TileRenderer
 
 LOG = logging.getLogger(__name__)
 
 
-class Level(object):
+class Level(KeyHandler):
 
-    def __init__(self, filename, screen, **kwargs):
+    def __init__(self, filename, screen, game_state, **kwargs):
         map_path = os.path.join(resources.TMX_FOLDER, filename)
         self.screen = screen
         self.tile_renderer = TileRenderer(map_path)
+        self.game_state = game_state
 
     def draw(self):
         map_image = self.tile_renderer.make_2x_map()
