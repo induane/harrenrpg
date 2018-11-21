@@ -126,8 +126,6 @@ class LevelState(data.tools._State):
             for obj in self.renderer.tmx_data.objects:
                 if obj.__dict__['name'] == 'start point':
                     properties = obj.__dict__['properties']
-                    LOG.error(properties)
-                    LOG.error('last state: %s  state: %s', last_state, properties.get('state'))
                     direction = properties.get('direction', 'up')
                     if last_state == properties.get('state'):
                         player = person.Player(direction, self.game_data)
