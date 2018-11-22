@@ -3,6 +3,7 @@ from __future__ import unicode_literals, absolute_import
 # Standard
 import os
 import logging
+import random
 
 # Third Party
 import pygame as pg
@@ -20,6 +21,7 @@ LOG = logging.getLogger(__name__)
 class BaseLevel(KeyHandler):
 
     def __init__(self, filename, game_loop, **kwargs):
+        self.map_filename = filename
         self.map_path = os.path.join(resources.TMX_FOLDER, filename)
         self.game_loop = game_loop
         self.images = kwargs.get('images', [])
@@ -29,8 +31,39 @@ class BaseLevel(KeyHandler):
         self.start()
 
     def start(self):
+        LOG.debug('Map properties: %s', self.map_data)
         self.draw()
         self.play_music()
+
+    @property
+    def tmx_data(self):
+        return self.tile_renderer.tmx_data
+
+    @property
+    def map_data(self):
+        return self.tile_renderer.tmx_data.properties
+
+    @property
+    def music_file(self):
+        """Randomly returns a music file if more than one are specified."""
+        if not hasattr(self, '_music_files'):
+            # Load all properties starting with "music"
+            music_files = []
+            for key, value in self.map_data.items():
+                if key.lower().startswith('music'):
+                    music_files.append(value)
+            self._music_files = music_files
+
+        if not self._music_files:
+            LOG.debug('Map %s has no music specified', self.map_filename)
+            return None  # No music specified in file
+
+        # If there is only one, just return it every time
+        if len(self._music_files) == 1:
+            return self._music_files[0]
+
+        rand_idx = random.randint(1, len(self._music_files)) - 1
+        return self._music_files[rand_idx]
 
     @property
     def state(self):
@@ -50,8 +83,8 @@ class BaseLevel(KeyHandler):
         return self.game_loop.surface
 
     def play_music(self):
-        if self.music:
-            load_music(self.music)
+        if self.music_file:
+            load_music(self.music_file)
             pg.mixer.music.set_volume(self.state['volume'])
             pg.mixer.music.play(-1)
 
@@ -91,7 +124,7 @@ class BaseLevel(KeyHandler):
         # Finally any dialog
         # NOT IMPLEMENTED
 
-        LOG.debug('blitting to actual screen')
+        # LOG.debug('blitting to actual screen surface')
         self.game_screen.blit(surface, (0, 0), viewport)
 
     def get_colliders(self):

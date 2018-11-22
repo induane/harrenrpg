@@ -146,7 +146,7 @@ class Shop(tools._State):
         transition_image.set_alpha(self.transition_alpha)
         self.draw_level(surface)
         surface.blit(transition_image, self.transition_rect)
-        self.transition_alpha -= c.TRANSITION_SPEED 
+        self.transition_alpha -= c.TRANSITION_SPEED
         if self.transition_alpha <= 0:
             self.state = 'normal'
             self.transition_alpha = 0
@@ -160,7 +160,7 @@ class Shop(tools._State):
         transition_image.set_alpha(self.transition_alpha)
         self.draw_level(surface)
         surface.blit(transition_image, self.transition_rect)
-        self.transition_alpha += c.TRANSITION_SPEED 
+        self.transition_alpha += c.TRANSITION_SPEED
         if self.transition_alpha >= 255:
             self.done = True
 
@@ -173,18 +173,14 @@ class Shop(tools._State):
 
 
 class Inn(Shop):
-    """
-    Where our hero gets rest.
-    """
+    """Where our hero gets rest."""
     def __init__(self):
         super(Inn, self).__init__()
         self.name = c.INN
         self.key = 'innman'
 
     def make_dialogue(self):
-        """
-        Make the list of dialogue phrases.
-        """
+        """Make the list of dialogue phrases."""
         return ['Welcome to the ' + self.name + '!',
                 'Would you like a room to restore your health?']
 
@@ -215,13 +211,11 @@ class WeaponShop(Shop):
         self.key = 'weaponman'
         self.sell_items = ['Long Sword', 'Rapier']
 
-
     def make_dialogue(self):
         """Make the list of dialogue phrases"""
         shop_name = '{}{}'.format(self.name[0].upper(), self.name[1:])
         return ['Welcome to the ' + shop_name + '!',
                 'What weapon would you like to buy?']
-
 
     def make_purchasable_items(self):
         """Make list of items to be chosen"""
@@ -251,13 +245,11 @@ class ArmorShop(Shop):
         self.key = 'armorman'
         self.sell_items = ['Chain Mail', 'Wooden Shield']
 
-
     def make_dialogue(self):
         """Make the list of dialogue phrases"""
         shop_name = '{}{}'.format(self.name[0].upper(), self.name[1:])
         return ['Welcome to the ' + shop_name + '!',
                 'Would piece of armor would you like to buy?']
-
 
     def make_purchasable_items(self):
         """Make list of items to be chosen"""
@@ -286,13 +278,11 @@ class MagicShop(Shop):
         self.name = c.MAGIC_SHOP
         self.key = 'magiclady'
 
-
     def make_dialogue(self):
         """Make the list of dialogue phrases"""
         shop_name = '{}{}'.format(self.name[0].upper(), self.name[1:])
         return ['Welcome to the ' + shop_name + '!',
                 'Would magic spell would you like to buy?']
-
 
     def make_purchasable_items(self):
         """Make list of items to be chosen"""
@@ -324,19 +314,16 @@ class PotionShop(Shop):
         self.key = 'potionlady'
         self.sell_items = 'Healing Potion'
 
-
     def make_dialogue(self):
         """Make the list of dialogue phrases"""
         shop_name = '{}{}'.format(self.name[0].upper(), self.name[1:])
         return ['Welcome to the ' + shop_name + '!',
                 'What potion would you like to buy?']
 
-
     def make_purchasable_items(self):
         """Make list of items to be chosen"""
         healing_dialogue = 'Healing Potion (15 gold)'
         ether_dialogue = 'Ether Potion (15 gold)'
-
 
         item = {'type': 'Healing Potion',
                 'price': 15,
@@ -351,4 +338,3 @@ class PotionShop(Shop):
                  'dialogue': ether_dialogue}
 
         return [item, item2]
-

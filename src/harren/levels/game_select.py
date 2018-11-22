@@ -9,12 +9,12 @@ from harren.levels.base import BaseLevel
 LOG = logging.getLogger(__name__)
 
 
-class LoadScreen(BaseLevel):
+class GameSelect(BaseLevel):
 
     def __init__(self, game_loop, **kwargs):
         super(LoadScreen, self).__init__(
             'load.tmx',
             game_loop,
-            images=['game_title.png'],
+            images=['title_box_empty.png'],
             **kwargs
         )
