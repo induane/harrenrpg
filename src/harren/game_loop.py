@@ -7,8 +7,8 @@ import pygame as pg
 
 # Project
 from harren.key_handler import KeyHandler
-from harren.levels.loadscreen import LoadScreen
 from harren.utils.pg_utils import get_font
+from harren.levels import LEVEL_MAP
 
 LOG = logging.getLogger(__name__)
 
@@ -42,7 +42,7 @@ class GameState(KeyHandler):
         self.current_time = long(0.0)  # Initial time game counter
 
         # As soon as we're to this point, draw the main loading screen
-        self.current_screen = LoadScreen(self)
+        self.current_screen = LEVEL_MAP['load_screen'](self)
         self.current_screen()  # Initial draw
 
     @property
@@ -51,7 +51,7 @@ class GameState(KeyHandler):
         return self.surface.get_rect()
 
     @property
-    def main_font(self):
+    def font(self):
         """Return the main font."""
         try:
             return self._main_font
@@ -59,9 +59,19 @@ class GameState(KeyHandler):
             self._main_font = get_font('Triforce.ttf', size=20)
         return self._main_font
 
+    @property
+    def large_font(self):
+        """Return the main font large size."""
+        try:
+            return self._large_font
+        except AttributeError:
+            self._large_font = get_font('Triforce.ttf', size=40)
+        return self._large_font
+
     def main(self):
         """Main loop for entire program."""
-
+        self.current_screen = LEVEL_MAP['game_select'](self)
+        self.current_screen()
         while True:
             pressed = pg.key.get_pressed()
             alt_held = pressed[pg.K_LALT] or pressed[pg.K_RALT]

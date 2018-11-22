@@ -14,4 +14,5 @@ LEVEL_MAP = {
 __all__ = (
     'BaseLevel',
     'LoadScreen',
+    'LEVEL_MAP',
 )

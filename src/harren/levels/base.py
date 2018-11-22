@@ -36,6 +36,14 @@ class BaseLevel(KeyHandler):
         self.play_music()
 
     @property
+    def font(self):
+        return self.game_loop.font
+
+    @property
+    def large_font(self):
+        return self.game_loop.large_font
+
+    @property
     def tmx_data(self):
         return self.tile_renderer.tmx_data
 
@@ -82,6 +90,10 @@ class BaseLevel(KeyHandler):
     def game_screen(self):
         return self.game_loop.surface
 
+    @property
+    def screen_rectangle(self):
+        return self.game_loop.surface.get_rect()
+
     def play_music(self):
         if self.music_file:
             load_music(self.music_file)
@@ -115,6 +127,9 @@ class BaseLevel(KeyHandler):
                 img_rect.x = x
                 surface.blit(img, img_rect)
 
+        # Draw any text on the surface
+        self.draw_text(surface)
+
         # Next maybe the player(s)
         # NOT IMPLEMENTED
 
@@ -126,6 +141,9 @@ class BaseLevel(KeyHandler):
 
         # LOG.debug('blitting to actual screen surface')
         self.game_screen.blit(surface, (0, 0), viewport)
+
+    def draw_text(self, surface):
+        pass
 
     def get_colliders(self):
         """

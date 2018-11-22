@@ -49,6 +49,7 @@ def get_font(path, size=20):
         else:
             raise OSError('Font "{}" not found'.format(path))
     path = os.path.join(resources.FONT_FOLDER, path)
+    LOG.debug('Font %s size %s', path, size)
     return pg.font.Font(path, size)
 
 
