@@ -48,6 +48,7 @@ class GameState(KeyHandler):
         # Draw the loading screen
         load_screen = LEVEL_MAP['load_screen'](self)
         load_screen()   # Initial draw
+        pg.display.flip()
         time.sleep(2)   # Give some artificial time to display the load screen
 
     def _get_current_time(self):
