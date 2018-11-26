@@ -1,3 +1,5 @@
+from __future__ import unicode_literals, absolute_import
+
 # Standard
 import logging
 import sys
@@ -96,7 +98,11 @@ class GameState(object):
     @property
     def screen_rectangle(self):
         """Return the current display surface rectangle."""
-        return self.surface.get_rect()
+        try:
+            return self._screen_rect
+        except AttributeError:
+            self._screen_rect = self.surface.get_rect()
+        return self._screen_rect
 
     @property
     def font(self):
@@ -144,12 +150,10 @@ class GameState(object):
                 self.level_instance = LEVEL_MAP[self.current_level](self)
                 self.level_has_changed = False
 
-            pressed = pg.key.get_pressed()
-            alt_held = pressed[pg.K_LALT] or pressed[pg.K_RALT]
-            # ctrl_held = pressed[pg.K_LCTRL] or pressed[pg.K_RCTRL]
-
             events = pg.event.get()
-            # self.keys = pg.key.get_pressed()
+            keys = pg.key.get_pressed()
+            alt_held = keys[pg.K_LALT] or keys[pg.K_RALT]
+
             # Prioritize quit events but populate the keydown events
             for event in events:
                 # Handle quit event gracefully
@@ -166,13 +170,11 @@ class GameState(object):
                     # If the level requests only keydown events, route them
                     # here
                     if self.level_instance.keydown_only:
-                        keys = pg.key.get_pressed()
                         self.route_keys(keys, self.level_instance)
 
             # If we aren't only watching for keydown events, route keys once
             # per gameloop
             if not self.level_instance.keydown_only:
-                keys = pg.key.get_pressed()
                 self.route_keys(keys, self.level_instance)
 
             self.current_time = pg.time.get_ticks()
