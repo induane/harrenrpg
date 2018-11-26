@@ -243,15 +243,30 @@ class BaseLevel(object):
         LOG.debug('Down pressed')
         if self.player1.state == 'resting':
             self.player1.state = 'moving'
-            self.player1.y_velocity = 2
+            self.player1.y_velocity = 4
             self.player1.x_velocity = 0
 
     def up_pressed(self):
         LOG.debug('Up pressed')
         if self.player1.state == 'resting':
             self.player1.state = 'moving'
-            self.player1.y_velocity = -2
+            self.player1.y_velocity = -4
             self.player1.x_velocity = 0
+
+
+    def left_pressed(self):
+        LOG.debug('Up pressed')
+        if self.player1.state == 'resting':
+            self.player1.state = 'moving'
+            self.player1.y_velocity = 0
+            self.player1.x_velocity = -4
+
+    def right_pressed(self):
+        LOG.debug('Up pressed')
+        if self.player1.state == 'resting':
+            self.player1.state = 'moving'
+            self.player1.y_velocity = 0
+            self.player1.x_velocity = 4
 
     def up_released(self):
         pass
@@ -282,20 +297,6 @@ class BaseLevel(object):
 
     def escape_released(self):
         pass
-
-    def left_pressed(self):
-        LOG.debug('Up pressed')
-        if self.player1.state == 'resting':
-            self.player1.state = 'moving'
-            self.player1.y_velocity = 0
-            self.player1.x_velocity = -2
-
-    def right_pressed(self):
-        LOG.debug('Up pressed')
-        if self.player1.state == 'resting':
-            self.player1.state = 'moving'
-            self.player1.y_velocity = 0
-            self.player1.x_velocity = 2
 
     def w_pressed(self):
         pass
