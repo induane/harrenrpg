@@ -49,7 +49,6 @@ class TileRenderer(object):
             surface.fill(bg_color)
 
         for layer in self.tmx_data.visible_layers:
-            LOG.debug('Rendering layer: %s', layer.name)
             if isinstance(layer, TiledTileLayer):
                 for x, y, gid in layer:
                     tile = gt(gid)

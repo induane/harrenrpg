@@ -229,7 +229,8 @@ class BaseLevel(object):
             asset_type = properties.get('type')
             if asset_type == 'blocker' or name == 'blocker':
                 left = properties['x'] * 2
-                top = ((properties['y']) * 2) - 32
+                top = ((properties['y']) * 2)
+                # top = ((properties['y']) * 2) - 32
                 collider = pg.Rect(left, top, 32, 32)
                 colliders.append(collider)
         return colliders
