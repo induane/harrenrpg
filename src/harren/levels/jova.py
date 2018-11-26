@@ -18,3 +18,4 @@ class Jova(BaseLevel):
             game_loop,
             **kwargs
         )
+        LOG.debug('Starting point: %s', self.start_point)

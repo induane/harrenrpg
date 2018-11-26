@@ -34,17 +34,12 @@ class Player(pg.sprite.Sprite):
             self.sprite_data['down_1'],
             self.sprite_data['down_2'],
         )
-        self.movex = 0
-        self.movey = 0
-        self.frame = 0
         self.image = self.sprite_data[initial_direction]
         self.rect = self.image.get_rect()
+        self.state = 'resting'
+        self.y_velocity = 0
+        self.x_velocity = 0
         super(Player, self).__init__(**kwargs)
-
-    def control(self, x, y):
-        """control player movement"""
-        self.movex += x
-        self.movey += y
 
     @staticmethod
     def pygame_to_tile(rect):
@@ -68,12 +63,12 @@ class Player(pg.sprite.Sprite):
         else:
             rect_pos + diff
 
-    def animate(self, freq=100):
-        """Adjust sprite image frame based on timer."""
-        if (self.current_time - self.timer) > freq:
-            if self.index < (len(self.image_list) - 1):
-                self.index += 1
-            else:
-                self.index = 0
-            self.timer = self.current_time
-        self.image = self.image_list[self.index]
+    # def animate(self, freq=100):
+    #     """Adjust sprite image frame based on timer."""
+    #     if (self.current_time - self.timer) > freq:
+    #         if self.index < (len(self.image_list) - 1):
+    #             self.index += 1
+    #         else:
+    #             self.index = 0
+    #         self.timer = self.current_time
+    #     self.image = self.image_list[self.index]

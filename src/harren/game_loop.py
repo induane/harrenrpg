@@ -7,14 +7,13 @@ import time
 import pygame as pg
 
 # Project
-from harren.key_handler import KeyHandler
 from harren.utils.pg_utils import get_font
 from harren.levels import LEVEL_MAP
 
 LOG = logging.getLogger(__name__)
 
 
-class GameState(KeyHandler):
+class GameState(object):
 
     def __init__(self, *args, **kwargs):
         pg.init()
@@ -51,7 +50,7 @@ class GameState(KeyHandler):
         load_screen = LEVEL_MAP['load_screen'](self)
         load_screen()   # Initial draw
         pg.display.flip()
-        time.sleep(1)   # Give some artificial time to display the load screen
+        time.sleep(0.5)   # Give some artificial time to display the load screen
 
     def set_state(self, state_dict):
         """Given a dict set the state values."""
@@ -117,19 +116,40 @@ class GameState(KeyHandler):
             self._large_font = get_font('Triforce.ttf', size=40)
         return self._large_font
 
+    @staticmethod
+    def route_keys(keys, level_instance):
+        if keys[pg.K_UP]:
+            level_instance.up_pressed()
+        if keys[pg.K_DOWN]:
+            level_instance.down_pressed()
+        if keys[pg.K_LEFT]:
+            level_instance.left_pressed()
+        if keys[pg.K_RIGHT]:
+            level_instance.right_pressed()
+        if keys[pg.K_SPACE]:
+            level_instance.space_pressed()
+        if keys[pg.K_ESCAPE]:
+            level_instance.escape_pressed()
+        if keys[pg.K_KP_ENTER]:
+            level_instance.enter_pressed()
+        if keys[pg.K_RETURN]:
+            level_instance.enter_pressed()
+
     def main(self):
         """Main loop for entire program."""
         while True:
+            LOG.debug('Frames Per Second: %s', self.clock.get_fps())
             # If the level has changed, load the new level
             if self.level_has_changed or self.level_instance is None:
                 self.level_instance = LEVEL_MAP[self.current_level](self)
+                self.level_has_changed = False
 
             pressed = pg.key.get_pressed()
             alt_held = pressed[pg.K_LALT] or pressed[pg.K_RALT]
             # ctrl_held = pressed[pg.K_LCTRL] or pressed[pg.K_RCTRL]
 
             events = pg.event.get()
-            keydown = []
+            # self.keys = pg.key.get_pressed()
             # Prioritize quit events but populate the keydown events
             for event in events:
                 # Handle quit event gracefully
@@ -142,12 +162,22 @@ class GameState(KeyHandler):
                     if event.key == pg.K_F4 and alt_held:
                         LOG.info('Exiting...')
                         self._exit()
-                    keydown.append(event)
+
+                    # If the level requests only keydown events, route them
+                    # here
+                    if self.level_instance.keydown_only:
+                        keys = pg.key.get_pressed()
+                        self.route_keys(keys, self.level_instance)
+
+            # If we aren't only watching for keydown events, route keys once
+            # per gameloop
+            if not self.level_instance.keydown_only:
+                keys = pg.key.get_pressed()
+                self.route_keys(keys, self.level_instance)
 
             self.current_time = pg.time.get_ticks()
             self.level_instance.draw()
-            self.process_events(keydown)
-            self.level_instance.process_events(keydown)
+
             pg.display.flip()
             self.clock.tick(self.fps)
 

@@ -11,14 +11,21 @@ from six import string_types
 
 # Project
 from harren import resources
-from harren.key_handler import KeyHandler
 from harren.tilerender import TileRenderer
 from harren.utils.pg_utils import get_image, load_music
+from harren.player import Player
 
 LOG = logging.getLogger(__name__)
 
 
-class BaseLevel(KeyHandler):
+class BaseLevel(object):
+
+    PLAYER_MOVE_DATA = {
+        'up': (0, -2),
+        'down': (0, 2),
+        'left': (-2, 0),
+        'right': (2, 0)
+    }
 
     def __init__(self, filename, game_loop, **kwargs):
         self.map_filename = filename
@@ -26,6 +33,10 @@ class BaseLevel(KeyHandler):
         self.game_loop = game_loop
         self.images = kwargs.get('images', [])
         self.music = kwargs.get('music', None)
+        self.exclude_players = kwargs.get('exclude_players', False)
+        self.keydown_only = False
+        self._first_draw = True
+        self._previous_center = None
 
     def __call__(self):
         self.start()
@@ -100,11 +111,50 @@ class BaseLevel(KeyHandler):
             pg.mixer.music.set_volume(self.state['volume'])
             pg.mixer.music.play(-1)
 
+    @property
+    def map_image(self):
+        try:
+            return self._map_image
+        except AttributeError:
+            self._map_image = self.tile_renderer.make_2x_map()
+        return self._map_image
+
+    @property
+    def map_rect(self):
+        try:
+            return self._map_rect
+        except AttributeError:
+            self._map_rect = self.map_image.get_rect()
+        return self._map_rect
+
     def draw(self):
-        map_image = self.tile_renderer.make_2x_map()
-        map_rect = map_image.get_rect()
+        map_image = self.map_image
+        map_rect = self.map_rect
         viewport = self.game_screen.get_rect()
         surface = pg.Surface((map_rect.width, map_rect.height)).convert()
+        if self._previous_center:
+            viewport.center = self._previous_center
+            viewport.clamp_ip(map_rect)
+
+        if not self.exclude_players:
+            # Center the viewport on player 1
+            if self._first_draw:
+                viewport.center = self.player1.rect.center
+                viewport.clamp_ip(map_rect)
+                self._first_draw = False
+                self._previous_center = self.player1.rect.center
+
+            if self.player1.state == 'moving':
+                self.player1.rect.move_ip(self.player1.x_velocity,
+                                          self.player1.y_velocity)
+                if (
+                    self.player1.rect.x % 32 == 0 and
+                    self.player1.rect.y % 32 == 0
+                ):
+                    self.player1.state = 'resting'
+                    viewport.center = self.player1.rect.center
+                    viewport.clamp_ip(map_rect)
+                    self._previous_center = self.player1.rect.center
 
         # Draw map first
         surface.blit(map_image, viewport, viewport)
@@ -130,8 +180,10 @@ class BaseLevel(KeyHandler):
         # Draw any text on the surface
         self.draw_text(surface)
 
-        # Next maybe the player(s)
-        # NOT IMPLEMENTED
+        if not self.exclude_players:
+
+            # Next draw any players
+            surface.blit(self.player1.image, self.player1.rect)
 
         # Next maybe a menu
         # NOT IMPLEMENTED
@@ -144,6 +196,18 @@ class BaseLevel(KeyHandler):
 
     def draw_text(self, surface):
         pass
+
+    @property
+    def player1(self):
+        try:
+            return self._player1
+        except AttributeError:
+            LOG.debug('Making new player1')
+            self._player1 = Player('player.png', game_loop=self.game_loop)
+            self._player1.rect.center = self.start_point.center
+            self._player1.rect.x = self.start_point.x
+            self._player1.rect.y = self.start_point.y
+        return self._player1
 
     def get_colliders(self):
         """
@@ -177,7 +241,10 @@ class BaseLevel(KeyHandler):
             properties = obj.__dict__
             name = properties.get('name')
             asset_type = properties.get('type')
-            if asset_type == 'start_point' or name == 'start_point':
+            if any((
+                asset_type in ('start_point', 'start point', 'starting point'),
+                name in ('start_point', 'start point', 'starting point'),
+            )):
                 left = properties['x'] * 2
                 top = ((properties['y']) * 2) - 32
                 start_point = pg.Rect(left, top, 32, 32)
@@ -185,3 +252,82 @@ class BaseLevel(KeyHandler):
         else:
             start_point = pg.Rect(0, 0, 32, 32)
         return start_point
+
+    def down_pressed(self):
+        LOG.debug('Down pressed')
+        if self.player1.state == 'resting':
+            self.player1.state = 'moving'
+            self.player1.y_velocity = 2
+            self.player1.x_velocity = 0
+
+    def up_pressed(self):
+        LOG.debug('Up pressed')
+        if self.player1.state == 'resting':
+            self.player1.state = 'moving'
+            self.player1.y_velocity = -2
+            self.player1.x_velocity = 0
+
+    def up_released(self):
+        pass
+
+    def left_released(self):
+        pass
+
+    def right_released(self):
+        pass
+
+    def w_released(self):
+        pass
+
+    def a_released(self):
+        pass
+
+    def s_released(self):
+        pass
+
+    def d_released(self):
+        pass
+
+    def enter_released(self):
+        pass
+
+    def space_released(self):
+        pass
+
+    def escape_released(self):
+        pass
+
+    def left_pressed(self):
+        LOG.debug('Up pressed')
+        if self.player1.state == 'resting':
+            self.player1.state = 'moving'
+            self.player1.y_velocity = 0
+            self.player1.x_velocity = -2
+
+    def right_pressed(self):
+        LOG.debug('Up pressed')
+        if self.player1.state == 'resting':
+            self.player1.state = 'moving'
+            self.player1.y_velocity = 0
+            self.player1.x_velocity = 2
+
+    def w_pressed(self):
+        pass
+
+    def a_pressed(self):
+        pass
+
+    def s_pressed(self):
+        pass
+
+    def d_pressed(self):
+        pass
+
+    def enter_pressed(self):
+        pass
+
+    def space_pressed(self):
+        pass
+
+    def escape_pressed(self):
+        pass

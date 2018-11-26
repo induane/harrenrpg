@@ -14,4 +14,5 @@ class LoadScreen(BaseLevel):
 
     def __init__(self, game_loop, **kwargs):
         kwargs['images'] = ['game_title.png']
+        kwargs['exclude_players'] = True
         super(LoadScreen, self).__init__('load.tmx', game_loop, **kwargs)

@@ -16,13 +16,11 @@ class GameSelect(BaseLevel):
     name = 'game_select'
 
     def __init__(self, game_loop, **kwargs):
-        super(GameSelect, self).__init__(
-            'load.tmx',
-            game_loop,
-            images=['title_box_empty.png'],
-            **kwargs
-        )
+        kwargs['images'] = ['title_box_empty.png']
+        kwargs['exclude_players'] = True
+        super(GameSelect, self).__init__('load.tmx', game_loop, **kwargs)
         self.select_index = 0
+        self.keydown_only = True  # Only handle keydown events
 
     @property
     def save_files(self):
@@ -35,7 +33,7 @@ class GameSelect(BaseLevel):
         self._save_files = [x for x in config_files if x.endswith('.save')]
         return self._save_files
 
-    def up_pressed(self, event):
+    def up_pressed(self):
         # Max index is the length of the array minux 1 but the select array
         # actually includes the new game option which is why we don't subtract
         # 1 here
@@ -47,7 +45,7 @@ class GameSelect(BaseLevel):
         else:
             self.select_index -= 1
 
-    def down_pressed(self, event):
+    def down_pressed(self):
         # Max index is the length of the array minux 1 but the select array
         # actually includes the new game option which is why we don't subtract
         # 1 here
@@ -59,7 +57,7 @@ class GameSelect(BaseLevel):
         else:
             self.select_index += 1
 
-    def space_pressed(self, event):
+    def space_pressed(self):
         if self.select_index == 0:
             self.game_loop.current_level = 'jova'
         else:

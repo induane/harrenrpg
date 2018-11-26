@@ -555,11 +555,10 @@
   <object id="32" name="blocker" gid="1044" x="1184" y="832" width="16" height="16"/>
   <object id="42" name="blocker" gid="1044" x="1120" y="784" width="16" height="16"/>
   <object id="47" name="blocker" gid="1044" x="1040" y="688" width="16.16" height="15.636"/>
-  <object id="78" name="start point" gid="1047" x="32" y="576" width="16" height="16">
+  <object id="78" name="start point" type="start_point" gid="1047" x="32" y="592" width="16" height="16">
    <properties>
     <property name="direction" value="down"/>
     <property name="state" value="load game"/>
-    <property name="test" value="testy"/>
    </properties>
   </object>
   <object id="79" name="blocker" gid="1044" x="48" y="576" width="16" height="15.75"/>
