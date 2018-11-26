@@ -1,7 +1,9 @@
 from __future__ import unicode_literals, absolute_import
 
 # Standard
+import json
 import logging
+import os
 import sys
 import time
 
@@ -10,8 +12,9 @@ import pygame as pg
 from boltons.cacheutils import cachedproperty
 
 # Project
-from harren.utils.pg_utils import get_font
 from harren.levels import LEVEL_MAP
+from harren.resources import CONFIG_FOLDER
+from harren.utils.pg_utils import get_font
 
 LOG = logging.getLogger(__name__)
 
@@ -32,6 +35,8 @@ class GameState(object):
             'player1': {},
         }
         self.level_instance = None
+
+        self.last_save = os.path.join(CONFIG_FOLDER, 'Last.save')
 
         # Set allowed event types
         pg.event.set_allowed([pg.KEYDOWN, pg.KEYUP, pg.QUIT])
@@ -64,6 +69,8 @@ class GameState(object):
     def set_state(self, state_dict):
         """Given a dict set the state values."""
         self.state.update(state_dict)
+        self.current_level = state_dict['current_level']
+        self.level_has_changed = True
 
     def _get_current_time(self):
         return self.state.get('current_time', 0.0)
@@ -79,7 +86,7 @@ class GameState(object):
     """Simple property to get and set time values."""
 
     def _get_current_level(self):
-        return self.state.get('current_level', 0.0)
+        return self.state.get('current_level', 'game_select')
 
     def _set_current_level(self, value):
         if value not in LEVEL_MAP:
@@ -108,14 +115,19 @@ class GameState(object):
         return self.surface.get_rect()
 
     @cachedproperty
-    def font(self):
+    def font_20(self):
         """Return the main font."""
         return get_font('Triforce.ttf', size=20)
 
     @cachedproperty
-    def large_font(self):
+    def font_40(self):
         """Return the main font large size."""
         return get_font('Triforce.ttf', size=40)
+
+    @cachedproperty
+    def font_60(self):
+        """Return the main font large size."""
+        return get_font('Triforce.ttf', size=60)
 
     @staticmethod
     def route_keys(keys, level_instance):
@@ -157,7 +169,7 @@ class GameState(object):
                     self._exit()
 
                 if event.type == pg.KEYDOWN:
-                    # Pressing ALT-F4 also exits the game loop
+                    # Pressing ALT-F4 also exits the game loop and save
                     if event.key == pg.K_F4 and alt_held:
                         LOG.info('Exiting...')
                         self._exit()
@@ -181,8 +193,7 @@ class GameState(object):
         LOG.info('Exiting...')
         self._exit()
 
-    @staticmethod
-    def _exit(code=0):
+    def _exit(self, code=0):
         try:
             pg.display.quit()
         except Exception:
@@ -191,4 +202,7 @@ class GameState(object):
             pg.quit()
         except Exception:
             pass
+        with open(self.last_save, 'wb') as f:
+            f.truncate()
+            f.write(json.dumps(self.state))
         sys.exit(code)

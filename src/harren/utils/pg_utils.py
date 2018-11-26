@@ -32,7 +32,6 @@ def get_image(path, **kwargs):
     LOG.debug('Getting image %s', resource_path)
     colorkey = kwargs.get('colorkey', (255, 0, 255))
     img = pg.image.load(resource_path)
-    # img.convert()
     if img.get_alpha():
         img = img.convert_alpha()
     else:
@@ -43,7 +42,7 @@ def get_image(path, **kwargs):
 
 def get_sprite_image(x, y, width, height, sprite_sheet):
     """Extracts image from sprite sheet"""
-    img = pg.Surface([width, height])
+    img = pg.Surface((width, height))
     img.blit(sprite_sheet, (0, 0), (x, y, width, height))
     img.set_colorkey((0, 0, 0))
     return img

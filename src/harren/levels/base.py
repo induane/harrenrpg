@@ -49,17 +49,20 @@ class BaseLevel(object):
         self.start()
 
     def start(self):
-        LOG.debug('Map properties: %s', self.map_data)
         self.draw()
         self.play_music()
 
     @property
-    def font(self):
-        return self.game_loop.font
+    def font_20(self):
+        return self.game_loop.font_20
 
     @property
-    def large_font(self):
-        return self.game_loop.large_font
+    def font_40(self):
+        return self.game_loop.font_40
+
+    @property
+    def font_60(self):
+        return self.game_loop.font_60
 
     @property
     def tmx_data(self):
@@ -136,6 +139,11 @@ class BaseLevel(object):
                     self.player1.rect.y % 32 == 0
                 ):
                     self.player1.state = 'resting'
+                    self.state['player1']['location'] = (
+                        self.player1.rect.x,
+                        self.player1.rect.y,
+                        self.player1.rect.center,
+                    )
 
         # Draw map first
         surface.blit(map_image, viewport, viewport)
@@ -161,13 +169,7 @@ class BaseLevel(object):
         if not self.exclude_players:
             surface.blit(self.player1.image, self.player1.rect)
 
-        # Next maybe a menu
-        # NOT IMPLEMENTED
-
-        # Finally any dialog
-        # NOT IMPLEMENTED
-
-        # LOG.debug('blitting to actual screen surface')
+        # LOG.debug('blit to actual screen surface')
         self.game_screen.blit(surface, (0, 0), viewport)
 
     def draw_text(self, surface):
@@ -176,9 +178,16 @@ class BaseLevel(object):
     @cachedproperty
     def player1(self):
         player1 = Player('player.png', game_loop=self.game_loop)
-        player1.rect.center = self.start_point.center
-        player1.rect.x = self.start_point.x
-        player1.rect.y = self.start_point.y
+        try:
+            x, y, center = self.state['player1']['location']
+        except Exception:
+            player1.rect.center = self.start_point.center
+            player1.rect.x = self.start_point.x
+            player1.rect.y = self.start_point.y
+        else:
+            player1.rect.center = center
+            player1.rect.x = x
+            player1.rect.y = y
         return player1
 
     def get_colliders(self):

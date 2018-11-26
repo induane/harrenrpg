@@ -72,7 +72,7 @@ class GameSelect(BaseLevel):
 
     def _draw_text(self, surface, **kwargs):
         """Custom text draw that can move the select arrow."""
-        text = self.large_font.render('Select', True, (255, 255, 255))
+        text = self.font_40.render('Select', True, (255, 255, 255))
         text_rect = text.get_rect()
         screen_rectangle = self.game_loop.surface.get_rect()
         text_rect.midtop = screen_rectangle.midtop
@@ -83,7 +83,7 @@ class GameSelect(BaseLevel):
         # Track rectange information for drawn info
         rectangle_data = {}
 
-        new_game_text = self.font.render('New Game', True, (255, 255, 255))
+        new_game_text = self.font_20.render('New Game', True, (255, 255, 255))
         new_game_rect = new_game_text.get_rect()
         new_game_rect.midtop = screen_rectangle.midtop
         new_game_rect.centerx = screen_rectangle.centerx
@@ -93,7 +93,7 @@ class GameSelect(BaseLevel):
 
         for idx, fn in enumerate(self.save_files, start=1):
             display = fn.rstrip('.save')
-            slot_text = self.font.render(display, True, (255, 255, 255))
+            slot_text = self.font_20.render(display, True, (255, 255, 255))
             slot_rect = slot_text.get_rect()
             slot_rect.midtop = screen_rectangle.midtop
             slot_rect.centerx = screen_rectangle.centerx
@@ -103,7 +103,7 @@ class GameSelect(BaseLevel):
             surface.blit(slot_text, slot_rect)
 
         # Given the current index value for the selections, draw an arrow.
-        select = self.font.render('>> ', True, (255, 255, 255))
+        select = self.font_20.render('>> ', True, (255, 255, 255))
         select_rect = new_game_text.get_rect()
         select_rect.midleft = rectangle_data[self.select_index].midleft
         select_rect.x = select_rect.x - 50
