@@ -42,3 +42,8 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
+
+# PyInstaller
+src/harren/dist
+src/harren/build
+src/harren/entry_point.spec

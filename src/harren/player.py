@@ -71,7 +71,6 @@ class Player(pg.sprite.Sprite):
 
     def update(self, frequency=100):
         """Update the timer and move animations around."""
-        # LOG.debug('Current: %s vs Loop: %s', self.current_time, self.game_loop.current_time)
         if (self.game_loop.current_time - self.current_time) > frequency:
             if self.state != 'resting':
                 images = self._get_img_set(self.state)
