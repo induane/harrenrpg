@@ -6,14 +6,45 @@ import logging
 # Third Party
 import pygame as pg
 
+# Project
+from harren.utils import pg_utils
+
 LOG = logging.getLogger(__name__)
 
 
 class Player(pg.sprite.Sprite):
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, sprite_path, **kwargs):
+        initial_direction = kwargs.get('direction', 'down_1')
         self.game_loop = kwargs.pop('game_loop')
-        super(Player, self).__init__(*args, **kwargs)
+        self.sprite_data = pg_utils.get_sprite_map(sprite_path)
+        self.left_images = (
+            self.sprite_data['left_1'],
+            self.sprite_data['left_2'],
+        )
+        self.right_images = (
+            self.sprite_data['right_1'],
+            self.sprite_data['right_2'],
+        )
+        self.up_images = (
+            self.sprite_data['up_1'],
+            self.sprite_data['up_2'],
+        )
+        self.down_images = (
+            self.sprite_data['down_1'],
+            self.sprite_data['down_2'],
+        )
+        self.movex = 0
+        self.movey = 0
+        self.frame = 0
+        self.image = self.sprite_data[initial_direction]
+        self.rect = self.image.get_rect()
+        super(Player, self).__init__(**kwargs)
+
+    def control(self, x, y):
+        """control player movement"""
+        self.movex += x
+        self.movey += y
 
     @staticmethod
     def pygame_to_tile(rect):
@@ -36,3 +67,13 @@ class Player(pg.sprite.Sprite):
             rect_pos - diff
         else:
             rect_pos + diff
+
+    def animate(self, freq=100):
+        """Adjust sprite image frame based on timer."""
+        if (self.current_time - self.timer) > freq:
+            if self.index < (len(self.image_list) - 1):
+                self.index += 1
+            else:
+                self.index = 0
+            self.timer = self.current_time
+        self.image = self.image_list[self.index]

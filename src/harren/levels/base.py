@@ -164,3 +164,24 @@ class BaseLevel(KeyHandler):
                 blocker = pg.Rect(left, top, 32, 32)
                 blockers.append(blocker)
         return blockers
+
+    @property
+    def start_point(self):
+        """
+        Returns rectangle representing the starting point in the level.
+
+        If more than one is found, the others will be ignored. If none are
+        found a default one will be created at 0, 0
+        """
+        for obj in self.tile_renderer.tmx_data.objects:
+            properties = obj.__dict__
+            name = properties.get('name')
+            asset_type = properties.get('type')
+            if asset_type == 'start_point' or name == 'start_point':
+                left = properties['x'] * 2
+                top = ((properties['y']) * 2) - 32
+                start_point = pg.Rect(left, top, 32, 32)
+                break
+        else:
+            start_point = pg.Rect(0, 0, 32, 32)
+        return start_point
