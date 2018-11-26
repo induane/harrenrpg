@@ -123,7 +123,6 @@ class BaseLevel(object):
                 )
                 for collider in self.colliders:
                     if collider.colliderect(check_box):
-                        # LOG.debug('Collision detected!')
                         self.player1.rect.x = orig_x
                         self.player1.rect.y = orig_y
                         self.player1.state = 'resting'
@@ -174,7 +173,6 @@ class BaseLevel(object):
         if not self.exclude_players:
             surface.blit(self.player1.image, self.player1.rect)
 
-        # LOG.debug('blit to actual screen surface')
         self.game_screen.blit(surface, (0, 0), viewport)
 
     def draw_text(self, surface):
