@@ -27,6 +27,7 @@ class GameState(KeyHandler):
             'current_time': 0.0,
             'current_level': 'game_select',
             'previous_level': 'load_screen',
+            'player1': {},
         }
         self.level_instance = None
 
@@ -43,13 +44,18 @@ class GameState(KeyHandler):
 
         self.clock = pg.time.Clock()
         self.fps = kwargs.get('fps', 60)
+        self.level_has_changed = False
         LOG.debug('Launching with target FPS: %s', self.fps)
 
         # Draw the loading screen
         load_screen = LEVEL_MAP['load_screen'](self)
         load_screen()   # Initial draw
         pg.display.flip()
-        time.sleep(2)   # Give some artificial time to display the load screen
+        time.sleep(1)   # Give some artificial time to display the load screen
+
+    def set_state(self, state_dict):
+        """Given a dict set the state values."""
+        self.state.update(state_dict)
 
     def _get_current_time(self):
         return self.state.get('current_time', 0.0)
@@ -68,10 +74,16 @@ class GameState(KeyHandler):
         return self.state.get('current_level', 0.0)
 
     def _set_current_level(self, value):
-        self.state['current_level'] = value
+        if value not in LEVEL_MAP:
+            raise ValueError('Unknown level: {}'.format(value))
+
+        if value != self.state['current_level']:
+            self.state['previous_level'] = self.state['current_level']
+            self.state['current_level'] = value
+            self.level_has_changed = True
 
     current_level = property(_get_current_level, _set_current_level)
-    """Simple property to get and set the current level name."""
+    """Property to get and set the current level name."""
 
     def _get_previous_level(self):
         return self.state.get('previous_level', 0.0)
@@ -108,11 +120,9 @@ class GameState(KeyHandler):
     def main(self):
         """Main loop for entire program."""
         while True:
-            # The level has changed, load the new level
-            if (self.current_level != self.previous_level or
-                    self.level_instance is None):
+            # If the level has changed, load the new level
+            if self.level_has_changed or self.level_instance is None:
                 self.level_instance = LEVEL_MAP[self.current_level](self)
-                self.previous_level = self.current_level
 
             pressed = pg.key.get_pressed()
             alt_held = pressed[pg.K_LALT] or pressed[pg.K_RALT]
@@ -136,6 +146,8 @@ class GameState(KeyHandler):
 
             self.current_time = pg.time.get_ticks()
             self.level_instance.draw()
+            self.process_events(keydown)
+            self.level_instance.process_events(keydown)
             pg.display.flip()
             self.clock.tick(self.fps)
 

@@ -10,11 +10,8 @@ LOG = logging.getLogger(__name__)
 
 
 class LoadScreen(BaseLevel):
+    name = 'loadscreen'
 
     def __init__(self, game_loop, **kwargs):
-        super(LoadScreen, self).__init__(
-            'load.tmx',
-            game_loop,
-            images=['game_title.png'],
-            **kwargs
-        )
+        kwargs['images'] = ['game_title.png']
+        super(LoadScreen, self).__init__('load.tmx', game_loop, **kwargs)

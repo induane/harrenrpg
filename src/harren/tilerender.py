@@ -4,11 +4,13 @@ import logging
 # Third Party
 import six
 import pygame as pg
+from pytmx import TiledImageLayer, TiledTileLayer
+from pytmx.util_pygame import load_pygame
 
 # Project
 from harren.utils import color
-from harren.pytmx.util_pygame import load_pygame
-from harren.pytmx import TiledImageLayer, TiledTileLayer
+# from harren.pytmx.util_pygame import load_pygame
+# from harren.pytmx import
 
 LOG = logging.getLogger(__name__)
 
