@@ -155,27 +155,21 @@ def run_game():
     # Make the config folder if it doesn't already exist
     mkdir_p(resources.CONFIG_FOLDER)
 
-
-    from harren.game_loop import GameState
-    game = GameState(fullscreen=parsed_args.fullscreen)
-    game.main()
-    __exit()
-    #
-    # # If we're launching the new engine, start the system from the GameState
-    # if parsed_args.new_engine:
-    #     from harren.game_loop import GameState
-    #     game = GameState(fullscreen=parsed_args.fullscreen)
-    #     game.main()
-    #     __exit()
-    # else:
-    #     # Now we can import the setup tools and other pieces
-    #     # and run the old game engine
-    #     from harren.data import setup
-    #     from harren.data.main import main
-    #     # setup.SCREEN, setup.SCREEN_RECT = setup.init()
-    #     setup.GAME
-    #     main()
-    #     __exit()
+    # If we're launching the new engine, start the system from the GameState
+    if parsed_args.new_engine:
+        from harren.game_loop import GameState
+        game = GameState(fullscreen=parsed_args.fullscreen)
+        game.main()
+        __exit()
+    else:
+        # Now we can import the setup tools and other pieces
+        # and run the old game engine
+        from harren.data import setup
+        from harren.data.main import main
+        # setup.SCREEN, setup.SCREEN_RECT = setup.init()
+        setup.GAME
+        main()
+        __exit()
 
 
 def __exit(code=0):
