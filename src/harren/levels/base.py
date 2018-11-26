@@ -27,12 +27,11 @@ class BaseLevel(object):
         self.map_path = os.path.join(resources.TMX_FOLDER, filename)
         LOG.debug('Initializing level with map %s', self.map_path)
         self.game_loop = game_loop
-
-        self.music = kwargs.get('music', None)
+        self.battles_allowed = kwargs.get('battles_allowed', False)
         self.exclude_players = kwargs.get('exclude_players', False)
+        self.music = kwargs.get('music', None)
         self.keydown_only = False
-        self._first_draw = True
-        self._previous_center = None
+
         self.image_cache = []
         for image in kwargs.get('images', []):
             # If there is no location data tuple, just blit to the middle
