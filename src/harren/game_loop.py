@@ -40,9 +40,15 @@ class GameState(object):
         pg.display.set_caption(self.caption)
 
         if fullscreen:
-            self.surface = pg.display.set_mode((xres, yres), pg.FULLSCREEN)
+            self.surface = pg.display.set_mode(
+                (xres, yres),
+                pg.FULLSCREEN | pg.DOUBLEBUF
+            )
         else:
-            self.surface = pg.display.set_mode((xres, yres))
+            self.surface = pg.display.set_mode(
+                (xres, yres),
+                pg.DOUBLEBUF
+            )
 
         self.clock = pg.time.Clock()
         self.fps = kwargs.get('fps', 60)

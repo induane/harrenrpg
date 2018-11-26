@@ -32,7 +32,7 @@ def get_image(path, **kwargs):
     LOG.debug('Getting image %s', resource_path)
     colorkey = kwargs.get('colorkey', (255, 0, 255))
     img = pg.image.load(resource_path)
-    img.convert()
+    # img.convert()
     if img.get_alpha():
         img = img.convert_alpha()
     else:

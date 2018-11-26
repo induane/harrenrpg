@@ -65,10 +65,3 @@ class TileRenderer(object):
         temp_surface = pg.Surface(self.size)
         self.render(temp_surface)
         return pg.transform.scale2x(temp_surface)
-
-    def make_scaled_map(self, x, y):
-        """make a transform that's smoothly scaled."""
-        temp_surface = pg.Surface(self.size)
-        self.render(temp_surface)
-        return pg.transform.smoothscale(temp_surface, (x, y))
-        return temp_surface

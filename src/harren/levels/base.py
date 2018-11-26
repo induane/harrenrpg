@@ -129,18 +129,11 @@ class BaseLevel(object):
         map_image = self.map_image
         map_rect = self.map_rect
         viewport = self.game_screen.get_rect()
-        surface = pg.Surface((map_rect.width, map_rect.height)).convert()
-        if self._previous_center:
-            viewport.center = self._previous_center
-            viewport.clamp_ip(map_rect)
-
+        surface = pg.Surface((map_rect.width, map_rect.height))
         if not self.exclude_players:
             # Center the viewport on player 1
-            if self._first_draw:
-                viewport.center = self.player1.rect.center
-                viewport.clamp_ip(map_rect)
-                self._first_draw = False
-                self._previous_center = self.player1.rect.center
+            viewport.center = self.player1.rect.center
+            viewport.clamp_ip(map_rect)
 
             if self.player1.state == 'moving':
                 self.player1.rect.move_ip(self.player1.x_velocity,
@@ -150,9 +143,6 @@ class BaseLevel(object):
                     self.player1.rect.y % 32 == 0
                 ):
                     self.player1.state = 'resting'
-                    viewport.center = self.player1.rect.center
-                    viewport.clamp_ip(map_rect)
-                    self._previous_center = self.player1.rect.center
 
         # Draw map first
         surface.blit(map_image, viewport, viewport)
@@ -174,9 +164,8 @@ class BaseLevel(object):
         # Draw any text on the surface
         self.draw_text(surface)
 
+        # Next draw any players
         if not self.exclude_players:
-
-            # Next draw any players
             surface.blit(self.player1.image, self.player1.rect)
 
         # Next maybe a menu
