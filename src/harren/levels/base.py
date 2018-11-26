@@ -13,7 +13,7 @@ from six import string_types
 
 # Project
 from harren import resources
-from harren.tilerender import TileRenderer
+from harren.tilerender import render_tile
 from harren.utils.pg_utils import get_image, load_music
 from harren.player import Player
 
@@ -45,6 +45,9 @@ class BaseLevel(object):
                 img = get_image(img_path)
                 self.image_cache.append((img, x, y))
 
+        # Collect tmx_data and a surface
+        self.tmx_data, self.map_image = render_tile(self.map_path)
+
     def __call__(self):
         self.start()
 
@@ -64,21 +67,13 @@ class BaseLevel(object):
     def font_60(self):
         return self.game_loop.font_60
 
-    @property
-    def tmx_data(self):
-        return self.tile_renderer.tmx_data
-
-    @cachedproperty
-    def map_data(self):
-        return self.tile_renderer.tmx_data.properties
-
     @cachedproperty
     def music_file(self):
         """Randomly returns a music file if more than one are specified."""
         if not hasattr(self, '_music_files'):
             # Load all properties starting with "music"
             music_files = []
-            for key, value in self.map_data.items():
+            for key, value in self.tmx_data.properties.items():
                 if key.lower().startswith('music'):
                     music_files.append(value)
             self._music_files = music_files
@@ -99,10 +94,6 @@ class BaseLevel(object):
         """Return the state from the parent game loop for convenience."""
         return self.game_loop.state
 
-    @cachedproperty
-    def tile_renderer(self):
-        return TileRenderer(self.map_path)
-
     @property
     def game_screen(self):
         return self.game_loop.surface
@@ -113,17 +104,9 @@ class BaseLevel(object):
             pg.mixer.music.set_volume(self.state['volume'])
             pg.mixer.music.play(-1)
 
-    @cachedproperty
-    def map_image(self):
-        return self.tile_renderer.make_2x_map()
-
-    @cachedproperty
-    def map_rect(self):
-        return self.map_image.get_rect()
-
     def draw(self):
         map_image = self.map_image
-        map_rect = self.map_rect
+        map_rect = self.map_image.get_rect()
         viewport = self.game_screen.get_rect()
         surface = pg.Surface((map_rect.width, map_rect.height))
         if not self.exclude_players:
@@ -140,8 +123,7 @@ class BaseLevel(object):
                 )
                 for collider in self.colliders:
                     if collider.colliderect(check_box):
-                    # if check_box.colliderect(collider):
-                        LOG.debug('Collision detected!')
+                        # LOG.debug('Collision detected!')
                         self.player1.rect.x = orig_x
                         self.player1.rect.y = orig_y
                         self.player1.state = 'resting'
@@ -223,7 +205,7 @@ class BaseLevel(object):
         supported.
         """
         colliders = []
-        for obj in self.tile_renderer.tmx_data.objects:
+        for obj in self.tmx_data.objects:
             properties = obj.__dict__
             name = properties.get('name')
             asset_type = properties.get('type')
@@ -243,7 +225,7 @@ class BaseLevel(object):
         If more than one is found, the others will be ignored. If none are
         found a default one will be created at 0, 0
         """
-        for obj in self.tile_renderer.tmx_data.objects:
+        for obj in self.tmx_data.objects:
             properties = obj.__dict__
             name = properties.get('name')
             asset_type = properties.get('type')
