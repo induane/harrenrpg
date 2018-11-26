@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" nextobjectid="1017">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" nextobjectid="1018">
  <properties>
   <property name="name" value="Jova"/>
  </properties>
@@ -759,5 +759,6 @@
   <object id="1014" name="blocker" gid="1036" x="496" y="528" width="16" height="16"/>
   <object id="1015" name="blocker" gid="1036" x="512" y="528" width="16" height="16"/>
   <object id="1016" name="blocker" gid="1036" x="528" y="528" width="16" height="16"/>
+  <object id="1017" name="blocker" gid="1036" x="48" y="560" width="16" height="15.75"/>
  </objectgroup>
 </map>
