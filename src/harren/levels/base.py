@@ -76,7 +76,7 @@ class BaseLevel(object):
     def map_data(self):
         return self.tile_renderer.tmx_data.properties
 
-    @property
+    @cachedproperty
     def music_file(self):
         """Randomly returns a music file if more than one are specified."""
         if not hasattr(self, '_music_files'):
