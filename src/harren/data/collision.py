@@ -25,9 +25,7 @@ class CollisionHandler(object):
         return blocker_list
 
     def update(self, keys, current_time):
-        """
-        Check for collisions between game objects.
-        """
+        """Check for collisions between game objects."""
         self.blockers = self.make_blocker_list(self.static_blockers,
                                                self.sprites)
         self.player.rect.move_ip(self.player.x_vel, self.player.y_vel)
@@ -59,9 +57,7 @@ class CollisionHandler(object):
             self.level.portal = portal.name
 
     def check_for_blockers(self):
-        """
-        Checks for collisions with blocker rects.
-        """
+        """Checks for collisions with blocker rects."""
         player_collided = False
         sprite_collided_list = []
 

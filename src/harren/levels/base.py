@@ -132,8 +132,31 @@ class BaseLevel(object):
             viewport.clamp_ip(map_rect)
 
             if self.player1.state == 'moving':
-                self.player1.rect.move_ip(self.player1.x_velocity,
-                                          self.player1.y_velocity)
+                orig_x = self.player1.rect.x
+                orig_y = self.player1.rect.y
+                check_box = self.player1.rect.move(
+                    self.player1.x_velocity,
+                    self.player1.y_velocity
+                )
+                for collider in self.colliders:
+                    if collider.colliderect(check_box):
+                    # if check_box.colliderect(collider):
+                        LOG.debug('Collision detected!')
+                        self.player1.rect.x = orig_x
+                        self.player1.rect.y = orig_y
+                        self.player1.state = 'resting'
+                        self.state['player1']['location'] = (
+                            self.player1.rect.x,
+                            self.player1.rect.y,
+                            self.player1.rect.center,
+                        )
+                        break
+                else:
+                    self.player1.rect.move_ip(
+                        self.player1.x_velocity,
+                        self.player1.y_velocity
+                    )
+
                 if (
                     self.player1.rect.x % 32 == 0 and
                     self.player1.rect.y % 32 == 0
@@ -190,15 +213,16 @@ class BaseLevel(object):
             player1.rect.y = y
         return player1
 
-    def get_colliders(self):
+    @cachedproperty
+    def colliders(self):
         """
         Colliders are invisible objects used for collision detection.
 
-        To create a blocker in tiled, set the name or type to "blocker". It is
+        To create a collider in tiled, set the name or type to "blocker". It is
         preferable to use the 'type' field but for now the name field is also
         supported.
         """
-        blockers = []
+        colliders = []
         for obj in self.tile_renderer.tmx_data.objects:
             properties = obj.__dict__
             name = properties.get('name')
@@ -206,9 +230,9 @@ class BaseLevel(object):
             if asset_type == 'blocker' or name == 'blocker':
                 left = properties['x'] * 2
                 top = ((properties['y']) * 2) - 32
-                blocker = pg.Rect(left, top, 32, 32)
-                blockers.append(blocker)
-        return blockers
+                collider = pg.Rect(left, top, 32, 32)
+                colliders.append(collider)
+        return colliders
 
     @cachedproperty
     def start_point(self):

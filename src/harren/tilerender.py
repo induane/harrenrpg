@@ -34,10 +34,8 @@ class TileRenderer(object):
 
     @cachedproperty
     def size(self):
-        return (
-            self.tmx_data.width * self.tmx_data.tilewidth,
-            self.tmx_data.height * self.tmx_data.tileheight
-        )
+        tm = self.tmx_data
+        return (tm.width * tm.tilewidth, tm.height * tm.tileheight)
 
     def render(self, surface):
         tw = self.tmx_data.tilewidth
@@ -51,6 +49,7 @@ class TileRenderer(object):
             surface.fill(bg_color)
 
         for layer in self.tmx_data.visible_layers:
+            LOG.debug('Rendering layer: %s', layer.name)
             if isinstance(layer, TiledTileLayer):
                 for x, y, gid in layer:
                     tile = gt(gid)

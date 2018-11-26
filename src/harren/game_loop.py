@@ -150,6 +150,14 @@ class GameState(object):
 
     def main(self):
         """Main loop for entire program."""
+
+        # Do some initial lookups outside the loop for performance as dot
+        # access has a minor performance penalty
+        event_get = pg.event.get
+        get_pressed = pg.key.get_pressed
+        get_ticks = pg.time.get_ticks
+        flip = pg.display.flip
+
         while True:
             LOG.debug('Frames Per Second: %s', self.clock.get_fps())
             # If the level has changed, load the new level
@@ -157,8 +165,8 @@ class GameState(object):
                 self.level_instance = LEVEL_MAP[self.current_level](self)
                 self.level_has_changed = False
 
-            events = pg.event.get()
-            keys = pg.key.get_pressed()
+            events = event_get()
+            keys = get_pressed()
             alt_held = keys[pg.K_LALT] or keys[pg.K_RALT]
 
             # Prioritize quit events but populate the keydown events
@@ -184,10 +192,10 @@ class GameState(object):
             if not self.level_instance.keydown_only:
                 self.route_keys(keys, self.level_instance)
 
-            self.current_time = pg.time.get_ticks()
+            self.current_time = get_ticks()
             self.level_instance.draw()
 
-            pg.display.flip()
+            flip()
             self.clock.tick(self.fps)
 
         LOG.info('Exiting...')
