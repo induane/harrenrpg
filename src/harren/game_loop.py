@@ -7,6 +7,7 @@ import time
 
 # Third Party
 import pygame as pg
+from boltons.cacheutils import cachedproperty
 
 # Project
 from harren.utils.pg_utils import get_font
@@ -52,7 +53,7 @@ class GameState(object):
         load_screen = LEVEL_MAP['load_screen'](self)
         load_screen()   # Initial draw
         pg.display.flip()
-        time.sleep(0.5)   # Give some artificial time to display the load screen
+        time.sleep(0.5)   # Give time to display the load screen
 
     def set_state(self, state_dict):
         """Given a dict set the state values."""
@@ -95,32 +96,20 @@ class GameState(object):
     previous_level = property(_get_previous_level, _set_previous_level)
     """Simple property to get and set the previous level name."""
 
-    @property
+    @cachedproperty
     def screen_rectangle(self):
         """Return the current display surface rectangle."""
-        try:
-            return self._screen_rect
-        except AttributeError:
-            self._screen_rect = self.surface.get_rect()
-        return self._screen_rect
+        return self.surface.get_rect()
 
-    @property
+    @cachedproperty
     def font(self):
         """Return the main font."""
-        try:
-            return self._main_font
-        except AttributeError:
-            self._main_font = get_font('Triforce.ttf', size=20)
-        return self._main_font
+        return get_font('Triforce.ttf', size=20)
 
-    @property
+    @cachedproperty
     def large_font(self):
         """Return the main font large size."""
-        try:
-            return self._large_font
-        except AttributeError:
-            self._large_font = get_font('Triforce.ttf', size=40)
-        return self._large_font
+        return get_font('Triforce.ttf', size=40)
 
     @staticmethod
     def route_keys(keys, level_instance):

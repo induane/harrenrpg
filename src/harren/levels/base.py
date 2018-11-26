@@ -7,7 +7,9 @@ import random
 
 # Third Party
 import pygame as pg
+from boltons.cacheutils import cachedproperty
 from six import string_types
+
 
 # Project
 from harren import resources
@@ -30,13 +32,25 @@ class BaseLevel(object):
     def __init__(self, filename, game_loop, **kwargs):
         self.map_filename = filename
         self.map_path = os.path.join(resources.TMX_FOLDER, filename)
+        LOG.debug('Initializing level with map %s', self.map_path)
         self.game_loop = game_loop
-        self.images = kwargs.get('images', [])
+
         self.music = kwargs.get('music', None)
         self.exclude_players = kwargs.get('exclude_players', False)
         self.keydown_only = False
         self._first_draw = True
         self._previous_center = None
+        self.image_cache = []
+        for image in kwargs.get('images', []):
+            # If there is no location data tuple, just blit to the middle
+            if isinstance(image, string_types):
+                img = get_image(image)
+                self.image_cache.append((img, None, None))
+            else:
+                # Assuming a data tuple of path, x, y
+                img_path, x, y = image
+                img = get_image(img_path)
+                self.image_cache.append((img, x, y))
 
     def __call__(self):
         self.start()
@@ -58,7 +72,7 @@ class BaseLevel(object):
     def tmx_data(self):
         return self.tile_renderer.tmx_data
 
-    @property
+    @cachedproperty
     def map_data(self):
         return self.tile_renderer.tmx_data.properties
 
@@ -89,21 +103,13 @@ class BaseLevel(object):
         """Return the state from the parent game loop for convenience."""
         return self.game_loop.state
 
-    @property
+    @cachedproperty
     def tile_renderer(self):
-        try:
-            return self._tile_renderer
-        except AttributeError:
-            self._tile_renderer = TileRenderer(self.map_path)
-        return self._tile_renderer
+        return TileRenderer(self.map_path)
 
     @property
     def game_screen(self):
         return self.game_loop.surface
-
-    @property
-    def screen_rectangle(self):
-        return self.game_loop.surface.get_rect()
 
     def play_music(self):
         if self.music_file:
@@ -111,21 +117,13 @@ class BaseLevel(object):
             pg.mixer.music.set_volume(self.state['volume'])
             pg.mixer.music.play(-1)
 
-    @property
+    @cachedproperty
     def map_image(self):
-        try:
-            return self._map_image
-        except AttributeError:
-            self._map_image = self.tile_renderer.make_2x_map()
-        return self._map_image
+        return self.tile_renderer.make_2x_map()
 
-    @property
+    @cachedproperty
     def map_rect(self):
-        try:
-            return self._map_rect
-        except AttributeError:
-            self._map_rect = self.map_image.get_rect()
-        return self._map_rect
+        return self.map_image.get_rect()
 
     def draw(self):
         map_image = self.map_image
@@ -160,22 +158,18 @@ class BaseLevel(object):
         surface.blit(map_image, viewport, viewport)
 
         # If there are any images, draw them
-        for image in self.images:
+        for img, x, y in self.image_cache:
+            img_rect = img.get_rect()
+
             # If there is no location data tuple, just blit to the middle
-            if isinstance(image, string_types):
-                img = get_image(image)
-                img_rect = img.get_rect()
+            if x is None or y is None:
                 img_rect.center = viewport.center
                 surface.blit(img, img_rect)
             else:
-                # Assuming a data tuple of path, x, y
-                img_path, x, y = image
-                img = get_image(img_path)
-                img_rect = img.get_rect()
                 img_rect.midbottom = self.viewport.midbottom
                 img_rect.y = y
                 img_rect.x = x
-                surface.blit(img, img_rect)
+            surface.blit(img, img_rect)
 
         # Draw any text on the surface
         self.draw_text(surface)
@@ -197,17 +191,13 @@ class BaseLevel(object):
     def draw_text(self, surface):
         pass
 
-    @property
+    @cachedproperty
     def player1(self):
-        try:
-            return self._player1
-        except AttributeError:
-            LOG.debug('Making new player1')
-            self._player1 = Player('player.png', game_loop=self.game_loop)
-            self._player1.rect.center = self.start_point.center
-            self._player1.rect.x = self.start_point.x
-            self._player1.rect.y = self.start_point.y
-        return self._player1
+        player1 = Player('player.png', game_loop=self.game_loop)
+        player1.rect.center = self.start_point.center
+        player1.rect.x = self.start_point.x
+        player1.rect.y = self.start_point.y
+        return player1
 
     def get_colliders(self):
         """
@@ -229,7 +219,7 @@ class BaseLevel(object):
                 blockers.append(blocker)
         return blockers
 
-    @property
+    @cachedproperty
     def start_point(self):
         """
         Returns rectangle representing the starting point in the level.

@@ -2,15 +2,15 @@
 import logging
 
 # Third Party
-import six
 import pygame as pg
+import six
+from boltons.cacheutils import cachedproperty
 from pytmx import TiledImageLayer, TiledTileLayer
 from pytmx.util_pygame import load_pygame
 
 # Project
 from harren.utils import color
-# from harren.pytmx.util_pygame import load_pygame
-# from harren.pytmx import
+
 
 LOG = logging.getLogger(__name__)
 
@@ -28,15 +28,11 @@ class TileRenderer(object):
     def __init__(self, map_path):
         self.map_path = map_path
 
-    @property
+    @cachedproperty
     def tmx_data(self):
-        try:
-            return self._tmx_data
-        except AttributeError:
-            self._tmx_data = load_pygame(self.map_path, pixelalpha=True)
-        return self._tmx_data
+        return load_pygame(self.map_path, pixelalpha=True)
 
-    @property
+    @cachedproperty
     def size(self):
         return (
             self.tmx_data.width * self.tmx_data.tilewidth,

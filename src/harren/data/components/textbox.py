@@ -1,11 +1,25 @@
 import logging
 import pygame as pg
 
-from harren import base
 from harren.data import constants as c
 from harren.data import setup, observer
 
 LOG = logging.getLogger(__name__)
+
+
+class BaseEntity(object):
+    """Base entity class with helpful methods."""
+
+    def __init__(self, *args, **kwargs):
+        observers = kwargs.get('observers')
+        if not isinstance(observers, (tuple, list)):
+            observers = [observers, ]
+        self.observers = observers
+
+    def notify_observers(self, event):
+        """Notify all observers of events."""
+        for o in (x for x in self.observers if x):
+            o.on_notify(event)
 
 
 class NextArrow(pg.sprite.Sprite):
@@ -17,7 +31,7 @@ class NextArrow(pg.sprite.Sprite):
         self.rect = self.image.get_rect(right=780, bottom=135)
 
 
-class DialogueBox(base.BaseEntity):
+class DialogueBox(BaseEntity):
     """Text box used for dialogue."""
 
     def __init__(self, dialogue, index=0, image_key='dialoguebox', item=None):
@@ -76,7 +90,7 @@ class DialogueBox(base.BaseEntity):
             self.image.blit(self.arrow.image, self.arrow.rect)
 
 
-class TextHandler(base.BaseEntity):
+class TextHandler(BaseEntity):
     """Handles interaction between sprites to create dialogue boxes."""
 
     def __init__(self, level):

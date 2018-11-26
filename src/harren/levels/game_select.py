@@ -74,8 +74,9 @@ class GameSelect(BaseLevel):
         """Custom text draw that can move the select arrow."""
         text = self.large_font.render('Select', True, (255, 255, 255))
         text_rect = text.get_rect()
-        text_rect.midtop = self.screen_rectangle.midtop
-        text_rect.centerx = self.screen_rectangle.centerx
+        screen_rectangle = self.game_loop.surface.get_rect()
+        text_rect.midtop = screen_rectangle.midtop
+        text_rect.centerx = screen_rectangle.centerx
         text_rect.y += 60
         surface.blit(text, text_rect)
 
@@ -84,8 +85,8 @@ class GameSelect(BaseLevel):
 
         new_game_text = self.font.render('New Game', True, (255, 255, 255))
         new_game_rect = new_game_text.get_rect()
-        new_game_rect.midtop = self.screen_rectangle.midtop
-        new_game_rect.centerx = self.screen_rectangle.centerx
+        new_game_rect.midtop = screen_rectangle.midtop
+        new_game_rect.centerx = screen_rectangle.centerx
         new_game_rect.y = text_rect.y + 60
         rectangle_data[0] = new_game_rect
         surface.blit(new_game_text, new_game_rect)
@@ -94,8 +95,8 @@ class GameSelect(BaseLevel):
             display = fn.rstrip('.save')
             slot_text = self.font.render(display, True, (255, 255, 255))
             slot_rect = slot_text.get_rect()
-            slot_rect.midtop = self.screen_rectangle.midtop
-            slot_rect.centerx = self.screen_rectangle.centerx
+            slot_rect.midtop = screen_rectangle.midtop
+            slot_rect.centerx = screen_rectangle.centerx
             y_val = 40 * idx
             slot_rect.y = new_game_rect.y + y_val
             rectangle_data[idx] = slot_rect

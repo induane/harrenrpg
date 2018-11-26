@@ -29,6 +29,7 @@ def get_image(path, **kwargs):
         else:
             raise OSError('Image "{}" not found'.format(path))
 
+    LOG.debug('Getting image %s', resource_path)
     colorkey = kwargs.get('colorkey', (255, 0, 255))
     img = pg.image.load(resource_path)
     img.convert()
@@ -50,6 +51,7 @@ def get_sprite_image(x, y, width, height, sprite_sheet):
 
 def get_sprite_map(path):
     """Make a dictionary of images from sprite sheet."""
+    LOG.debug('Getting sprite map %s', path)
     sprite = get_image(path)
     return {
         'up_1': get_sprite_image(0, 0, 32, 32, sprite),
