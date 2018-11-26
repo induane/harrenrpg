@@ -22,13 +22,6 @@ LOG = logging.getLogger(__name__)
 
 class BaseLevel(object):
 
-    PLAYER_MOVE_DATA = {
-        'up': (0, -2),
-        'down': (0, 2),
-        'left': (-2, 0),
-        'right': (2, 0)
-    }
-
     def __init__(self, filename, game_loop, **kwargs):
         self.map_filename = filename
         self.map_path = os.path.join(resources.TMX_FOLDER, filename)
