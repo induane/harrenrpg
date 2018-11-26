@@ -1,4 +1,4 @@
-PYTHON=python2.7
+PYTHON=python3
 PORT=8297
 ENV_DIR=.env_$(PYTHON)
 

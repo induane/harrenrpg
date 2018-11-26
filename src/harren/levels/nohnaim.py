@@ -9,12 +9,12 @@ from harren.levels.base import BaseLevel
 LOG = logging.getLogger(__name__)
 
 
-class Jova(BaseLevel):
-    name = 'jova'
+class Nohnaim(BaseLevel):
+    name = 'nohnaim'
 
     def __init__(self, game_loop, **kwargs):
-        super(Jova, self).__init__(
-            'jova.tmx',
+        super(Nohnaim, self).__init__(
+            'nohnaim.tmx',
             game_loop,
             **kwargs
         )

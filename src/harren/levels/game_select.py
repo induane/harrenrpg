@@ -59,7 +59,7 @@ class GameSelect(BaseLevel):
 
     def space_pressed(self):
         if self.select_index == 0:
-            self.game_loop.current_level = 'jova'
+            self.game_loop.current_level = 'nohnaim'  # The default start level
         else:
             path = os.path.join(
                 CONFIG_FOLDER,

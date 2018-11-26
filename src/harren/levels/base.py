@@ -111,10 +111,12 @@ class BaseLevel(object):
         surface = pg.Surface((map_rect.width, map_rect.height))
         if not self.exclude_players:
             # Center the viewport on player 1
+            self.player1.update()
             viewport.center = self.player1.rect.center
             viewport.clamp_ip(map_rect)
 
-            if self.player1.state == 'moving':
+            # LOG.debug('Player1 state: %s', self.playe)
+            if self.player1.state.startswith('move'):
                 orig_x = self.player1.rect.x
                 orig_y = self.player1.rect.y
                 check_box = self.player1.rect.move(
@@ -126,11 +128,7 @@ class BaseLevel(object):
                         self.player1.rect.x = orig_x
                         self.player1.rect.y = orig_y
                         self.player1.state = 'resting'
-                        self.state['player1']['location'] = (
-                            self.player1.rect.x,
-                            self.player1.rect.y,
-                            self.player1.rect.center,
-                        )
+                        self.state['player1'] = self.player1.get_state()
                         break
                 else:
                     self.player1.rect.move_ip(
@@ -143,11 +141,7 @@ class BaseLevel(object):
                     self.player1.rect.y % 32 == 0
                 ):
                     self.player1.state = 'resting'
-                    self.state['player1']['location'] = (
-                        self.player1.rect.x,
-                        self.player1.rect.y,
-                        self.player1.rect.center,
-                    )
+                    self.state['player1'] = self.player1.get_state()
 
         # Draw map first
         surface.blit(map_image, viewport, viewport)
@@ -180,17 +174,17 @@ class BaseLevel(object):
 
     @cachedproperty
     def player1(self):
-        player1 = Player('player.png', game_loop=self.game_loop)
-        try:
-            x, y, center = self.state['player1']['location']
-        except Exception:
+        player1 = Player(self.game_loop, 'player.png')
+        state_data = self.state['player1']
+        if state_data:
+            state_data['state'] = 'resting'
+            state_data['x_velocity'] = 0
+            state_data['y_velocity'] = 0
+            player1.set_state(state_data)
+        else:
             player1.rect.center = self.start_point.center
             player1.rect.x = self.start_point.x
             player1.rect.y = self.start_point.y
-        else:
-            player1.rect.center = center
-            player1.rect.x = x
-            player1.rect.y = y
         return player1
 
     @cachedproperty
@@ -242,29 +236,28 @@ class BaseLevel(object):
     def down_pressed(self):
         LOG.debug('Down pressed')
         if self.player1.state == 'resting':
-            self.player1.state = 'moving'
+            self.player1.state = 'move-down'
             self.player1.y_velocity = 4
             self.player1.x_velocity = 0
 
     def up_pressed(self):
         LOG.debug('Up pressed')
         if self.player1.state == 'resting':
-            self.player1.state = 'moving'
+            self.player1.state = 'move-up'
             self.player1.y_velocity = -4
             self.player1.x_velocity = 0
 
-
     def left_pressed(self):
-        LOG.debug('Up pressed')
+        LOG.debug('Left pressed')
         if self.player1.state == 'resting':
-            self.player1.state = 'moving'
+            self.player1.state = 'move-left'
             self.player1.y_velocity = 0
             self.player1.x_velocity = -4
 
     def right_pressed(self):
-        LOG.debug('Up pressed')
+        LOG.debug('Right pressed')
         if self.player1.state == 'resting':
-            self.player1.state = 'moving'
+            self.player1.state = 'move-right'
             self.player1.y_velocity = 0
             self.player1.x_velocity = 4
 

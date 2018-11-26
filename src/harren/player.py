@@ -14,10 +14,24 @@ LOG = logging.getLogger(__name__)
 
 class Player(pg.sprite.Sprite):
 
-    def __init__(self, sprite_path, **kwargs):
-        initial_direction = kwargs.get('direction', 'down_1')
-        self.game_loop = kwargs.pop('game_loop')
+    def __init__(self, game_loop, sprite_path, **kwargs):
+        self.game_loop = game_loop
+        self.sprite_path = sprite_path
+        self.initial_state = 'resting'
         self.sprite_data = pg_utils.get_sprite_map(sprite_path)
+        self.setup_images()
+
+        self.current_time = self.game_loop.current_time
+        self.image = self.down_images[0]
+        self.rect = self.image.get_rect()
+        self.state = self.initial_state
+        self.previous_state = self.initial_state
+        self.y_velocity = 0
+        self.x_velocity = 0
+        self.index = 0
+        super(Player, self).__init__(**kwargs)
+
+    def setup_images(self):
         self.left_images = (
             self.sprite_data['left_1'],
             self.sprite_data['left_2'],
@@ -34,41 +48,63 @@ class Player(pg.sprite.Sprite):
             self.sprite_data['down_1'],
             self.sprite_data['down_2'],
         )
-        self.image = self.sprite_data[initial_direction]
-        self.rect = self.image.get_rect()
-        self.state = 'resting'
-        self.y_velocity = 0
-        self.x_velocity = 0
-        super(Player, self).__init__(**kwargs)
 
-    @staticmethod
-    def pygame_to_tile(rect):
-        """Given a rectangle convert to tile coordinates."""
-        def _calc_coord(v):
-            if v == 0:
-                coord = 0
-            elif v % 32 == 0:
-                coord = v / 32
-            else:
-                coord = 0
-            return coord
-        return (_calc_coord(rect.x), _calc_coord(rect.y))
-
-    @staticmethod
-    def center_player(rect_pos):
-        """Adjust sprite position to be centered on tile."""
-        diff = rect_pos % 32
-        if diff <= 16:
-            rect_pos - diff
+    def _get_img_set(self, state):
+        """From a given state return a tuple of images."""
+        if state == 'move-left':
+            LOG.debug('got move left images')
+            images = self.left_images
+        elif state == 'move-right':
+            LOG.debug('got move right images')
+            images = self.right_images
+        elif state == 'move-up':
+            LOG.debug('got move up images')
+            images = self.up_images
+        elif state == 'move-down':
+            LOG.debug('got move down images')
+            images = self.down_images
+        elif state == 'resting':
+            images = [self.down_images[0], self.down_images[0]]
         else:
-            rect_pos + diff
+            images = [self.down_images[0], self.down_images[0]]
+        return images
 
-    # def animate(self, freq=100):
-    #     """Adjust sprite image frame based on timer."""
-    #     if (self.current_time - self.timer) > freq:
-    #         if self.index < (len(self.image_list) - 1):
-    #             self.index += 1
-    #         else:
-    #             self.index = 0
-    #         self.timer = self.current_time
-    #     self.image = self.image_list[self.index]
+    def update(self, frequency=100):
+        """Update the timer and move animations around."""
+        # LOG.debug('Current: %s vs Loop: %s', self.current_time, self.game_loop.current_time)
+        if (self.game_loop.current_time - self.current_time) > frequency:
+            if self.state != 'resting':
+                images = self._get_img_set(self.state)
+                self.image = images[self.index]
+                if self.index == 0:
+                    LOG.debug('flipping index to 1')
+                    self.index = 1
+                else:
+                    LOG.debug('flipping index to 0')
+                    self.index = 0
+            self.current_time = self.game_loop.current_time
+
+    def get_state(self):
+        """Return state data for the player."""
+        rect = self.rect
+        return {
+            'state': self.state,
+            'y_velocity': self.y_velocity,
+            'x_velocity': self.x_velocity,
+            'x': rect.x,
+            'y': rect.y,
+            'center': rect.center,
+            'index': self.index,
+            'initial_state': self.initial_state,
+        }
+
+    def set_state(self, data):
+        for key, value in data.items():
+            if key == 'x':
+                self.rect.x = value
+            elif key == 'y':
+                self.rect.y = value
+            elif key == 'center':
+                self.rect.center = value
+            else:
+                setattr(self, key, value)
