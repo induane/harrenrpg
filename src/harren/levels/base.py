@@ -6,16 +6,15 @@ import logging
 import random
 
 # Third Party
-import pygame as pg
 from boltons.cacheutils import cachedproperty
 from six import string_types
-
+import pygame as pg
 
 # Project
 from harren import resources
+from harren.player import Player
 from harren.tilerender import render_tile
 from harren.utils.pg_utils import get_image, load_music
-from harren.player import Player
 
 LOG = logging.getLogger(__name__)
 
