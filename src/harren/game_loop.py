@@ -212,5 +212,5 @@ class GameState(object):
             pass
         with open(self.last_save, 'wb') as f:
             f.truncate()
-            f.write(json.dumps(self.state, indent=4))
+            f.write(json.dumps(self.state, indent=4).encode('utf-8'))
         sys.exit(code)

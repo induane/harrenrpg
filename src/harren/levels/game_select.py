@@ -67,7 +67,8 @@ class GameSelect(BaseLevel):
             )
             LOG.debug('Opening save file %s', path)
             with open(path, 'rb') as f:
-                state_dict = json.load(f)
+                val = f.read().decode('utf-8')
+                state_dict = json.loads(val)
             self.game_loop.set_state(state_dict)
 
     def _draw_text(self, surface, **kwargs):
