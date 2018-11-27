@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="25" height="19" tilewidth="16" tileheight="16" backgroundcolor="#130f30" nextobjectid="65">
+ <tileset firstgid="1" name="tileset1" tilewidth="16" tileheight="16" tilecount="50" columns="10">
+  <image source="../graphics/tileset1.png" width="160" height="80"/>
+ </tileset>
+ <tileset firstgid="51" name="tileset2" tilewidth="16" tileheight="16" tilecount="110" columns="10">
+  <image source="../graphics/tileset2.png" width="160" height="180"/>
+ </tileset>
+ <tileset firstgid="161" name="tileset3" tilewidth="16" tileheight="16" tilecount="132" columns="11">
+  <image source="../graphics/tileset3.png" width="176" height="192"/>
+ </tileset>
+ <tileset firstgid="293" name="house" tilewidth="16" tileheight="16" tilecount="896" columns="32">
+  <image source="../graphics/house.png" width="512" height="448"/>
+ </tileset>
+ <layer name="Floor" width="25" height="19">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFowACJEjElNjxAohf0tgOevhj1I6Ra0cDEDcCcRMV7RgFwxcAAH/IDP0=
+  </data>
+ </layer>
+ <layer name="Rugs" width="25" height="19">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2B4gkJGBoYiRtraMRFo/iQa20Fr8BiInwDxUxra8Q6I3wPxBxraMQpGwWAGAFYiB4Q=
+  </data>
+ </layer>
+ <layer name="Walls" width="25" height="19">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFlIKFQLyESAxU20COHWuAeD2ReA2ZdmwnTS1ZdhwiTS1Zdoz6g3gw6o9BZ8cCUjA5doyCgQEA61szPQ==
+  </data>
+ </layer>
+ <layer name="Furniture" width="25" height="19">
+  <data encoding="base64" compression="zlib">
+   eJzt0kcKwlAUheFLErCXedxJnOpOFCzbULDGTdjdht192MsS/IeCGAePOxC88E2ScM7j3YgET84WydtfPjKcAvlF5Y4a+XXljj75AwwxUuqak7vAEiu4lkgGJZRRQdUy69iTe3g5v0deFg000ULbsCPkiISd9+djcieYYmbY8WnW5G6wxU6p40juCWdclDoi7CiKGOLK/7bmdLifLnz0lO7qSu4NdzwMOtyAdwl2kEQK6R/ex3905gmhxx73
+  </data>
+ </layer>
+ <layer name="Items 1" width="25" height="19">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AU0Ar8GmgHDBEgy8jAIMQ40K4YBaOAdgAAiLYBLA==
+  </data>
+ </layer>
+ <objectgroup name="Object Layer 1">
+  <object id="2" name="start point" gid="123" x="176" y="224" width="16" height="16">
+   <properties>
+    <property name="direction" value="up"/>
+    <property name="state" value="town"/>
+   </properties>
+  </object>
+  <object id="6" name="blocker" gid="120" x="144" y="240" width="16" height="16"/>
+  <object id="7" name="blocker" gid="120" x="128" y="240" width="16" height="16"/>
+  <object id="8" name="blocker" gid="120" x="112" y="240" width="16" height="16"/>
+  <object id="9" name="blocker" gid="120" x="96" y="240" width="16" height="16"/>
+  <object id="10" name="blocker" gid="120" x="96" y="224" width="16" height="16"/>
+  <object id="11" name="blocker" gid="120" x="96" y="192" width="16" height="16"/>
+  <object id="12" name="blocker" gid="120" x="96" y="208" width="16" height="16"/>
+  <object id="13" name="blocker" gid="120" x="96" y="176" width="16" height="16"/>
+  <object id="14" name="blocker" gid="120" x="96" y="160" width="16" height="16"/>
+  <object id="16" name="blocker" gid="120" x="96" y="128" width="16" height="16"/>
+  <object id="17" name="blocker" gid="120" x="96" y="144" width="16" height="16"/>
+  <object id="18" name="blocker" gid="120" x="96" y="112" width="16" height="16"/>
+  <object id="19" name="blocker" gid="120" x="96" y="96" width="16" height="16"/>
+  <object id="20" name="blocker" gid="120" x="96" y="80" width="16" height="16"/>
+  <object id="21" name="blocker" gid="120" x="128" y="112" width="16" height="16"/>
+  <object id="29" name="blocker" gid="120" x="112" y="80" width="16" height="16"/>
+  <object id="31" name="blocker" gid="120" x="128" y="96" width="16" height="16"/>
+  <object id="32" name="blocker" gid="120" x="144" y="112" width="16" height="16"/>
+  <object id="33" name="blocker" gid="120" x="160" y="80" width="16" height="16"/>
+  <object id="34" name="blocker" gid="120" x="144" y="96" width="16" height="16"/>
+  <object id="35" name="blocker" gid="120" x="176" y="80" width="16" height="16"/>
+  <object id="36" name="blocker" gid="120" x="192" y="96" width="16" height="16"/>
+  <object id="38" name="blocker" gid="120" x="208" y="96" width="16" height="16"/>
+  <object id="44" name="blocker" gid="120" x="224" y="112" width="16" height="16"/>
+  <object id="45" name="blocker" gid="120" x="224" y="128" width="16" height="16"/>
+  <object id="46" name="blocker" gid="120" x="224" y="144" width="16" height="16"/>
+  <object id="47" name="blocker" gid="120" x="224" y="160" width="16" height="16"/>
+  <object id="48" name="blocker" gid="120" x="256" y="160" width="16" height="16"/>
+  <object id="49" name="blocker" gid="120" x="240" y="160" width="16" height="16"/>
+  <object id="50" name="blocker" gid="120" x="224" y="192" width="16" height="16"/>
+  <object id="51" name="blocker" gid="120" x="272" y="176" width="16" height="16"/>
+  <object id="52" name="blocker" gid="120" x="240" y="192" width="16" height="16"/>
+  <object id="53" name="blocker" gid="120" x="256" y="192" width="16" height="16"/>
+  <object id="54" name="blocker" gid="120" x="224" y="208" width="16" height="16"/>
+  <object id="55" name="blocker" gid="120" x="224" y="224" width="16" height="16"/>
+  <object id="56" name="blocker" gid="120" x="272" y="240" width="16" height="16"/>
+  <object id="57" name="blocker" gid="120" x="256" y="240" width="16" height="16"/>
+  <object id="59" name="blocker" gid="120" x="224" y="240" width="16" height="16"/>
+  <object id="60" name="blocker" gid="120" x="208" y="240" width="16" height="16"/>
+  <object id="62" name="portal" type="portal" gid="139" x="192" y="240" width="16" height="16">
+   <properties>
+    <property name="destination" value="nohnaim"/>
+   </properties>
+  </object>
+  <object id="63" name="portal" type="portal" gid="139" x="176" y="240" width="16" height="16">
+   <properties>
+    <property name="destination" value="nohnaim"/>
+   </properties>
+  </object>
+  <object id="64" name="portal" type="portal" gid="139" x="160" y="240" width="16" height="16">
+   <properties>
+    <property name="destination" value="nohnaim"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>
