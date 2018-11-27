@@ -210,28 +210,37 @@ class BaseLevel(object):
 
     @cachedproperty
     def player1(self):
+        """
+        Create a player instance.
+
+        If starting fresh, load at the levels starting point. Otherwise,
+        either restore a previous location or setup a teleport and look for a
+        teleport target.
+        """
         player1 = Player(self.game_loop, 'player.png')
         state_data = self.state['player1']
         if state_data:
             is_teleporting = state_data['state'] == 'teleporting'
+            teleport_target = state_data.get('teleport_target')
             state_data['state'] = 'resting'
             state_data['x_velocity'] = 0
             state_data['y_velocity'] = 0
+            state_data['teleport_target'] = None
             player1.set_state(state_data)
 
             # If the player was teleporting, place them at the starting point
             if is_teleporting:
-                target = state_data['teleport_target']
-                # Try to find a portal with that name
-                if target:
+                # Try to find a portal with target name if one available
+                if teleport_target:
                     for p_target in self.custom_objects['portal_targets']:
-                        if p_target.get('name') == target:
+                        if p_target.get('name') == teleport_target:
                             player1.rect.center = p_target['rect'].center
                             player1.rect.x = p_target['rect'].x
                             player1.rect.y = p_target['rect'].y
                             break
                     else:
-                        LOG.warning('Could not find target portal %s', target)
+                        LOG.warning('Could not find target portal %s',
+                                    teleport_target)
                         # Fall back to start point
                         player1.rect.center = self.start_point.center
                         player1.rect.x = self.start_point.x

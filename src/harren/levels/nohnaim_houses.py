@@ -18,3 +18,14 @@ class NohnaimHouse1(BaseLevel):
             game_loop,
             **kwargs
         )
+
+
+class NohnaimHouse2(BaseLevel):
+    name = 'nohnaim_house_2'
+
+    def __init__(self, game_loop, **kwargs):
+        super(NohnaimHouse2, self).__init__(
+            'nohnaim_house_2.tmx',
+            game_loop,
+            **kwargs
+        )
