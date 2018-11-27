@@ -56,7 +56,7 @@
    eJztxqERACAMBLCK3xyPZ1sWqOSuiESlCgAAAAAAAAAAAHhtpT8zdvoz46Q/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwC8uFLYDbQ==
   </data>
  </layer>
- <objectgroup name="Object Layer 1" visible="0">
+ <objectgroup name="Object Layer 1">
   <object id="3" name="blocker" gid="1036" x="48" y="592" width="16" height="15.75"/>
   <object id="11" name="blocker" gid="1036" x="480" y="704" width="16" height="16"/>
   <object id="42" name="blocker" gid="1036" x="1120" y="784" width="16" height="16"/>
