@@ -77,6 +77,7 @@ clean:
 	- @find . -name '*.pyc' -delete
 	- @find . -name '*.pyd' -delete
 	- @find . -name '*.pyo' -delete
+	- @find . -type d -name '__pycache__' -delete
 	- @rm -rf src/harren/dist
 	- @rm -rf src/harren/build
 	- @rm -rf src/harren/entry_point.spec
