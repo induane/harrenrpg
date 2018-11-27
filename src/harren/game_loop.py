@@ -159,7 +159,7 @@ class GameState(object):
         flip = pg.display.flip
 
         while True:
-            LOG.debug('Frames Per Second: %s', self.clock.get_fps())
+            # LOG.debug('Frames Per Second: %s', self.clock.get_fps())
             # If the level has changed, load the new level
             if self.level_has_changed or self.level_instance is None:
                 self.level_instance = LEVEL_MAP[self.current_level](self)

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="25" height="19" tilewidth="16" tileheight="16" backgroundcolor="#130f30" nextobjectid="65">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="25" height="19" tilewidth="16" tileheight="16" backgroundcolor="#130f30" nextobjectid="69">
  <tileset firstgid="1" name="tileset1" tilewidth="16" tileheight="16" tilecount="50" columns="10">
   <image source="../graphics/tileset1.png" width="160" height="80"/>
  </tileset>
@@ -38,10 +38,9 @@
   </data>
  </layer>
  <objectgroup name="Object Layer 1">
-  <object id="2" name="start point" gid="123" x="176" y="224" width="16" height="16">
+  <object id="2" name="start point" type="start_point" gid="123" x="176" y="224" width="16" height="16">
    <properties>
     <property name="direction" value="up"/>
-    <property name="state" value="town"/>
    </properties>
   </object>
   <object id="6" name="blocker" gid="120" x="144" y="240" width="16" height="16"/>
@@ -83,19 +82,22 @@
   <object id="57" name="blocker" gid="120" x="256" y="240" width="16" height="16"/>
   <object id="59" name="blocker" gid="120" x="224" y="240" width="16" height="16"/>
   <object id="60" name="blocker" gid="120" x="208" y="240" width="16" height="16"/>
-  <object id="62" name="portal" type="portal" gid="139" x="192" y="240" width="16" height="16">
+  <object id="66" name="portal" type="portal" gid="139" x="192" y="240" width="16" height="16">
    <properties>
     <property name="destination" value="nohnaim"/>
+    <property name="portal" value="nohnaim_target_1"/>
    </properties>
   </object>
-  <object id="63" name="portal" type="portal" gid="139" x="176" y="240" width="16" height="16">
+  <object id="67" name="portal" type="portal" gid="139" x="176" y="240" width="16" height="16">
    <properties>
     <property name="destination" value="nohnaim"/>
+    <property name="portal" value="nohnaim_target_1"/>
    </properties>
   </object>
-  <object id="64" name="portal" type="portal" gid="139" x="160" y="240" width="16" height="16">
+  <object id="68" name="portal" type="portal" gid="139" x="160" y="240" width="16" height="16">
    <properties>
     <property name="destination" value="nohnaim"/>
+    <property name="portal" value="nohnaim_target_1"/>
    </properties>
   </object>
  </objectgroup>

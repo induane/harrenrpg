@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" nextobjectid="1028">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" nextobjectid="1030">
  <properties>
   <property name="name" value="nohnaim"/>
  </properties>
@@ -43,12 +43,12 @@
  </layer>
  <layer name="Building Lower" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eJzt2TlvE0EYxvGVdkBIFNRINPkg3EhAOAp69+ESSNxUBrdIVNyHqICGCCgJEhSEzwGiiFA+AxLvxDPy7LCbzGbG3iXz/0mPbK+TTTyPveOdLQoAAAAAAIDpeV0WxRvJ27Lr/wTae+nhg+QjffTCJ+lhSfKZPnrhm/SwLPlOHwAAIHMP5PvQS74TdU738FDySPJc8oJeOuH28FjyRPJU8oxeOnFbVbNkzqv97ZiNlXKSRXNOvWzuu89hNla8cd+jxvG3I62BjPEFLwdqxr2pj8NqnKMcu5JYMPPADS8nnJx0ejgl90/X/PwZ+khi0DAvf5FtX53t99U4Tc8P6CMJv485VR/bx4+GOYM+0vD7+F0Wr3RWnXHXHaTuQ885R+jwH0192Md6/KfRh/yNtaCqaf6w3C7oY/ra9GE/K5pdT7HrJswfabTtw7VoztftflI6pPKcY2L6sGtadj+uP+VahubWzTDk/7LHs9yOaTF92DUtu59QIe/9XPtY2KCPkeli1HBeMqcm+wmV61g32WvWqHQuSS5L9kn2m20H1eQ9LNuG+nf0c+ck5yVnnft6veui5EqLdSz6qDpWsz51XDLvPNbrVHqunjd96OeuSa5Lrjr39drVTckts67FOtbm/Qx4f+5S1dtQNfN4q/kc/ZHj99w+8+cW+kmr7Xj6fTD3pxU7nvSR1nrj6X92ODbFsdfPNzuGHJvSeWfGbhQxhm36iO3+f+Wep29klufauZ7X3+vp6861j1xf91bhrof0xY4tOMfsDHxNv8pJ0L3QPkKuQ22LeF/71/RzFXq8Wm9e0j3EdOHvP4e5z11zb7v+vl1Vx2rVGy/bhX/bhr1eeUf2fTeDPqYppgdLd7Hbu44MAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAF36C8or7mg=
+   eJzt2TlvE0EYxvGVdkBIFNRINPkg3EhAOAp69+ESSNxUBrdIVNyHqAgNEVASJCgInwNEEaF8BiTeiWfk2WE3mWHH3iXz/0mPbK+TTTyPveOdLQoAAAAAAIDpeV0WxaLkTdn1fwLtnfTwXvKBPnrho/SwLPlEH73wVXpYkXyjDwAAkLkH8n3oJd+JOqd7eCh5JHkueUEvnXB7eCx5InkqeUYvnbitqlk259X+dszGajnJkjmnXjH33ecwG6veuO9R4/jbkdZAxviClwM1497Ux2E1zlGOXUksmHnghpcTTk46PZyS+6drfv4MfSQxaJiXP8u2L872+2qcpucH9JGE38ecqo/t43vDnEEfafh9/CqLVzprzrjrDlL3oeecI3T4l6Y+7GM9/tPoQ/7GelDVNH9Ybhf0MX0xfdjPimbXU+y6CfNHGrF9uJbM+brdT0qHVJ5zTJs+7JqW3Y/rd7meobl1Mwz5v+zxLLdjWps+7JqW3U+okPd+rn0sbNLHyHQxajgvmVOT/YTKdayb7DVrVDqXJJcl+yT7zbaDavIelm1D/Tv6uXOS85Kzzn293nVRciViHYs+qo7VrE8dl8w7j/U6lZ6r500f+rlrkuuSq859vXZ1U3LLrGuxjhXvR8T7cpeq3oaqmcej5nP0R47fc/vMn1voJ63Y8fT7YO5Pq+140kdaG42n/9nh2NSOvX7+r2PIsSmdt2bsRi3GMKaPtt3/r9zz9M3M8lw71/P6ez193bn2kevr3irc9ZC+2LEF55idga/pZzkJuhfaR8h1qG0t3tf+Nf1chR6vNpqXdA9tuvD3n8Pc5665x66/b1fVsVrzxst24d/GsNcr78i+72bQxzS16cHSXez2riMDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQJf+ANFL7mg=
   </data>
  </layer>
  <layer name="Building Middle" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eJzt2E1Og0AABtApzC30Jroxxlu41mt0rcbEn43RnT2CrvQmegq3diGkbQqTRiJFwfBeMiHTYTH9vgINIQAAAAAwJsex7x1QdaqP3j3mIczyMC1HOZ8t5uXn0353BgAAMG73kxAeJn3vgpWXoovXSh9nMYTzYlxseLdRXdPj73grMn1Pcj355j3Tai3tkW58FpnOK7kexvU4qPRyFOtrm3pkeztZCLvZev5UZP1c6WGeL0a6nvZIN/aKLvaz5vNSaY/0q22PAP/JR958DsDQ3SzvZbfuaYPh+fI3rpc5X8n7xy5j/dgVv/127mL9CABD5Vk/bPrpnkyhnfTacS1tR37jNdbux/q9AYBm/icAAAAAAAAAAAAAAAAAAAAAANCXL2dRL94=
+   eJzt18suA2EYBuC/h7vgTtggrEjYsy2XMWtE4rARdnoJrFj0PrgKWxa+SafRlmjaDlOZ50m+/DP/zCTT751TUwIAAACgTvbbVZ8Bww7lUbm7VkrdVsryyte7/fV8Pqv2zAAAAOrtppHSbeNz/aidepOOOfA/+9c8RhZPQ3lEr3sn0e/Tb3p+HHP5tsjsS46U4zl6+jKWR+eH679T5DGeI+V4i56+R61Fj9ejNoZqM2qrX1ksZ8PbBvtTrqVmSstR29Hbnaj7qIeiz7sx7vUri+UsnxtsH+xPuVYii9Xm9McNcmQxzJojwH/y2qr6DADmd1k8y6480xaG98vfuCj6fK7fUztrj45lce3P5ro9OgLAovKuX2zyKZ+ewmzG7x330nz0r77qmn1dfzcAMJnvBAAAAAAAAAAAAAAAAAAAAAAAqvIBSsgz+Q==
   </data>
  </layer>
  <layer name="Building Top" width="100" height="100">
@@ -64,7 +64,6 @@
   <object id="78" name="start point" type="start_point" gid="1039" x="32" y="592" width="16" height="16">
    <properties>
     <property name="direction" value="down"/>
-    <property name="state" value="load game"/>
    </properties>
   </object>
   <object id="79" name="blocker" gid="1036" x="48" y="576" width="16" height="15.75"/>
@@ -523,7 +522,6 @@
   <object id="757" name="blocker" gid="1036" x="736" y="624" width="16" height="16"/>
   <object id="758" name="blocker" gid="1036" x="752" y="624" width="16" height="16"/>
   <object id="759" name="blocker" gid="1036" x="736" y="608" width="16" height="16"/>
-  <object id="760" name="blocker" gid="1036" x="384" y="608" width="16" height="16"/>
   <object id="761" name="blocker" gid="1036" x="1088" y="656" width="16" height="16"/>
   <object id="762" name="blocker" gid="1036" x="1088" y="640" width="16" height="16"/>
   <object id="763" name="blocker" gid="1036" x="1088" y="624" width="16" height="16"/>
@@ -538,7 +536,6 @@
   <object id="777" name="blocker" gid="1036" x="416" y="688" width="16" height="16"/>
   <object id="778" name="blocker" gid="1036" x="48" y="544" width="16" height="15.75"/>
   <object id="779" name="blocker" gid="1036" x="0" y="576" width="16" height="15.75"/>
-  <object id="780" name="blocker" gid="1036" x="736" y="592" width="16" height="16"/>
   <object id="781" name="blocker" gid="1036" x="736" y="528" width="16" height="16"/>
   <object id="782" name="blocker" gid="1036" x="736" y="512" width="16" height="16"/>
   <object id="784" name="blocker" gid="1036" x="880" y="352" width="16" height="16"/>
@@ -767,10 +764,11 @@
   <object id="1023" name="blocker" gid="1036" x="416" y="896" width="16" height="16"/>
   <object id="1025" name="blocker" gid="1036" x="432" y="880" width="16" height="16"/>
   <object id="1026" name="blocker" gid="1036" x="448" y="880" width="16" height="16"/>
-  <object id="1027" name="Portal" type="portal" gid="1055" x="528" y="800" width="16" height="16">
+  <object id="1027" name="nohnaim_portal_1" type="portal" gid="1055" x="528" y="800" width="16" height="16">
    <properties>
     <property name="destination" value="nohnaim_house_1"/>
    </properties>
   </object>
+  <object id="1029" name="nohnaim_target_1" type="portal_target" gid="1052" x="528" y="816" width="16" height="16"/>
  </objectgroup>
 </map>

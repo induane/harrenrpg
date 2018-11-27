@@ -14,6 +14,21 @@ LOG = logging.getLogger(__name__)
 
 class Player(pg.sprite.Sprite):
 
+    __slots__ = (
+        'game_loop',
+        'sprite_path',
+        'initial_state',
+        'current_time',
+        'image',
+        'rect',
+        'state',
+        'previous_state',
+        'x_velocity',
+        'y_velocity',
+        'index',
+        'teleport_target',
+    )
+
     def __init__(self, game_loop, sprite_path, **kwargs):
         self.game_loop = game_loop
         self.sprite_path = sprite_path
@@ -29,6 +44,7 @@ class Player(pg.sprite.Sprite):
         self.y_velocity = 0
         self.x_velocity = 0
         self.index = 0
+        self.teleport_target = None
         super(Player, self).__init__(**kwargs)
 
     def setup_images(self):
@@ -95,6 +111,7 @@ class Player(pg.sprite.Sprite):
             'center': rect.center,
             'index': self.index,
             'initial_state': self.initial_state,
+            'teleport_target': self.teleport_target,
         }
 
     def set_state(self, data):

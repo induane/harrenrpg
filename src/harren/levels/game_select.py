@@ -17,10 +17,12 @@ class GameSelect(BaseLevel):
 
     def __init__(self, game_loop, **kwargs):
         kwargs['images'] = ['title_box_empty.png']
-        kwargs['exclude_players'] = True
         super(GameSelect, self).__init__('load.tmx', game_loop, **kwargs)
         self.select_index = 0
         self.keydown_only = True  # Only handle keydown events
+
+    def draw(self):
+        self._simple_draw()  # Use the simple draw method
 
     @property
     def save_files(self):
