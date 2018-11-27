@@ -29,3 +29,14 @@ class NohnaimHouse2(BaseLevel):
             game_loop,
             **kwargs
         )
+
+
+class NohnaimSecret1(BaseLevel):
+    name = 'nohnaim_secret_1'
+
+    def __init__(self, game_loop, **kwargs):
+        super(NohnaimSecret1, self).__init__(
+            'nohnaim_secret_1.tmx',
+            game_loop,
+            **kwargs
+        )

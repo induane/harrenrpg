@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" nextobjectid="1045">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" nextobjectid="1112">
  <properties>
   <property name="name" value="nohnaim"/>
  </properties>
@@ -43,7 +43,7 @@
    <property name="tile_width" type="int" value="16"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   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
+   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
   </data>
  </layer>
  <layer name="Building Lower" width="100" height="100">
@@ -316,7 +316,6 @@
   <object id="512" name="blocker" gid="1036" x="464" y="1200" width="16" height="16"/>
   <object id="513" name="blocker" gid="1036" x="512" y="1232" width="16" height="16"/>
   <object id="514" name="blocker" gid="1036" x="528" y="1232" width="16" height="16"/>
-  <object id="515" name="blocker" gid="1036" x="544" y="1232" width="16" height="16"/>
   <object id="516" name="blocker" gid="1036" x="560" y="1184" width="16" height="16"/>
   <object id="517" name="blocker" gid="1036" x="576" y="1184" width="16" height="16"/>
   <object id="518" name="blocker" gid="1036" x="592" y="1152" width="16" height="16"/>
@@ -794,5 +793,73 @@
   <object id="1042" name="blocker" gid="1036" x="816" y="800" width="16" height="16"/>
   <object id="1043" name="blocker" gid="1036" x="800" y="800" width="16" height="16"/>
   <object id="1044" name="blocker" gid="1036" x="784" y="800" width="16" height="16"/>
+  <object id="1045" name="blocker" gid="1036" x="560" y="1232" width="16" height="16"/>
+  <object id="1046" name="blocker" gid="1036" x="560" y="1248" width="16" height="16"/>
+  <object id="1047" name="blocker" gid="1036" x="560" y="1280" width="16" height="16"/>
+  <object id="1048" name="blocker" gid="1036" x="560" y="1296" width="16" height="16"/>
+  <object id="1049" name="blocker" gid="1036" x="560" y="1264" width="16" height="16"/>
+  <object id="1050" name="blocker" gid="1036" x="528" y="1248" width="16" height="16"/>
+  <object id="1051" name="blocker" gid="1036" x="528" y="1264" width="16" height="16"/>
+  <object id="1052" name="blocker" gid="1036" x="528" y="1296" width="16" height="16"/>
+  <object id="1053" name="blocker" gid="1036" x="528" y="1280" width="16" height="16"/>
+  <object id="1054" name="blocker" gid="1036" x="528" y="1312" width="16" height="16"/>
+  <object id="1055" name="blocker" gid="1036" x="528" y="1328" width="16" height="16"/>
+  <object id="1056" name="blocker" gid="1036" x="528" y="1344" width="16" height="16"/>
+  <object id="1057" name="blocker" gid="1036" x="560" y="1312" width="16" height="16"/>
+  <object id="1060" name="blocker" gid="1036" x="544" y="1360" width="16" height="16"/>
+  <object id="1061" name="blocker" gid="1036" x="560" y="1360" width="16" height="16"/>
+  <object id="1062" name="blocker" gid="1036" x="576" y="1360" width="16" height="16"/>
+  <object id="1063" name="blocker" gid="1036" x="592" y="1360" width="16" height="16"/>
+  <object id="1064" name="blocker" gid="1036" x="576" y="1328" width="16" height="16"/>
+  <object id="1065" name="blocker" gid="1036" x="592" y="1328" width="16" height="16"/>
+  <object id="1066" name="blocker" gid="1036" x="608" y="1328" width="16" height="16"/>
+  <object id="1067" name="blocker" gid="1036" x="624" y="1328" width="16" height="16"/>
+  <object id="1068" name="blocker" gid="1036" x="640" y="1328" width="16" height="16"/>
+  <object id="1069" name="blocker" gid="1036" x="608" y="1360" width="16" height="16"/>
+  <object id="1070" name="blocker" gid="1036" x="624" y="1360" width="16" height="16"/>
+  <object id="1071" name="blocker" gid="1036" x="640" y="1360" width="16" height="16"/>
+  <object id="1072" name="blocker" gid="1036" x="656" y="1328" width="16" height="16"/>
+  <object id="1073" name="blocker" gid="1036" x="656" y="1360" width="16" height="16"/>
+  <object id="1074" name="blocker" gid="1036" x="672" y="1328" width="16" height="16"/>
+  <object id="1075" name="blocker" gid="1036" x="672" y="1360" width="16" height="16"/>
+  <object id="1076" name="blocker" gid="1036" x="688" y="1328" width="16" height="16"/>
+  <object id="1077" name="blocker" gid="1036" x="688" y="1360" width="16" height="16"/>
+  <object id="1078" name="blocker" gid="1036" x="704" y="1328" width="16" height="16"/>
+  <object id="1079" name="blocker" gid="1036" x="704" y="1360" width="16" height="16"/>
+  <object id="1080" name="blocker" gid="1036" x="720" y="1328" width="16" height="16"/>
+  <object id="1081" name="blocker" gid="1036" x="720" y="1360" width="16" height="16"/>
+  <object id="1082" name="blocker" gid="1036" x="736" y="1328" width="16" height="16"/>
+  <object id="1083" name="blocker" gid="1036" x="752" y="1328" width="16" height="16"/>
+  <object id="1084" name="blocker" gid="1036" x="768" y="1328" width="16" height="16"/>
+  <object id="1085" name="blocker" gid="1036" x="784" y="1328" width="16" height="16"/>
+  <object id="1086" name="blocker" gid="1036" x="800" y="1328" width="16" height="16"/>
+  <object id="1087" name="blocker" gid="1036" x="816" y="1328" width="16" height="16"/>
+  <object id="1088" name="blocker" gid="1036" x="832" y="1328" width="16" height="16"/>
+  <object id="1089" name="blocker" gid="1036" x="864" y="1328" width="16" height="16"/>
+  <object id="1090" name="blocker" gid="1036" x="848" y="1328" width="16" height="16"/>
+  <object id="1091" name="blocker" gid="1036" x="880" y="1328" width="16" height="16"/>
+  <object id="1092" name="blocker" gid="1036" x="896" y="1328" width="16" height="16"/>
+  <object id="1093" name="blocker" gid="1036" x="736" y="1360" width="16" height="16"/>
+  <object id="1094" name="blocker" gid="1036" x="752" y="1360" width="16" height="16"/>
+  <object id="1095" name="blocker" gid="1036" x="768" y="1360" width="16" height="16"/>
+  <object id="1096" name="blocker" gid="1036" x="784" y="1360" width="16" height="16"/>
+  <object id="1097" name="blocker" gid="1036" x="800" y="1360" width="16" height="16"/>
+  <object id="1098" name="blocker" gid="1036" x="816" y="1360" width="16" height="16"/>
+  <object id="1099" name="blocker" gid="1036" x="832" y="1360" width="16" height="16"/>
+  <object id="1100" name="blocker" gid="1036" x="848" y="1360" width="16" height="16"/>
+  <object id="1101" name="blocker" gid="1036" x="864" y="1360" width="16" height="16"/>
+  <object id="1102" name="blocker" gid="1036" x="896" y="1360" width="16" height="16"/>
+  <object id="1103" name="blocker" gid="1036" x="880" y="1360" width="16" height="16"/>
+  <object id="1104" name="nohnaim_portal_3" type="portal" gid="1055" x="928" y="1344" width="16" height="16">
+   <properties>
+    <property name="destination" value="nohnaim_secret_1"/>
+   </properties>
+  </object>
+  <object id="1106" name="nohnaim_target_3" type="portal_target" gid="1052" x="912" y="1344" width="16" height="16"/>
+  <object id="1107" name="blocker" gid="1036" x="912" y="1328" width="16" height="16"/>
+  <object id="1108" name="blocker" gid="1036" x="928" y="1328" width="16" height="16"/>
+  <object id="1109" name="blocker" gid="1036" x="944" y="1344" width="16" height="16"/>
+  <object id="1110" name="blocker" gid="1036" x="928" y="1360" width="16" height="16"/>
+  <object id="1111" name="blocker" gid="1036" x="912" y="1360" width="16" height="16"/>
  </objectgroup>
 </map>

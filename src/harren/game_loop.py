@@ -181,6 +181,8 @@ class GameState(object):
                     if event.key == pg.K_F4 and alt_held:
                         LOG.info('Exiting...')
                         self._exit()
+                    if event.key == pg.K_F5 and alt_held:
+                        self._save()
 
                     # If the level requests only keydown events, route them
                     # here
@@ -200,6 +202,13 @@ class GameState(object):
 
         LOG.info('Exiting...')
         self._exit()
+
+    def _save(self):
+        """Save the game to Save Slot"""
+        path = os.path.join(CONFIG_FOLDER, 'saved_game.save')
+        with open(path, 'wb') as f:
+            f.truncate()
+            f.write(json.dumps(self.state, indent=4).encode('utf-8'))
 
     def _exit(self, code=0):
         try:

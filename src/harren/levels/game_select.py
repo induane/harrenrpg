@@ -95,7 +95,7 @@ class GameSelect(BaseLevel):
         surface.blit(new_game_text, new_game_rect)
 
         for idx, fn in enumerate(self.save_files, start=1):
-            display = fn.rstrip('.save')
+            display = fn[:-5].replace('_', ' ').title()
             slot_text = self.font_20.render(display, True, (255, 255, 255))
             slot_rect = slot_text.get_rect()
             slot_rect.midtop = screen_rectangle.midtop
