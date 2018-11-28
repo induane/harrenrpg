@@ -325,6 +325,7 @@ class BaseLevel(object):
         portals = []
         portal_targets = []
         static_npcs = []
+        pg_rect = pg.Rect
         for obj in self.tmx_data.objects:
             properties = obj.__dict__
             name = properties.get('name')
@@ -332,20 +333,20 @@ class BaseLevel(object):
             if asset_type == 'blocker' or name == 'blocker':
                 left = properties['x'] * 2
                 top = ((properties['y']) * 2)
-                colliders.append(pg.Rect(left, top, 32, 32))
+                colliders.append(pg_rect(left, top, 32, 32))
             elif not start_point and any((
                 asset_type in ('start_point', 'start point', 'starting point'),
                 name in ('start_point', 'start point', 'starting point'),
             )):
                 left = properties['x'] * 2
                 top = ((properties['y']) * 2) - 32
-                start_point = pg.Rect(left, top, 32, 32)
+                start_point = pg_rect(left, top, 32, 32)
             elif asset_type == 'portal_target':
                 left = properties['x'] * 2
                 top = ((properties['y']) * 2)
                 portal_targets.append({
                     'name': name,
-                    'rect': pg.Rect(left, top, 32, 32)
+                    'rect': pg_rect(left, top, 32, 32)
                 })
             elif asset_type == 'portal' or name == 'portal':
                 custom_properties = properties.get('properties', {})
@@ -359,7 +360,7 @@ class BaseLevel(object):
                     top = ((properties['y']) * 2)
                     portals.append({
                         'name': name,
-                        'rect': pg.Rect(left, top, 32, 32),
+                        'rect': pg_rect(left, top, 32, 32),
                         'destination': destination,
                         'teleport_target': teleport_target,
                     })
@@ -374,7 +375,7 @@ class BaseLevel(object):
                 static_npcs.append(StaticNPC(
                     self.game_loop,
                     sprite,
-                    pg.Rect(left, top, 32, 32),
+                    pg_rect(left, top, 32, 32),
                     dialog=dialog_from_props(custom_properties)
                 ))
 

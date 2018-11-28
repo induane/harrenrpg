@@ -22,15 +22,6 @@ LAST_SAVE_PATH = os.path.join(CONFIG_FOLDER, 'Last.save')
 
 class GameState(object):
 
-    __slots__ = (
-        'state',
-        'level_instance',
-        'surface',
-        'clock',
-        'level_has_changed',
-        'current_time',
-    )
-
     def __init__(self, *args, **kwargs):
         pg.init()
         xres = kwargs.get('xres', 800)

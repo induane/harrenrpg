@@ -15,30 +15,32 @@ LOG = logging.getLogger(__name__)
 class Player(pg.sprite.Sprite):
 
     __slots__ = (
-        'game_loop',
-        'sprite_path',
-        'initial_state',
         'current_time',
+        'down_images',
+        'game_loop',
         'image',
-        'rect',
-        'state',
+        'index',
+        'initial_state',
+        'left_images',
         'previous_state',
+        'rect',
+        'right_images',
+        'state',
+        'teleport_target',
+        'up_images',
         'x_velocity',
         'y_velocity',
-        'index',
-        'teleport_target',
-        'left_images',
-        'right_images',
-        'up_images',
-        'down_images',
     )
 
     def __init__(self, game_loop, sprite_path, **kwargs):
         self.game_loop = game_loop
-        self.sprite_path = sprite_path
         self.initial_state = 'resting'
-        self.sprite_data = pg_utils.get_sprite_map(sprite_path)
-        self.setup_images()
+        sprite_data = pg_utils.get_sprite_map(sprite_path)
+
+        self.left_images = (sprite_data['left_1'], sprite_data['left_2'])
+        self.right_images = (sprite_data['right_1'], sprite_data['right_2'])
+        self.up_images = (sprite_data['up_1'], sprite_data['up_2'])
+        self.down_images = (sprite_data['down_1'], sprite_data['down_2'])
 
         self.current_time = self.game_loop.current_time
         self.image = self.down_images[0]
@@ -50,24 +52,6 @@ class Player(pg.sprite.Sprite):
         self.index = 0
         self.teleport_target = None
         super(Player, self).__init__(**kwargs)
-
-    def setup_images(self):
-        self.left_images = (
-            self.sprite_data['left_1'],
-            self.sprite_data['left_2'],
-        )
-        self.right_images = (
-            self.sprite_data['right_1'],
-            self.sprite_data['right_2'],
-        )
-        self.up_images = (
-            self.sprite_data['up_1'],
-            self.sprite_data['up_2'],
-        )
-        self.down_images = (
-            self.sprite_data['down_1'],
-            self.sprite_data['down_2'],
-        )
 
     def _get_img_set(self, state):
         """From a given state return a tuple of images."""
