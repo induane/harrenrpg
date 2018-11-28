@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" nextobjectid="1142">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" nextobjectid="1145">
  <properties>
   <property name="music" value="enchanted_festival.ogg"/>
   <property name="name" value="nohnaim"/>
@@ -35,7 +35,7 @@
  </layer>
  <layer name="On-Ground" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eJzt2LENACAIBEASFncra9exdQFrOxtjoncTfAPhiQAAAAAAAAAAAAAAAPhXz9sJAAAA4G26N5w1zNhRdhgAAC9oGaW6bQEAYOH/CwAAAAAAAAAAAAAAAAAAAOyY7sgGqQ==
+   eJzt2LENwDAIBEAkL56tXGcUt2mzQGorjRtkCd9NQMPrIQIAAAAAAAAAAAAAAOBcT9s9AQAAlQz9EuDH7Q25XjuWSoYBAFDB3eLqui0AAEz8fwEAAAAAAAAAAAAAAAAAAIAVH+lfB40=
   </data>
  </layer>
  <layer name="Trees" width="100" height="100">
@@ -49,7 +49,7 @@
  </layer>
  <layer name="Building Lower" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eJzt2T1v00Acx3FLPhASAzMSS18IDyVIQCkM7NnLk0DiqTAFsiIx8fwgJmChAkaKBAPldYAYKtTXgNT/1XfK+YibM77Epvf9SD81tRO3uV/iiy9ZBgAAAAAAMD2v8yx7I3mbt/2fQHsvPXyQfKSPTvgkPaxKPtNHJ3yTHtYk3+kDAAAk7oF8HnrJZ6LW6R4eSh5Jnkte0Esr3B4eS55Inkqe0UsrbqtyVs11tb8ds7Gej7JirqnXzG13H2Zj3Rv3A6qIvx1x9WWMLzo5qrLBvOSIZFIfcp9svnhMdpxzVxRLZh64aXJaeliUnCqS6Sw6Pcj+7Iy5r92nt52ljyj6FfPyF9n21dl+XxWp2t+njyj8PubU+Ng+flTMGfQRh9/H7zx7pbPhjLvuIHYfPbn/MTr8S1Uf9nc9/tPoQ/7GVlBWNX9Ybhf0MX11+rDvFc2up9h1E+aPOOr24Vox1+v2ODHpa5oU55gmfdg1LXsc1598KwPz080g5P+y57PUzmlN+rBrWvY4oUJe+6n2sTShj6HpYlhxXTKnRscJlepYVzmoirUnncuSK5JDksOqvCbVK7YN9GP0vvOSC5Jzzm295nVJctXcP2Qdiz7KTpi1J3d96qRkwVuT0nP1gulD77suuSG55tzW61jLkltmXYt1rPp+zuB1OWYerzWfoztS/JzbZf7cQj9x1R1Pvw/m/riajid9xLXdePrvHc5NzfQarjNxbornnRm7YYMxrNNH0+7/V+51+iSzvNZO9br+Xkefd6p9pPq8dwp3PaQr9uzAOWZv4HP6lY+C9oX2EfI91K4Gr2v/O/1UhZ6vtpuXdA9NuvCPn8Lct0+Nvx1ityqP1YY3Xm4X/9qN/b7yjhz7bgJ9TJMd/ybvEd3Ffu97ZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABo0yYGPu70
+   eJzt2T1v00Acx3FLPhASAzMSS18IDyVIQCkM7NnLk0DimSmQFYmJ5wcxURaqlpEiwUB5HUgMFeprQOJ/9Z1yPuLG5i6x6X0/0k9N7cRt7pf44kuWAQAAAAAATM+7PMuWJe/ztv8TaKvSw5rkI310wifpYV3ymT464Zv0sCH5Th8AACBxj+Xz0Bs+E7VO9/BE8lTySvKaXlrh9vBM8lzyQvKSXlpxT5Wzbq6r/e2Yjc18lBVzTb1hbrv7MBub3rgfUkX87YirL2N82clxlQ3mJcckk/qQ+2TzxWOyk5y7olgy88Btk7PSw6LkTJFMZ9HpQfZn58x97T697Tx9RNGvmJe/yLavzvZHqkjV/j59ROH3MafGx/bxo2LOoI84/D5+5dlbnS1n3HUHsfvoyf1P0OFfqvqwv+vxn0Yf8je2g7Kq+cNyu6CP6WvSh32vaHY9xa6bMH/E0bQP14q5XrfHiUlf06Q4x4T0Yde07HFcv/PtDMxPN4M6/5c9n6V2Tgvpw65p2ePUVee1n2ofSxP6GJouhhXXJXNqdJy6Uh3rKodVsfakc1VyTXJEclSV16R6xbaBfozed1FySXLBua3XvK5Irpv711nHoo+yU2btyV2fOi1Z8Nak9Fy9YPrQ+25KbkluOLf1OtYdyV2zrsU6VjeNmccbzefojhQ/53aZP7fQT1xNx9Pvg7k/rtDxpI+4dhpP/73DuSlML3CdiXNTPB/M2A0DxrBJH6Hd/6/c6/RJZnmtnep1/cOOPu9U+0j1ee8W7npIV+zbhXPM/prP6Wc+CtpXt48630PtCXhd+9/pp6ru+WqneUn3ENKFf/wU5r4DavztOvaq8lhteePldvGv3djvK+/LsR8k0Mc02fEPeY/oLg563yMDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQJv+AHOG7hA=
   </data>
  </layer>
  <layer name="Building Middle" width="100" height="100">
@@ -885,6 +885,16 @@
   <object id="1141" name="Wishing Well" type="static_npc" x="800" y="816" width="16" height="16">
    <properties>
     <property name="dialog0" value="Make a wish!"/>
+   </properties>
+  </object>
+  <object id="1142" name="Sign" type="static_npc" x="368" y="608" width="16" height="16">
+   <properties>
+    <property name="dialog0" value="Welcome to Nohnaim!"/>
+   </properties>
+  </object>
+  <object id="1143" name="Sign" type="static_npc" x="912" y="864" width="16" height="16">
+   <properties>
+    <property name="dialog0" value="This house is famous."/>
    </properties>
   </object>
  </objectgroup>
