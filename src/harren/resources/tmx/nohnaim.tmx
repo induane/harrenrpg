@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" nextobjectid="1122">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" nextobjectid="1132">
  <properties>
   <property name="name" value="nohnaim"/>
  </properties>
@@ -48,7 +48,7 @@
  </layer>
  <layer name="Building Lower" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eJzt2TlvE0EYxvGVdkBIFNRINPkg3EhAOAp69+ESSNxUBrdIVNyHqAgNEVASJCgInwNEEaF8BiTeiWfk2WE3mWHH3iXz/0mPbK+TTTyPveOdLQoAAAAAAIDpeV0WxaLkTdn1fwLtnfTwXvKBPnrho/SwLPlEH73wVXpYkXyjDwAAkLkH8n3oJd+JOqd7eCh5JHkueUEvnXB7eCx5InkqeUYvnbitqlk259X+dszGajnJkjmnXjH33ecwG6veuO9R4/jbkdZAxviClwM1497Ux2E1zlGOXUksmHnghpcTTk46PZyS+6drfv4MfSQxaJiXP8u2L872+2qcpucH9JGE38ecqo/t43vDnEEfafh9/CqLVzprzrjrDlL3oeecI3T4l6Y+7GM9/tPoQ/7GelDVNH9Ybhf0MX0xfdjPimbXU+y6CfNHGrF9uJbM+brdT0qHVJ5zTJs+7JqW3Y/rd7meobl1Mwz5v+zxLLdjWps+7JqW3U+okPd+rn0sbNLHyHQxajgvmVOT/YTKdayb7DVrVDqXJJcl+yT7zbaDavIelm1D/Tv6uXOS85Kzzn293nVRciViHYs+qo7VrE8dl8w7j/U6lZ6r500f+rlrkuuSq859vXZ1U3LLrGuxjhXvR8T7cpeq3oaqmcej5nP0R47fc/vMn1voJ63Y8fT7YO5Pq+140kdaG42n/9nh2NSOvX7+r2PIsSmdt2bsRi3GMKaPtt3/r9zz9M3M8lw71/P6ez193bn2kevr3irc9ZC+2LEF55idga/pZzkJuhfaR8h1qG0t3tf+Nf1chR6vNpqXdA9tuvD3n8Pc5665x66/b1fVsVrzxst24d/GsNcr78i+72bQxzS16cHSXez2riMDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQJf+ANFL7mg=
+   eJzt2TlvE0EYxvGVdkBIFNRINPkgnEECwlHQuw+XQCKclcEtEhX3ISpCQwSUBAmKhM8RRBGhfAYk3oln5PGwm8wyY++S+f+kR9msk008j73jnS0KAAAAAACAyXlbFsWi5F3Z9n8C7YP08FHyiT464bP0sCz5Qh+dsCI9rEq+0wcAAMjcI/k89JrPRK3TPTyWPJG8lLyil1a4PTyVPJM8l7ygl1bcVeNZNtfV/n5Mx3o5ypK5pl412+5jmI51b9wPqGH8/UirJ2N82cuRinGv62NWDXOCc1cS82YeuOXltJMzTg9nZftcxc+fp48kejXz8lfZ983Z/1ANU/d4jz6S8PuYUdWxfazVzBn0kYbfx6+yeKOz4Yy77iB1H3rOOU6Hf6nrw36vx38Sfcjf2AzG1c0fltsFfUxekz7se0Wz6yl23YT5I42mfbiWzPW6PU5Kx1Sec0xMH3ZNyx7H9bvcTN98ddMP+b/s+Sy3c1pMH3ZNyx4nVMhrP9c+5rfpY2C6GNRcl8yo0XFC5TrWdQ6aNSqdq5JrkkOSw2bfUTV6Dcu+vv4d/dhFySXJBWdbr3ddkVxvsI5FH+NOVqxPnZLMOd/rdSo9V8+ZPvRjNyQ3JQvOtl67ui25Y9a1WMdq7scUXpcV83ij+RzdkePn3C7z5xb6SavpePp9MPenFTue9JHWVuPpv3c4N8Wx98//dQw5N6Xz3ozdIGIMm/QR2/3/yr1O3840r7Vzva5/0NHnnWsfuT7vncJdD+mKPTtwjtkb+Jx+lqOgfaF9hNyH2hXxuvbv6ecq9Hy11byke4jpwj9+DnPfPlW9HWK3Gh+rDW+8bBf+1ybs/cp7cuz7GfQxSTE9WLqL/d59ZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABo0x/AAe5C
   </data>
  </layer>
  <layer name="Building Middle" width="100" height="100">
@@ -135,18 +135,6 @@
   <object id="202" name="blocker" gid="1036" x="528" y="368" width="16" height="16"/>
   <object id="204" name="blocker" gid="1036" x="528" y="384" width="16" height="16"/>
   <object id="213" name="blocker" gid="1036" x="448" y="480" width="16" height="16"/>
-  <object id="216" name="blocker" gid="1036" x="448" y="512" width="16" height="18.417"/>
-  <object id="217" name="blocker" gid="1036" x="448" y="512" width="16" height="18.417"/>
-  <object id="218" name="blocker" gid="1036" x="448" y="528" width="16" height="18.417"/>
-  <object id="219" name="blocker" gid="1036" x="448" y="528" width="16" height="18.417"/>
-  <object id="220" name="blocker" gid="1036" x="448" y="544" width="16" height="18.417"/>
-  <object id="221" name="blocker" gid="1036" x="448" y="544" width="16" height="16"/>
-  <object id="222" name="blocker" gid="1036" x="448" y="560" width="16" height="18.417"/>
-  <object id="223" name="blocker" gid="1036" x="448" y="560" width="16" height="18.417"/>
-  <object id="224" name="blocker" gid="1036" x="448" y="576" width="16" height="18.417"/>
-  <object id="225" name="blocker" gid="1036" x="448" y="576" width="16" height="16"/>
-  <object id="226" name="blocker" gid="1036" x="448" y="592" width="16" height="18.417"/>
-  <object id="227" name="blocker" gid="1036" x="448" y="592" width="16" height="16"/>
   <object id="229" name="blocker" gid="1036" x="432" y="624" width="16" height="16"/>
   <object id="230" name="blocker" gid="1036" x="448" y="624" width="16" height="16"/>
   <object id="231" name="blocker" gid="1036" x="464" y="624" width="16" height="16"/>
@@ -182,7 +170,6 @@
   <object id="280" name="blocker" gid="1036" x="384" y="624" width="16" height="15.75"/>
   <object id="281" name="blocker" gid="1036" x="400" y="624" width="16" height="15.75"/>
   <object id="282" name="blocker" gid="1036" x="416" y="624" width="16" height="15.75"/>
-  <object id="283" name="blocker" gid="1036" x="448" y="496" width="16" height="16"/>
   <object id="284" name="blocker" gid="1036" x="448" y="464" width="16" height="16"/>
   <object id="285" name="blocker" gid="1036" x="448" y="448" width="16" height="16"/>
   <object id="286" name="blocker" gid="1036" x="448" y="432" width="16" height="16"/>
@@ -539,8 +526,6 @@
   <object id="777" name="blocker" gid="1036" x="416" y="688" width="16" height="16"/>
   <object id="778" name="blocker" gid="1036" x="48" y="544" width="16" height="15.75"/>
   <object id="779" name="blocker" gid="1036" x="0" y="576" width="16" height="15.75"/>
-  <object id="781" name="blocker" gid="1036" x="736" y="528" width="16" height="16"/>
-  <object id="782" name="blocker" gid="1036" x="736" y="512" width="16" height="16"/>
   <object id="784" name="blocker" gid="1036" x="880" y="352" width="16" height="16"/>
   <object id="785" name="blocker" gid="1036" x="880" y="336" width="16" height="16"/>
   <object id="786" name="blocker" gid="1036" x="880" y="304" width="16" height="16"/>
@@ -870,5 +855,27 @@
   <object id="1119" name="blocker" gid="1036" x="880" y="720" width="16" height="16"/>
   <object id="1120" name="blocker" gid="1036" x="800" y="672" width="16" height="16"/>
   <object id="1121" name="blocker" gid="1036" x="944" y="512" width="16" height="16"/>
+  <object id="1122" type="static_npc" gid="1039" x="592" y="640" width="16" height="16">
+   <properties>
+    <property name="dialog1" value="Are you from around here?"/>
+    <property name="dialog2" value="Must be some kind of hero..."/>
+    <property name="direction" value="down"/>
+    <property name="sprite" value="soldier.png"/>
+   </properties>
+  </object>
+  <object id="1123" type="static_npc" gid="1039" x="560" y="640" width="16" height="16">
+   <properties>
+    <property name="dialog0" value="Fuck off!"/>
+    <property name="direction" value="down"/>
+    <property name="sprite" value="soldier.png"/>
+   </properties>
+  </object>
+  <object id="1125" name="blocker" gid="1036" x="448" y="496" width="16" height="16"/>
+  <object id="1126" name="blocker" gid="1036" x="448" y="512" width="16" height="16"/>
+  <object id="1127" name="blocker" gid="1036" x="448" y="528" width="16" height="16"/>
+  <object id="1128" name="blocker" gid="1036" x="448" y="544" width="16" height="16"/>
+  <object id="1129" name="blocker" gid="1036" x="448" y="560" width="16" height="16"/>
+  <object id="1130" name="blocker" gid="1036" x="448" y="576" width="16" height="16"/>
+  <object id="1131" name="blocker" gid="1036" x="448" y="592" width="16" height="16"/>
  </objectgroup>
 </map>
