@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" nextobjectid="1133">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" nextobjectid="1134">
  <properties>
   <property name="name" value="nohnaim"/>
  </properties>
@@ -874,5 +874,6 @@
   <object id="1130" name="blocker" gid="1036" x="448" y="576" width="16" height="16"/>
   <object id="1131" name="blocker" gid="1036" x="448" y="592" width="16" height="16"/>
   <object id="1132" name="blocker" gid="1036" x="960" y="368" width="16" height="16"/>
+  <object id="1133" name="blocker" gid="1036" x="976" y="736" width="16.16" height="15.636"/>
  </objectgroup>
 </map>
