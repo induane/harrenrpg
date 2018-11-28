@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" nextobjectid="1134">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" nextobjectid="1142">
  <properties>
   <property name="name" value="nohnaim"/>
  </properties>
@@ -48,7 +48,7 @@
  </layer>
  <layer name="Building Lower" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eJzt2T1v00Acx/GTfCAkBmYklr4QHkqQgFIY2LOXJ4HEM1MgKxITzw9ioixULSNFgoHyOkAMFeprQOJ/9Z1yPuLGli+x6X0/0k9J7dRN7pf64otSAAAAAAAA0/MuU2pZ8j5r+5nAWJUe1iQf6aMTPkkP65LP9NEJ36SHDcl3+gAAAIl7LJ+H3vCZqHWmhyeSp5JXktf00gq/h2eS55IXkpf00op7uph1e10dbsdsbGajrNhr6g1739+H2dgMxv2QzhNuR1x9GePLXo5rNZiXHJNM6kMeo+bz31EnOXdFsWTngds2Z6WHRcmZPMpk0etB9qtz9rFun9l2nj6i6JfMy19k21dv+yOdp2x/nz6iCPuY0+Pj+vhRMmfQRxxhH78z9dZkyxt300HsPnry+BN0+I+yPtzPZvyn0Yf8je2gqGz+cPwu6GP66vTh/lcMt57i1k2YP+Ko24dvxV6vu+PEZK5pUpxjmvTh1rTccXx/su0M7K2fQZXn5c5nqZ3TmvTh1rTccaqq8t5PtY+lCX0MbRfDkuuSOT06TlWpjnWZwzpfezK5KrkmOSI5qotrUr1828D8jtl3UXJJcsG7b9a8rkiu28dXWceij6JTdu3JX586LVkI1qTMXL1g+zD7bkpuSW5498061h3JXbuuxTpWfT9n8L4cM4/Xms/RHSl+zu2ycG6hn7jqjmfYB3N/XE3Hkz7i2mk8w/8dzk3N9BquM3FuiueDHbthgzGs00fT7v9X/nX6JLO81k71uv5hR193qn2k+rp3C389pCv27cI5Zn/F1/QrGwXtq9pHle+h9jR4X4ff6aeq6vlqp3nJ9NCki/D4Kcx9B/T4+1Xs1cWx2grGy3UR3tbhvq+8L8d+kEAf09SkB8d0cTD4HhkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA2vQXBmLu9A==
+   eJzt2T1v00Acx3FLPhASAzMSS18IDyVIQCkM7NnLk0DiqTAFsiIx8fwgJmChAkaKBAPldYAYKtTXgNT/1XfK+YibM77Epvf9SD81tRO3uV/iiy9ZBgAAAAAAMD2v8yx7I3mbt/2fQHsvPXyQfKSPTvgkPaxKPtNHJ3yTHtYk3+kDAAAk7oF8HnrJZ6LW6R4eSh5Jnkte0Esr3B4eS55Inkqe0UsrbqtyVs11tb8ds7Gej7JirqnXzG13H2Zj3Rv3A6qIvx1x9WWMLzo5qrLBvOSIZFIfcp9svnhMdpxzVxRLZh64aXJaeliUnCqS6Sw6Pcj+7Iy5r92nt52ljyj6FfPyF9n21dl+XxWp2t+njyj8PubU+Ng+flTMGfQRh9/H7zx7pbPhjLvuIHYfPbn/MTr8S1Uf9nc9/tPoQ/7GVlBWNX9Ybhf0MX11+rDvFc2up9h1E+aPOOr24Vox1+v2ODHpa5oU55gmfdg1LXsc1598KwPz080g5P+y57PUzmlN+rBrWvY4oUJe+6n2sTShj6HpYlhxXTKnRscJlepYVzmoirUnncuSK5JDksOqvCbVK7YN9GP0vvOSC5Jzzm295nVJctXcP2Qdiz7KTpi1J3d96qRkwVuT0nP1gulD77suuSG55tzW61jLkltmXYt1rPp+zuB1OWYerzWfoztS/JzbZf7cQj9x1R1Pvw/m/riajid9xLXdePrvHc5NzfQarjNxbornnRm7YYMxrNNH0+7/V+51+iSzvNZO9br+Xkefd6p9pPq8dwp3PaQr9uzAOWZv4HP6lY+C9oX2EfI91K4Gr2v/O/1UhZ6vtpuXdA9NuvCPn8Lct0+Nvx1ityqP1YY3Xm4X/9qN/b7yjhz7bgJ9TJMd/ybvEd3Ffu97ZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABo0yYGPu70
   </data>
  </layer>
  <layer name="Building Middle" width="100" height="100">
@@ -724,9 +724,6 @@
   <object id="993" name="blocker" gid="1036" x="976" y="864" width="16" height="16"/>
   <object id="994" name="blocker" gid="1036" x="976" y="880" width="16" height="16"/>
   <object id="995" name="blocker" gid="1036" x="976" y="880" width="16" height="16"/>
-  <object id="996" name="blocker" gid="1036" x="1008" y="880" width="16" height="16"/>
-  <object id="997" name="blocker" gid="1036" x="1008" y="880" width="16" height="16"/>
-  <object id="999" name="blocker" gid="1036" x="992" y="864" width="16" height="16"/>
   <object id="1000" name="blocker" gid="1036" x="976" y="896" width="16" height="16"/>
   <object id="1002" name="blocker" gid="1036" x="1008" y="896" width="16" height="16"/>
   <object id="1003" name="blocker" gid="1036" x="1040" y="880" width="16" height="16"/>
@@ -766,7 +763,6 @@
   <object id="1035" name="blocker" gid="1036" x="960" y="912" width="16" height="16"/>
   <object id="1036" name="blocker" gid="1036" x="976" y="928" width="16" height="16"/>
   <object id="1037" name="blocker" gid="1036" x="992" y="928" width="16" height="16"/>
-  <object id="1038" name="blocker" gid="1036" x="800" y="832" width="16" height="16"/>
   <object id="1039" name="blocker" gid="1036" x="784" y="816" width="16" height="16"/>
   <object id="1040" name="blocker" gid="1036" x="800" y="816" width="16" height="16"/>
   <object id="1041" name="blocker" gid="1036" x="816" y="816" width="16" height="16"/>
@@ -875,5 +871,20 @@
   <object id="1131" name="blocker" gid="1036" x="448" y="592" width="16" height="16"/>
   <object id="1132" name="blocker" gid="1036" x="960" y="368" width="16" height="16"/>
   <object id="1133" name="blocker" gid="1036" x="976" y="736" width="16.16" height="15.636"/>
+  <object id="1138" name="Mr Sheep" type="static_npc" x="1024" y="864" width="16" height="16">
+   <properties>
+    <property name="dialog0" value="Baaaa!"/>
+   </properties>
+  </object>
+  <object id="1140" name="Mr Sheep" type="static_npc" x="992" y="848" width="16" height="16">
+   <properties>
+    <property name="dialog0" value="Baaaa!"/>
+   </properties>
+  </object>
+  <object id="1141" name="Wishing Well" type="static_npc" x="800" y="816" width="16" height="16">
+   <properties>
+    <property name="dialog0" value="Make a wish!"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

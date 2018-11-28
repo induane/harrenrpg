@@ -213,7 +213,8 @@ class BaseLevel(object):
 
         # Blit the static NPC's to the screen
         for s_npc in static_npcs:
-            surface.blit(s_npc.image, s_npc.rect)
+            if s_npc.image:
+                surface.blit(s_npc.image, s_npc.rect)
 
         # Draw any text on the surface
         self.draw_text(surface)
@@ -370,9 +371,6 @@ class BaseLevel(object):
                 top = ((properties['y']) * 2)
                 custom_properties = properties.get('properties', {})
                 sprite = custom_properties.get('sprite')
-                if not sprite:
-                    raise ValueError('Cannot draw npc without sprite data')
-
                 static_npcs.append(StaticNPC(
                     self.game_loop,
                     sprite,

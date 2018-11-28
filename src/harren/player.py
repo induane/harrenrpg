@@ -3,16 +3,13 @@ from __future__ import unicode_literals, absolute_import
 # Standard
 import logging
 
-# Third Party
-import pygame as pg
-
 # Project
 from harren.utils import pg_utils
 
 LOG = logging.getLogger(__name__)
 
 
-class Player(pg.sprite.Sprite):
+class Player(object):
 
     __slots__ = (
         'current_time',
