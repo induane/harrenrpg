@@ -34,6 +34,7 @@ class BaseLevel(object):
         self.keydown_only = False
         self.keydown_orig = self.keydown_only   # Stash for flipping back to
         self.current_dialog = []
+        self.velocity = 4  # Default movement velocity
 
         self.image_cache = []
         for image in kwargs.get('images', []):
@@ -413,7 +414,7 @@ class BaseLevel(object):
             return  # Don't do anything while in dialog mode
         if self.player1.state == 'resting':
             self.player1.state = 'move-down'
-            self.player1.y_velocity = 4
+            self.player1.y_velocity = self.velocity
             self.player1.x_velocity = 0
 
     def up_pressed(self):
@@ -421,7 +422,7 @@ class BaseLevel(object):
             return  # Don't do anything while in dialog mode
         if self.player1.state == 'resting':
             self.player1.state = 'move-up'
-            self.player1.y_velocity = -4
+            self.player1.y_velocity = self.velocity * -1
             self.player1.x_velocity = 0
 
     def left_pressed(self):
@@ -430,7 +431,7 @@ class BaseLevel(object):
         if self.player1.state == 'resting':
             self.player1.state = 'move-left'
             self.player1.y_velocity = 0
-            self.player1.x_velocity = -4
+            self.player1.x_velocity = self.velocity * -1
 
     def right_pressed(self):
         if self.current_dialog:
@@ -438,7 +439,7 @@ class BaseLevel(object):
         if self.player1.state == 'resting':
             self.player1.state = 'move-right'
             self.player1.y_velocity = 0
-            self.player1.x_velocity = 4
+            self.player1.x_velocity = self.velocity
 
     def space_pressed(self):
         accept_spaces = getattr(self, 'accept_spaces', True)

@@ -18,6 +18,7 @@ class NohnaimHouse1(BaseLevel):
             game_loop,
             **kwargs
         )
+        self.velocity = 2
 
 
 class NohnaimHouse2(BaseLevel):
@@ -29,6 +30,7 @@ class NohnaimHouse2(BaseLevel):
             game_loop,
             **kwargs
         )
+        self.velocity = 2
 
 
 class NohnaimSecret1(BaseLevel):
@@ -40,3 +42,4 @@ class NohnaimSecret1(BaseLevel):
             game_loop,
             **kwargs
         )
+        self.velocity = 2
