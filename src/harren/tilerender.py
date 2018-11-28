@@ -26,7 +26,12 @@ def render_tile(map_path):
         tmx_data.width * tmx_data.tilewidth,
         tmx_data.height * tmx_data.tileheight,
     )
-    temp_surface = pg.Surface(size)
+    try:
+        temp_surface = pg.Surface(size)
+    except Exception:
+        LOG.exception('Error creating surface of size %s for %s',
+                      size, map_path)
+        raise
     tw = tmx_data.tilewidth
     th = tmx_data.tileheight
     gt = tmx_data.get_tile_image_by_gid
@@ -48,5 +53,10 @@ def render_tile(map_path):
             if image:
                 temp_surface.blit(image, (0, 0))
 
-    scaled_surface = pg.transform.scale2x(temp_surface)
-    return tmx_data, scaled_surface
+    try:
+        scaled_surface = pg.transform.scale2x(temp_surface)
+    except Exception:
+        # Probably too big, try returning the main surface
+        return tmx_data, temp_surface
+    else:
+        return tmx_data, scaled_surface
