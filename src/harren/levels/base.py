@@ -449,6 +449,7 @@ class BaseLevel(object):
             self.accept_spaces = False
         else:
             self.accept_spaces = True
+        pg.time.delay(20)
         pg.event.clear()
 
     def escape_pressed(self):
