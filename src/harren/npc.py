@@ -17,15 +17,15 @@ class StaticNPC(pg.sprite.Sprite):
     """An NPC that doesn't move."""
 
     __slots__ = (
+        'dialog',
         'game_loop',
         'image',
         'rect',
-        'dialog',
     )
 
-    def __init__(self, game_loop, sprite_path, **kwargs):
+    def __init__(self, game_loop, sprite_path, rect, **kwargs):
         self.game_loop = game_loop
-        self.dialog = kwargs.pop('dialog', [])
+        self.dialog = kwargs.pop('dialog', []) or []
 
         direction = kwargs.pop('direction', 'down')
         sprite_data = pg_utils.get_sprite_map(sprite_path)
@@ -45,4 +45,5 @@ class StaticNPC(pg.sprite.Sprite):
         else:
             raise Exception('Could not initialize sprite.')
         self.rect = self.image.get_rect()
+        self.rect.center = rect.center
         super(StaticNPC, self).__init__(**kwargs)

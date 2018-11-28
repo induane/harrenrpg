@@ -13,7 +13,9 @@ import pygame as pg
 # Project
 from harren import resources
 from harren.player import Player
+from harren.npc import StaticNPC
 from harren.tilerender import render_tile
+from harren.utils.dialog import dialog_from_props
 from harren.utils.pg_utils import get_image, load_music
 
 LOG = logging.getLogger(__name__)
@@ -30,6 +32,8 @@ class BaseLevel(object):
         self.exclude_players = kwargs.get('exclude_players', False)
         self.music = kwargs.get('music', None)
         self.keydown_only = False
+        self.keydown_orig = self.keydown_only   # Stash for flipping back to
+        self.current_dialog = []
 
         self.image_cache = []
         for image in kwargs.get('images', []):
@@ -138,6 +142,7 @@ class BaseLevel(object):
         surface = pg.Surface((map_rect.width, map_rect.height))
         colliders = self.custom_objects['colliders']
         portals = self.custom_objects['portals']
+        static_npcs = self.custom_objects['static_npcs']
 
         # Center the viewport on player 1
         self.player1.update()
@@ -149,24 +154,33 @@ class BaseLevel(object):
             orig_y = self.player1.rect.y
             check_box = self.player1.rect.move(
                 self.player1.x_velocity,
-                self.player1.y_velocity
+                self.player1.y_velocity,
             )
+
+            move_player = True
+
             for portal in portals:
                 if portal['rect'].colliderect(check_box):
                     self.player1.state = 'teleporting'
                     self.player1.teleport_target = portal['teleport_target']
                     self.state['player1'] = self.player1.get_state()
                     self.game_loop.current_level = portal['destination']
-                    return  # Abandon all processing and level jump
+                    return
 
-            for collider in colliders:
-                if collider.colliderect(check_box):
-                    self.player1.rect.x = orig_x
-                    self.player1.rect.y = orig_y
-                    self.player1.state = 'resting'
-                    self.state['player1'] = self.player1.get_state()
+            for s_npc in static_npcs:
+                if s_npc.rect.colliderect(check_box):
+                    self.reset_player1(orig_x, orig_y)
+                    self.current_dialog = s_npc.dialog[:]  # Copy the dialog
+                    move_player = False
                     break
-            else:
+
+            if move_player:
+                for collider in colliders:
+                    if collider.colliderect(check_box):
+                        self.reset_player1(orig_x, orig_y)
+                        break
+
+            if move_player is True:
                 self.player1.rect.move_ip(
                     self.player1.x_velocity,
                     self.player1.y_velocity
@@ -196,8 +210,15 @@ class BaseLevel(object):
                 img_rect.x = x
             surface.blit(img, img_rect)
 
+        # Blit the static NPC's to the screen
+        for s_npc in static_npcs:
+            surface.blit(s_npc.image, s_npc.rect)
+
         # Draw any text on the surface
         self.draw_text(surface)
+
+        # Draw any dialog
+        self.draw_dialog(surface, viewport)
 
         # Next draw any players
         surface.blit(self.player1.image, self.player1.rect)
@@ -206,6 +227,39 @@ class BaseLevel(object):
 
     def draw_text(self, surface):
         pass
+
+    def draw_dialog(self, surface, viewport):
+        """Draw any current dialog."""
+        if not self.current_dialog:
+            # self.keydown_only = self.keydown_orig
+            return
+        try:
+            text = self.current_dialog[0]
+        except Exception:
+            LOG.exception('Could not draw dialog text.')
+            # self.keydown_only = self.keydown_orig
+            return
+
+        # self.keydown_only = True
+        img = self.dialog_image
+        img_rect = img.get_rect()
+        img_rect.bottomright = viewport.bottomright
+        img_rect.x -= 3
+        img_rect.y -= 3
+        surface.blit(img, img_rect)
+
+        dialog_text = self.font_20.render(text, True, (255, 255, 255))
+        dialog_text_rect = dialog_text.get_rect()
+        dialog_text_rect.center = img_rect.center
+        surface.blit(dialog_text, dialog_text_rect)
+
+    def reset_player1(self, x, y):
+        self.player1.rect.x = x
+        self.player1.rect.y = y
+        self.player1.x_velocity = 0
+        self.player1.y_velocity = 0
+        self.player1.state = 'resting'
+        self.state['player1'] = self.player1.get_state()
 
     @cachedproperty
     def player1(self):
@@ -256,6 +310,10 @@ class BaseLevel(object):
         return player1
 
     @cachedproperty
+    def dialog_image(self):
+        return get_image('dialog_box.png')
+
+    @cachedproperty
     def custom_objects(self):
         """
         All important data types collected in a single iteration.
@@ -266,6 +324,7 @@ class BaseLevel(object):
         start_point = None
         portals = []
         portal_targets = []
+        static_npcs = []
         for obj in self.tmx_data.objects:
             properties = obj.__dict__
             name = properties.get('name')
@@ -304,11 +363,27 @@ class BaseLevel(object):
                         'destination': destination,
                         'teleport_target': teleport_target,
                     })
+            elif asset_type == 'static_npc':
+                left = properties['x'] * 2
+                top = ((properties['y']) * 2)
+                custom_properties = properties.get('properties', {})
+                sprite = custom_properties.get('sprite')
+                if not sprite:
+                    raise ValueError('Cannot draw npc without sprite data')
+
+                static_npcs.append(StaticNPC(
+                    self.game_loop,
+                    sprite,
+                    pg.Rect(left, top, 32, 32),
+                    dialog=dialog_from_props(custom_properties)
+                ))
+
         return {
             'colliders': colliders,
             'start_point': start_point,
             'portals': portals,
             'portal_targets': portal_targets,
+            'static_npcs': static_npcs,
         }
 
     @cachedproperty
@@ -324,29 +399,62 @@ class BaseLevel(object):
             start_point = pg.Rect(0, 0, 32, 32)
         return start_point
 
+    def _pop_dialog(self):
+        try:
+            d = self.current_dialog.pop(0)
+        except IndexError:
+            pass
+        else:
+            LOG.debug('%s dropped from dialog queue', d)
+
     def down_pressed(self):
+        if self.current_dialog:
+            return  # Don't do anything while in dialog mode
         if self.player1.state == 'resting':
             self.player1.state = 'move-down'
             self.player1.y_velocity = 4
             self.player1.x_velocity = 0
 
     def up_pressed(self):
+        if self.current_dialog:
+            return  # Don't do anything while in dialog mode
         if self.player1.state == 'resting':
             self.player1.state = 'move-up'
             self.player1.y_velocity = -4
             self.player1.x_velocity = 0
 
     def left_pressed(self):
+        if self.current_dialog:
+            return  # Don't do anything while in dialog mode
         if self.player1.state == 'resting':
             self.player1.state = 'move-left'
             self.player1.y_velocity = 0
             self.player1.x_velocity = -4
 
     def right_pressed(self):
+        if self.current_dialog:
+            return
         if self.player1.state == 'resting':
             self.player1.state = 'move-right'
             self.player1.y_velocity = 0
             self.player1.x_velocity = 4
+
+    def space_pressed(self):
+        accept_spaces = getattr(self, 'accept_spaces', True)
+        if accept_spaces:
+            self.player1.state = 'resting'
+            self.player1.y_velocity = 0
+            self.player1.x_velocity = 0
+            self._pop_dialog()
+            self.accept_spaces = False
+        else:
+            self.accept_spaces = True
+        pg.event.clear()
+
+    def escape_pressed(self):
+        self.current_dialog = []
+        self.accept_spaces = True
+        pass
 
     def up_released(self):
         pass
@@ -391,10 +499,4 @@ class BaseLevel(object):
         pass
 
     def enter_pressed(self):
-        pass
-
-    def space_pressed(self):
-        pass
-
-    def escape_pressed(self):
         pass
