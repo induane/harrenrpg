@@ -49,11 +49,8 @@ run: build
 run-debug: build
 	$(IN_ENV) harren -l DEBUG
 
-run-new: build
-	$(IN_ENV) harren -l DEBUG --new-engine
-
-run-new-fs: build
-	$(IN_ENV) harren -l DEBUG --new-engine --fullscreen
+run-fs: build
+	$(IN_ENV) harren --fullscreen
 
 help: build
 	$(IN_ENV) harren -h

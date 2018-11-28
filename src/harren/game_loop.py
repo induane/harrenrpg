@@ -26,6 +26,7 @@ class GameState(object):
         xres = kwargs.get('xres', 800)
         yres = kwargs.get('yres', 608)
         fullscreen = kwargs.get('fullscreen', False)
+        no_splash = kwargs.get('no_splash', False)
         self.caption = 'Harren'
         self.state = {
             'volume': 0.4,
@@ -60,11 +61,12 @@ class GameState(object):
         self.level_has_changed = False
         LOG.debug('Launching with target FPS: %s', self.fps)
 
-        # Draw the loading screen
-        load_screen = LEVEL_MAP['load_screen'](self)
-        load_screen()   # Initial draw
-        pg.display.flip()
-        time.sleep(0.5)   # Give time to display the load screen
+        if not no_splash:
+            # Draw the loading screen
+            load_screen = LEVEL_MAP['load_screen'](self)
+            load_screen()   # Initial draw
+            pg.display.flip()
+            time.sleep(1)   # Give time to display the load screen
 
     def set_state(self, state_dict):
         """Given a dict set the state values."""

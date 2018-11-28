@@ -28,7 +28,7 @@ except Exception:
 
 
 def run_game():
-    parser = argparse.ArgumentParser(description='Legend of Zelda')
+    parser = argparse.ArgumentParser(description='Legend of Harren')
     parser.add_argument(
         '-l',
         '--log-level',
@@ -49,13 +49,6 @@ def run_game():
         action='version',
         version=pkg_version,
         help='Display the version number.'
-    )
-    parser.add_argument(
-        '-n',
-        '--new-engine',
-        dest='new_engine',
-        action='store_true',
-        help='Launch the new game engine',
     )
     parser.add_argument(
         '-g',
@@ -149,34 +142,23 @@ def run_game():
     try:
         import pygame  # noqa
     except ImportError:
-        LOG.exception('PyGame not found... exiting.')
+        LOG.exception('#y<PyGame not found... exiting.>')
         sys.exit(1)
 
     # Make the config folder if it doesn't already exist
     mkdir_p(resources.CONFIG_FOLDER)
 
-    # If we're launching the new engine, start the system from the GameState
-    if parsed_args.new_engine:
-        from harren.game_loop import GameState
-        game = GameState(fullscreen=parsed_args.fullscreen)
-        game.main()
-        __exit()
-    else:
-        # Now we can import the setup tools and other pieces
-        # and run the old game engine
-        from harren.data import setup
-        from harren.data.main import main
-        # setup.SCREEN, setup.SCREEN_RECT = setup.init()
-        setup.GAME
-        main()
-        __exit()
+    from harren.game_loop import GameState
+    game = GameState(fullscreen=parsed_args.fullscreen)
+    game.main()
+    __exit()
 
 
 def __exit(code=0):
     try:
         import pygame
     except ImportError:
-        LOG.exception('PyGame not found... exiting.')
+        LOG.exception('#y<PyGame not found... exiting...>')
         sys.exit(1)
     try:
         pygame.display.quit()
