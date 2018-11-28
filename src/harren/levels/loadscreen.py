@@ -18,3 +18,6 @@ class LoadScreen(BaseLevel):
 
     def draw(self):
         self._simple_draw()  # Use the simple draw method
+
+    def play_music(self):
+        pass
