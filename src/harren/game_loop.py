@@ -17,9 +17,19 @@ from harren.resources import CONFIG_FOLDER
 from harren.utils.pg_utils import get_font
 
 LOG = logging.getLogger(__name__)
+LAST_SAVE_PATH = os.path.join(CONFIG_FOLDER, 'Last.save')
 
 
 class GameState(object):
+
+    __slots__ = (
+        'state',
+        'level_instance',
+        'surface',
+        'clock',
+        'level_has_changed',
+        'current_time',
+    )
 
     def __init__(self, *args, **kwargs):
         pg.init()
@@ -27,7 +37,7 @@ class GameState(object):
         yres = kwargs.get('yres', 608)
         fullscreen = kwargs.get('fullscreen', False)
         no_splash = kwargs.get('no_splash', False)
-        self.caption = 'Harren'
+        caption = 'Harren Press'
         self.state = {
             'volume': 0.4,
             'current_time': 0.0,
@@ -36,14 +46,13 @@ class GameState(object):
             'player1': {},
         }
         self.level_instance = None
-
-        self.last_save = os.path.join(CONFIG_FOLDER, 'Last.save')
+        self.current_time = 0.0
 
         # Set allowed event types
         pg.event.set_allowed([pg.KEYDOWN, pg.KEYUP, pg.QUIT])
 
         # Window title
-        pg.display.set_caption(self.caption)
+        pg.display.set_caption(caption)
 
         if fullscreen:
             self.surface = pg.display.set_mode(
@@ -57,9 +66,7 @@ class GameState(object):
             )
 
         self.clock = pg.time.Clock()
-        self.fps = kwargs.get('fps', 60)
         self.level_has_changed = False
-        LOG.debug('Launching with target FPS: %s', self.fps)
 
         if not no_splash:
             # Draw the loading screen
@@ -73,19 +80,6 @@ class GameState(object):
         self.state.update(state_dict)
         self.current_level = state_dict['current_level']
         self.level_has_changed = True
-
-    def _get_current_time(self):
-        return self.state.get('current_time', 0.0)
-
-    def _set_current_time(self, value):
-        if isinstance(value, int):
-            value = float(value)
-        if not isinstance(value, float):
-            raise TypeError('"current_time" attribute must be a float or int')
-        self.state['current_time'] = value
-
-    current_time = property(_get_current_time, _set_current_time)
-    """Simple property to get and set time values."""
 
     def _get_current_level(self):
         return self.state.get('current_level', 'game_select')
@@ -200,7 +194,7 @@ class GameState(object):
             self.level_instance.draw()
 
             flip()
-            self.clock.tick(self.fps)
+            self.clock.tick(60)  # 60 FPS Target
 
         LOG.info('Exiting...')
         self._exit()
@@ -221,7 +215,7 @@ class GameState(object):
             pg.quit()
         except Exception:
             pass
-        with open(self.last_save, 'wb') as f:
+        with open(LAST_SAVE_PATH, 'wb') as f:
             f.truncate()
             f.write(json.dumps(self.state, indent=4).encode('utf-8'))
         sys.exit(code)

@@ -16,12 +16,7 @@ LOG = logging.getLogger(__name__)
 class StaticNPC(pg.sprite.Sprite):
     """An NPC that doesn't move."""
 
-    __slots__ = (
-        'dialog',
-        'game_loop',
-        'image',
-        'rect',
-    )
+    __slots__ = ('dialog', 'game_loop', 'image', 'rect')
 
     def __init__(self, game_loop, sprite_path, rect, **kwargs):
         self.game_loop = game_loop

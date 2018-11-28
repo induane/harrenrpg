@@ -27,6 +27,10 @@ class Player(pg.sprite.Sprite):
         'y_velocity',
         'index',
         'teleport_target',
+        'left_images',
+        'right_images',
+        'up_images',
+        'down_images',
     )
 
     def __init__(self, game_loop, sprite_path, **kwargs):
