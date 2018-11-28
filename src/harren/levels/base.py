@@ -55,8 +55,8 @@ class BaseLevel(object):
         self.start()
 
     def start(self):
-        self.draw()
         self.play_music()
+        self.draw()
 
     @property
     def font_20(self):
@@ -102,10 +102,13 @@ class BaseLevel(object):
         return self.game_loop.surface
 
     def play_music(self):
+        pg.mixer.music.fadeout(100)
         if self.music_file:
             load_music(self.music_file)
             pg.mixer.music.set_volume(self.state['volume'])
             pg.mixer.music.play(-1)
+        else:
+            pg.mixer.music.fadeout(100)
 
     def _simple_draw(self):
         """Simple draw used in menus and other non-player based levels."""
@@ -233,16 +236,13 @@ class BaseLevel(object):
     def draw_dialog(self, surface, viewport):
         """Draw any current dialog."""
         if not self.current_dialog:
-            # self.keydown_only = self.keydown_orig
             return
         try:
             text = self.current_dialog[0]
         except Exception:
             LOG.exception('Could not draw dialog text.')
-            # self.keydown_only = self.keydown_orig
             return
 
-        # self.keydown_only = True
         img = self.dialog_image
         img_rect = img.get_rect()
         img_rect.bottomright = viewport.bottomright
