@@ -413,7 +413,6 @@
   <object id="644" name="blocker" gid="1036" x="800" y="448" width="16" height="16"/>
   <object id="645" name="blocker" gid="1036" x="784" y="448" width="16" height="16"/>
   <object id="646" name="blocker" gid="1036" x="768" y="448" width="16" height="16"/>
-  <object id="647" name="blocker" gid="1036" x="768" y="432" width="16" height="16"/>
   <object id="648" name="blocker" gid="1036" x="768" y="416" width="16" height="16"/>
   <object id="656" name="blocker" gid="1036" x="672" y="256" width="16" height="16"/>
   <object id="657" name="blocker" gid="1036" x="656" y="256" width="16" height="16"/>
