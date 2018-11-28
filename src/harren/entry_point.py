@@ -57,6 +57,12 @@ def run_game():
         action='store_true',
         help='Launch the new game in fullscreen mode',
     )
+    parser.add_argument(
+        '--no-splash',
+        dest='no_splash',
+        action='store_true',
+        help='Skip the initial loading splash screen',
+    )
 
     parsed_args = parser.parse_args()
 
@@ -149,7 +155,10 @@ def run_game():
     mkdir_p(resources.CONFIG_FOLDER)
 
     from harren.game_loop import GameState
-    game = GameState(fullscreen=parsed_args.fullscreen)
+    game = GameState(
+        fullscreen=parsed_args.fullscreen,
+        no_splash=parsed_args.no_splash
+    )
     game.main()
     __exit()
 

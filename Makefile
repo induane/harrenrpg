@@ -44,13 +44,13 @@ unify: build_reqs
 	- $(IN_ENV) unify --in-place --recursive src/
 
 run: build
-	$(IN_ENV) harren
+	$(IN_ENV) harren --no-splash
 
 run-debug: build
-	$(IN_ENV) harren -l DEBUG
+	$(IN_ENV) harren -l DEBUG --no-splash
 
 run-fs: build
-	$(IN_ENV) harren --fullscreen
+	$(IN_ENV) harren --fullscreen --no-splash
 
 help: build
 	$(IN_ENV) harren -h

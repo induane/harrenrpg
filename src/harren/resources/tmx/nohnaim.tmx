@@ -505,7 +505,6 @@
   <object id="735" name="blocker" gid="1036" x="432" y="736" width="16" height="16"/>
   <object id="736" name="blocker" gid="1036" x="432" y="720" width="16" height="16"/>
   <object id="737" name="blocker" gid="1036" x="416" y="704" width="16" height="16"/>
-  <object id="738" name="blocker" gid="1036" x="432" y="704" width="16" height="16"/>
   <object id="739" name="blocker" gid="1036" x="400" y="672" width="16" height="16"/>
   <object id="740" name="blocker" gid="1036" x="736" y="752" width="16" height="16"/>
   <object id="741" name="blocker" gid="1036" x="752" y="752" width="16" height="16"/>
