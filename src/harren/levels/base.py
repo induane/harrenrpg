@@ -32,7 +32,6 @@ class BaseLevel(object):
         self.exclude_players = kwargs.get('exclude_players', False)
         self.music = kwargs.get('music', None)
         self.keydown_only = False
-        self.keydown_orig = self.keydown_only   # Stash for flipping back to
         self.current_dialog = []
         self.velocity = 4  # Default movement velocity
 
@@ -200,7 +199,7 @@ class BaseLevel(object):
         # Draw map first
         surface.blit(map_image, viewport, viewport)
 
-        # Collect all images to blit
+        # Collection of all images to blit
         images_to_blit = []
 
         # If there are any images, draw them
@@ -215,18 +214,15 @@ class BaseLevel(object):
                 img_rect.midbottom = self.viewport.midbottom
                 img_rect.y = y
                 img_rect.x = x
-            # surface.blit(img, img_rect)
             images_to_blit.append((img, img_rect))
 
         # Collect static NPC's to blit
         for s_npc in static_npcs:
             if s_npc.image:
-                # surface.blit(s_npc.image, s_npc.rect)
                 images_to_blit.append((s_npc.image, s_npc.rect))
 
         # Next any players
         images_to_blit.append((self.player1.image, self.player1.rect))
-        # surface.blit(self.player1.image, self.player1.rect)
 
         # Draw all collected images to blit
         surface.blits(images_to_blit, doreturn=False)

@@ -24,8 +24,8 @@ class GameState(object):
 
     def __init__(self, *args, **kwargs):
         pg.init()
-        xres = kwargs.get('xres', 800)
-        yres = kwargs.get('yres', 608)
+        self.xres = kwargs.get('xres', 800)
+        self.yres = kwargs.get('yres', 600)
         fullscreen = kwargs.get('fullscreen', False)
         no_splash = kwargs.get('no_splash', False)
         caption = 'Harren Press'
@@ -47,12 +47,12 @@ class GameState(object):
 
         if fullscreen:
             self.surface = pg.display.set_mode(
-                (xres, yres),
+                (self.xres, self.yres),
                 pg.FULLSCREEN | pg.DOUBLEBUF
             )
         else:
             self.surface = pg.display.set_mode(
-                (xres, yres),
+                (self.xres, self.yres),
                 pg.DOUBLEBUF
             )
 
