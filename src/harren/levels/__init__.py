@@ -3,7 +3,6 @@ from __future__ import absolute_import
 from harren.levels.base import BaseLevel
 from harren.levels.loadscreen import LoadScreen
 from harren.levels.game_select import GameSelect
-from harren.levels.harren_map import HarrenMap
 from harren.levels.nohnaim import Nohnaim
 from harren.levels.nohnaim_houses import (
     NohnaimHouse1,
@@ -13,7 +12,6 @@ from harren.levels.nohnaim_houses import (
 
 LEVEL_MAP = {
     'game_select': GameSelect,
-    'harren_map': HarrenMap,
     'load_screen': LoadScreen,
     'nohnaim_house_1': NohnaimHouse1,
     'nohnaim_house_2': NohnaimHouse2,

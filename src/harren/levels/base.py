@@ -200,6 +200,9 @@ class BaseLevel(object):
         # Draw map first
         surface.blit(map_image, viewport, viewport)
 
+        # Collect all images to blit
+        images_to_blit = []
+
         # If there are any images, draw them
         for img, x, y in self.image_cache:
             img_rect = img.get_rect()
@@ -212,21 +215,27 @@ class BaseLevel(object):
                 img_rect.midbottom = self.viewport.midbottom
                 img_rect.y = y
                 img_rect.x = x
-            surface.blit(img, img_rect)
+            # surface.blit(img, img_rect)
+            images_to_blit.append((img, img_rect))
 
-        # Blit the static NPC's to the screen
+        # Collect static NPC's to blit
         for s_npc in static_npcs:
             if s_npc.image:
-                surface.blit(s_npc.image, s_npc.rect)
+                # surface.blit(s_npc.image, s_npc.rect)
+                images_to_blit.append((s_npc.image, s_npc.rect))
+
+        # Next any players
+        images_to_blit.append((self.player1.image, self.player1.rect))
+        # surface.blit(self.player1.image, self.player1.rect)
+
+        # Draw all collected images to blit
+        surface.blits(images_to_blit, doreturn=False)
 
         # Draw any text on the surface
         self.draw_text(surface)
 
         # Draw any dialog
         self.draw_dialog(surface, viewport)
-
-        # Next draw any players
-        surface.blit(self.player1.image, self.player1.rect)
 
         self.game_screen.blit(surface, (0, 0), viewport)
 
