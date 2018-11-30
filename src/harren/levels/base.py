@@ -9,8 +9,13 @@ import random
 from boltons.cacheutils import cachedproperty
 from six import string_types
 import pygame as pg
+from pytmx.util_pygame import load_pygame
+import pyscroll
+import pyscroll.data
+from pyscroll.group import PyscrollGroup
 
 # Project
+from harren.utils import color
 from harren import resources
 from harren.player import Player
 from harren.npc import StaticNPC
@@ -49,7 +54,27 @@ class BaseLevel(object):
                 self.image_cache.append((img, x, y))
 
         # Collect tmx_data and a surface
-        self.tmx_data, self.map_image = render_tile(self.map_path)
+        # self.tmx_data, self.map_image = render_tile(self.map_path)
+        self.tmx_data = load_pygame(self.map_path)
+
+        self.map_data = pyscroll.data.TiledMapData(self.tmx_data)
+        self.map_layer = pyscroll.BufferedRenderer(
+            self.map_data,
+            self.game_screen.get_size(),
+            clamp_camera=False,
+            background_color=self.map_data.background_color,
+            alpha=True,
+        )
+        self.map_layer.zoom = 2
+
+        # pyscroll supports layered rendering.  our map has 3 'under' layers
+        # layers begin with 0, so the layers are 0, 1, and 2.
+        # since we want the sprite to be on top of layer 1, we set the default
+        # layer for sprites as 2
+        self.scroll_group = PyscrollGroup(
+            map_layer=self.map_layer,
+            default_layer=2
+        )
 
     def __call__(self):
         self.start()
@@ -112,13 +137,11 @@ class BaseLevel(object):
 
     def _simple_draw(self):
         """Simple draw used in menus and other non-player based levels."""
-        map_image = self.map_image
-        map_rect = self.map_image.get_rect()
         viewport = self.game_screen.get_rect()
-        surface = pg.Surface((map_rect.width, map_rect.height))
+        surface = pg.Surface((viewport.width, viewport.height))
 
-        # Draw map first
-        surface.blit(map_image, viewport, viewport)
+        # draw the map and all sprites
+        self.scroll_group.draw(surface)
 
         # If there are any images, draw them
         for img, x, y in self.image_cache:
@@ -140,18 +163,27 @@ class BaseLevel(object):
         self.game_screen.blit(surface, (0, 0), viewport)
 
     def draw(self):
-        map_image = self.map_image
-        map_rect = self.map_image.get_rect()
+
         viewport = self.game_screen.get_rect()
-        surface = pg.Surface((map_rect.width, map_rect.height))
+        surface = pg.Surface((viewport.width, viewport.height))
+
+        # draw the map and all sprites
+        # self.scroll_group.draw(surface)
+
+        # map_image = self.map_image
+        # map_rect = self.map_image.get_rect()
+        # viewport = self.game_screen.get_rect()
+        # surface = pg.Surface((map_rect.width, map_rect.height))
         colliders = self.custom_objects['colliders']
         portals = self.custom_objects['portals']
         static_npcs = self.custom_objects['static_npcs']
 
         # Center the viewport on player 1
         self.player1.update()
-        viewport.center = self.player1.rect.center
-        viewport.clamp_ip(map_rect)
+        # viewport.center = self.player1.rect.center
+        # viewport.clamp_ip(map_rect)
+        # center_coords = self.map_layer.translate_rect(self.player1.rect)
+        self.scroll_group.center(self.player1.rect)
 
         if self.player1.state.startswith('move'):
             orig_x = self.player1.rect.x
@@ -198,7 +230,10 @@ class BaseLevel(object):
                 self.state['player1'] = self.player1.get_state()
 
         # Draw map first
-        surface.blit(map_image, viewport, viewport)
+        # surface.blit(map_image, viewport, viewport)
+
+
+        self.scroll_group.draw(surface)
 
         # Collect all images to blit
         images_to_blit = []
@@ -221,12 +256,10 @@ class BaseLevel(object):
         # Collect static NPC's to blit
         for s_npc in static_npcs:
             if s_npc.image:
-                # surface.blit(s_npc.image, s_npc.rect)
                 images_to_blit.append((s_npc.image, s_npc.rect))
 
         # Next any players
         images_to_blit.append((self.player1.image, self.player1.rect))
-        # surface.blit(self.player1.image, self.player1.rect)
 
         # Draw all collected images to blit
         surface.blits(images_to_blit, doreturn=False)
@@ -337,27 +370,31 @@ class BaseLevel(object):
         portal_targets = []
         static_npcs = []
         pg_rect = pg.Rect
+        translate_rect = self.map_layer.translate_rect
         for obj in self.tmx_data.objects:
             properties = obj.__dict__
             name = properties.get('name')
             asset_type = properties.get('type')
             if asset_type == 'blocker' or name == 'blocker':
-                left = properties['x'] * 2
-                top = ((properties['y']) * 2)
-                colliders.append(pg_rect(left, top, 32, 32))
+                colliders.append(translate_rect(pg_rect(
+                    properties['x'],
+                    properties['y'], 16, 16
+                )))
             elif not start_point and any((
                 asset_type in ('start_point', 'start point', 'starting point'),
                 name in ('start_point', 'start point', 'starting point'),
             )):
-                left = properties['x'] * 2
-                top = ((properties['y']) * 2) - 32
-                start_point = pg_rect(left, top, 32, 32)
+                start_point = translate_rect(pg_rect(
+                    properties['x'],
+                    properties['y'], 16, 16
+                ))
             elif asset_type == 'portal_target':
-                left = properties['x'] * 2
-                top = ((properties['y']) * 2)
                 portal_targets.append({
                     'name': name,
-                    'rect': pg_rect(left, top, 32, 32)
+                    'rect': translate_rect(pg_rect(
+                        properties['x'],
+                        properties['y'], 16, 16
+                    ))
                 })
             elif asset_type == 'portal' or name == 'portal':
                 custom_properties = properties.get('properties', {})
@@ -367,23 +404,25 @@ class BaseLevel(object):
                     LOG.warning('Portal at %s, %s missing destination.',
                                 properties['x'], properties['y'])
                 else:
-                    left = properties['x'] * 2
-                    top = ((properties['y']) * 2)
                     portals.append({
                         'name': name,
-                        'rect': pg_rect(left, top, 32, 32),
+                        'rect': translate_rect(pg_rect(
+                            properties['x'],
+                            properties['y'], 16, 16
+                        )),
                         'destination': destination,
                         'teleport_target': teleport_target,
                     })
             elif asset_type == 'static_npc':
-                left = properties['x'] * 2
-                top = ((properties['y']) * 2)
                 custom_properties = properties.get('properties', {})
                 sprite = custom_properties.get('sprite')
                 static_npcs.append(StaticNPC(
                     self.game_loop,
                     sprite,
-                    pg_rect(left, top, 32, 32),
+                    translate_rect(pg_rect(
+                        properties['x'],
+                        properties['y'], 16, 16
+                    )),
                     dialog=dialog_from_props(custom_properties)
                 ))
 
@@ -405,7 +444,9 @@ class BaseLevel(object):
         """
         start_point = self.custom_objects['start_point']
         if not start_point:
-            start_point = pg.Rect(0, 0, 32, 32)
+            start_point = self.map_layer.translate_rect(
+                pg.Rect(0, 0, 16, 16)
+            )
         return start_point
 
     def _pop_dialog(self):

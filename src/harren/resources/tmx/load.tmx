@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="25" height="19" tilewidth="16" tileheight="16" backgroundcolor="#0a1bc1" nextobjectid="4">
+<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="1" height="1" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#0a1bc1" nextobjectid="8">
  <properties>
   <property name="music" value="title_theme.ogg"/>
   <property name="name" value="load"/>
   <property name="type" value="load"/>
  </properties>
- <objectgroup name="Object Layer 1"/>
+ <objectgroup name="Object Layer 1">
+  <object id="4" x="0" y="0" width="16" height="16"/>
+ </objectgroup>
 </map>
