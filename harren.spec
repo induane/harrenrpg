@@ -4,10 +4,10 @@ block_cipher = None
 
 
 a = Analysis(['src\\harren\\entry_point.py'],
-             pathex=['src\\harren', 'C:\\Users\\User\\Downloads\\harren_rpg-master'],
+             pathex=['src\\harren', 'C:\\Users\\User\\Downloads\\harren_rpg-master', 'src\\pytmx', 'src\\pyscroll', ],
              binaries=[],
              datas=[('src\\harren', 'harren')],
-             hiddenimports=['pygame', 'pytmx', 'log-color', 'six'],
+             hiddenimports=['pygame', 'log-color', 'six', 'boltons'],
              hookspath=[],
              runtime_hooks=[],
              excludes=[],
