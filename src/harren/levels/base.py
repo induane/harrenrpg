@@ -37,6 +37,7 @@ class BaseLevel(object):
         self.keydown_only = False
         self.keydown_orig = self.keydown_only   # Stash for flipping back to
         self.current_dialog = []
+        self.poster_image = None
         self.velocity = 2  # Default movement velocity
 
         LOG.debug('Populating image cache...')
@@ -211,6 +212,12 @@ class BaseLevel(object):
                 if poster['rect'].colliderect(check_box):
                     self.reset_player1(orig_x, orig_y)
                     move_player = False
+                    for item in poster['requires']:
+                        if item not in self.game_loop.quest_inventory:
+                            LOG.debug('Player has not completed the quest')
+                            break
+                    else:
+                        self.poster_image = poster['image']
                     break
 
             for s_npc in static_npcs:
@@ -255,6 +262,14 @@ class BaseLevel(object):
 
         # Draw all collected images to blit
         surface.blits(images_to_blit, doreturn=False)
+
+        # If we have encountered a poster, draw it
+        if self.poster_image:
+            if isinstance(self.poster_image, string_types):
+                self.poster_image = get_image(self.poster_image)
+            poster_rect = self.poster_image.get_rect()
+            poster_rect.center = viewport.center
+            surface.blit(self.poster_image, poster_rect)
 
         # Draw any text on the surface
         self.draw_text(surface)
@@ -424,7 +439,7 @@ class BaseLevel(object):
                 sprite = custom_properties.get('sprite')
                 requires = custom_properties.get('requires').split(',')
                 posters.append({
-                    'image': custom_properties.get('image'),
+                    'image': custom_properties.get('poster_image'),
                     'requires': [x.strip() for x in requires],
                     'rect': pg_rect(properties['x'], properties['y'], 16, 16)
                 })
@@ -461,7 +476,7 @@ class BaseLevel(object):
             LOG.debug('%s dropped from dialog queue', d)
 
     def down_pressed(self):
-        if self.current_dialog:
+        if self.current_dialog or self.poster_image:
             return  # Don't do anything while in dialog mode
         if self.player1.state == 'resting':
             self.player1.state = 'move-down'
@@ -469,7 +484,7 @@ class BaseLevel(object):
             self.player1.x_velocity = 0
 
     def up_pressed(self):
-        if self.current_dialog:
+        if self.current_dialog or self.poster_image:
             return  # Don't do anything while in dialog mode
         if self.player1.state == 'resting':
             self.player1.state = 'move-up'
@@ -477,7 +492,7 @@ class BaseLevel(object):
             self.player1.x_velocity = 0
 
     def left_pressed(self):
-        if self.current_dialog:
+        if self.current_dialog or self.poster_image:
             return  # Don't do anything while in dialog mode
         if self.player1.state == 'resting':
             self.player1.state = 'move-left'
@@ -485,7 +500,7 @@ class BaseLevel(object):
             self.player1.x_velocity = self.velocity * -1
 
     def right_pressed(self):
-        if self.current_dialog:
+        if self.current_dialog or self.poster_image:
             return
         if self.player1.state == 'resting':
             self.player1.state = 'move-right'
@@ -499,6 +514,7 @@ class BaseLevel(object):
             self.player1.y_velocity = 0
             self.player1.x_velocity = 0
             self._pop_dialog()
+            self.poster_image = None
             self.accept_spaces = False
         else:
             self.accept_spaces = True

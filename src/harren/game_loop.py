@@ -36,7 +36,7 @@ class GameState(object):
             'current_level': 'game_select',
             'previous_level': 'load_screen',
             'player1': {},
-            'quest_inventory': ['magic_item_1', ],
+            'quest_inventory': {'magic_item_1': 1},
         }
         self.level_instance = None
         self.current_time = 0.0
@@ -97,6 +97,10 @@ class GameState(object):
 
     previous_level = property(_get_previous_level, _set_previous_level)
     """Simple property to get and set the previous level name."""
+
+    @property
+    def quest_inventory(self):
+        return self.state['quest_inventory']
 
     @cachedproperty
     def screen_rectangle(self):

@@ -13,8 +13,4 @@ class Auria(BaseLevel):
     name = 'auria'
 
     def __init__(self, game_loop, **kwargs):
-        super(Auria, self).__init__(
-            'auria.tmx',
-            game_loop,
-            **kwargs
-        )
+        super(Auria, self).__init__('auria.tmx', game_loop, **kwargs)
