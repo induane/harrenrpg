@@ -22,7 +22,7 @@ class FastQuadTree(object):
     original code from http://pygame.org/wiki/QuadTree
     """
 
-    __slots__ = ['items', 'cx', 'cy', 'nw', 'sw', 'ne', 'se']
+    __slots__ = ('items', 'cx', 'cy', 'nw', 'sw', 'ne', 'se')
 
     def __init__(self, items, depth=4, boundary=None):
         """Creates a quad-tree.
@@ -77,10 +77,14 @@ class FastQuadTree(object):
             if in_nw and in_ne and in_se and in_sw:
                 self.items.append(item)
             else:
-                if in_nw: nw_items.append(item)
-                if in_ne: ne_items.append(item)
-                if in_se: se_items.append(item)
-                if in_sw: sw_items.append(item)
+                if in_nw:
+                    nw_items.append(item)
+                if in_ne:
+                    ne_items.append(item)
+                if in_se:
+                    se_items.append(item)
+                if in_sw:
+                    sw_items.append(item)
 
         # Create the sub-quadrants, recursively.
         if nw_items:

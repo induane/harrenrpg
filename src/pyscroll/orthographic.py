@@ -11,7 +11,7 @@ from pygame import Rect, Surface
 
 from pyscroll import quadtree, surface_clipping_context
 
-logger = logging.getLogger('orthographic')
+LOG = logging.getLogger(__name__)
 
 
 class BufferedRenderer(object):
@@ -55,7 +55,7 @@ class BufferedRenderer(object):
 
         # internal private defaults
         if colorkey and alpha:
-            logger.error('cannot select both colorkey and alpha.  choose one.')
+            LOG.error('cannot select both colorkey and alpha.  choose one.')
             raise ValueError
         elif colorkey:
             self._clear_color = colorkey
@@ -163,7 +163,7 @@ class BufferedRenderer(object):
             self._flush_tile_queue(self._buffer)
 
         elif view_change > self._redraw_cutoff:
-            logger.info('scrolling too quickly.  redraw forced')
+            LOG.info('scrolling too quickly.  redraw forced')
             self._tile_view.move_ip(dx, dy)
             self.redraw_tiles(self._buffer)
 
@@ -236,7 +236,7 @@ class BufferedRenderer(object):
         """ redraw the visible portion of the buffer -- it is slow.
         """
         # TODO/BUG: Redraw animated tiles correctly.  They are getting reset here
-        logger.warning('pyscroll buffer redraw')
+        LOG.warning('pyscroll buffer redraw')
         self._clear_surface(self._buffer)
         self._tile_queue = self.data.get_tile_images_by_rect(self._tile_view)
         self._flush_tile_queue(surface)
@@ -249,9 +249,10 @@ class BufferedRenderer(object):
                 -self.view_rect.centery + self._half_height)
 
     def translate_point(self, point):
-        """ Translate world coordinates and return screen coordinates.  Respects zoom level
+        """
+        Translate world coordinates and return screen coordinates.
 
-        Will be returned as tuple.
+        Respects zoom level. Will be returned as tuple.
 
         :rtype: tuple
         """
@@ -430,7 +431,7 @@ class BufferedRenderer(object):
     @staticmethod
     def _calculate_zoom_buffer_size(size, value):
         if value <= 0:
-            logger.error('zoom level cannot be zero or less')
+            LOG.error('zoom level cannot be zero or less')
             raise ValueError
         value = 1.0 / value
         return int(size[0] * value), int(size[1] * value)

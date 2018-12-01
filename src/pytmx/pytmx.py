@@ -26,7 +26,10 @@ import os
 from collections import defaultdict, namedtuple
 from itertools import chain, product
 from operator import attrgetter
-from xml.etree import ElementTree
+try:
+    from lxml import etree as et
+except ImportError:
+    from xml.etree import ElementTree as et
 import importlib
 
 import six
@@ -42,7 +45,8 @@ __all__ = (
     'TiledImageLayer',
     'TileFlags',
     'convert_to_bool',
-    'parse_properties')
+    'parse_properties',
+)
 
 logger = logging.getLogger(__name__)
 
@@ -228,7 +232,7 @@ class TiledElement(object):
         :param xml_string: string containing xml data
         :rtype: TiledElement instance
         """
-        return cls().parse_xml(ElementTree.fromstring(xml_string))
+        return cls().parse_xml(et.fromstring(xml_string))
 
     def _cast_and_set_attributes_from_node_items(self, items):
         for key, value in items:
@@ -357,7 +361,7 @@ class TiledMap(TiledElement):
         self.imagemap[(0, 0)] = 0
 
         if filename:
-            self.parse_xml(ElementTree.parse(self.filename).getroot())
+            self.parse_xml(et.parse(self.filename).getroot())
 
     def __repr__(self):
         return '<{0}: "{1}">'.format(self.__class__.__name__, self.filename)
@@ -867,7 +871,7 @@ class TiledTileset(TiledElement):
                 dirname = os.path.dirname(self.parent.filename)
                 path = os.path.abspath(os.path.join(dirname, source))
                 try:
-                    node = ElementTree.parse(path).getroot()
+                    node = et.parse(path).getroot()
                 except IOError:
                     msg = "Cannot load external tileset: {0}"
                     logger.error(msg.format(path))
@@ -888,7 +892,7 @@ class TiledTileset(TiledElement):
 
             p = {k: types[k](v) for k, v in child.items()}
             p.update(parse_properties(child))
-            
+
             # images are listed as relative to the .tsx file, not the .tmx file:
             if source:
                 p["path"] = os.path.join(os.path.dirname(source), p["path"])
@@ -927,11 +931,11 @@ class TiledTileset(TiledElement):
         image_node = node.find('image')
         if image_node is not None:
             self.source = image_node.get('source')
-            
+
             # When loading from tsx, tileset image path is relative to the tsx file, not the tmx:
             if source:
                 self.source = os.path.join(os.path.dirname(source), self.source)
-            
+
             self.trans = image_node.get('trans', None)
             self.width = int(image_node.get('width'))
             self.height = int(image_node.get('height'))

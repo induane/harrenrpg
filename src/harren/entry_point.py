@@ -114,11 +114,11 @@ def run_game():
                 'handlers': handlers,
                 'level': parsed_args.log_level,
             },
-            'pyaudio': {
+            'pytmx': {
                 'handlers': handlers,
                 'level': parsed_args.log_level,
             },
-            'pytmx': {
+            'pyscroll': {
                 'handlers': handlers,
                 'level': parsed_args.log_level,
             },
