@@ -6,6 +6,7 @@ from harren.levels.loadscreen import LoadScreen
 from harren.levels.game_select import GameSelect
 from harren.levels.base import BaseLevel
 from harren.levels.auria import Auria
+from harren.levels.library import Library
 from harren.levels.nohnaim_houses import (
     NohnaimHouse1,
     NohnaimHouse2,
@@ -15,6 +16,7 @@ from harren.levels.nohnaim_houses import (
 LEVEL_MAP = {
     'auria': Auria,
     'game_select': GameSelect,
+    'library': Library,
     'load_screen': LoadScreen,
     'nohnaim_house_1': NohnaimHouse1,
     'nohnaim_house_2': NohnaimHouse2,
@@ -28,6 +30,7 @@ __all__ = (
     'Auria',
     'BaseLevel',
     'LEVEL_MAP',
+    'Library',
     'LoadScreen',
     'Nohnaim',
     'NohnaimHouse1',
