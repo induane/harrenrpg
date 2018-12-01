@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="2018.11.14" orientation="orthogonal" renderorder="right-down" width="25" height="19" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#130f30" nextlayerid="7" nextobjectid="74">
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="25" height="19" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#130f30" nextlayerid="7" nextobjectid="75">
  <tileset firstgid="1" name="tileset1" tilewidth="16" tileheight="16" tilecount="50" columns="10">
   <image source="../graphics/tileset1.png" width="160" height="80"/>
  </tileset>
@@ -38,11 +38,6 @@
   </data>
  </layer>
  <objectgroup id="6" name="Object Layer 1">
-  <object id="2" name="start point" type="start_point" gid="123" x="192" y="224" width="16" height="16">
-   <properties>
-    <property name="direction" value="up"/>
-   </properties>
-  </object>
   <object id="6" name="blocker" gid="120" x="144" y="240" width="16" height="16"/>
   <object id="7" name="blocker" gid="120" x="128" y="240" width="16" height="16"/>
   <object id="8" name="blocker" gid="120" x="112" y="224" width="16" height="16"/>
@@ -91,5 +86,6 @@
   <object id="71" name="blocker" gid="120" x="112" y="192" width="16" height="16"/>
   <object id="72" name="blocker" gid="120" x="112" y="176" width="16" height="16"/>
   <object id="73" name="blocker" gid="120" x="128" y="176" width="16" height="16"/>
+  <object id="74" name="nohnaim_house_1_target" type="portal_target" gid="136" x="192" y="224" width="16" height="16"/>
  </objectgroup>
 </map>

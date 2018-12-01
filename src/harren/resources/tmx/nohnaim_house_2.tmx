@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="25" height="19" tilewidth="16" tileheight="16" backgroundcolor="#130f30" nextobjectid="69">
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="25" height="19" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#130f30" nextlayerid="8" nextobjectid="70">
  <tileset firstgid="1" name="tileset1" tilewidth="16" tileheight="16" tilecount="50" columns="10">
   <image source="../graphics/tileset1.png" width="160" height="80"/>
  </tileset>
@@ -12,42 +12,37 @@
  <tileset firstgid="293" name="house" tilewidth="16" tileheight="16" tilecount="896" columns="32">
   <image source="../graphics/house.png" width="512" height="448"/>
  </tileset>
- <layer name="Floor" width="25" height="19">
+ <layer id="1" name="Floor" width="25" height="19">
   <data encoding="base64" compression="zlib">
    eJxjYBgFowACQglgKtnRgI5fAsVfQuWoZMeA+AMZU8mOUX8Qb8ew8IcSATwKhi4AAIf0KSE=
   </data>
  </layer>
- <layer name="Rugs" width="25" height="19">
+ <layer id="2" name="Rugs" width="25" height="19">
   <data encoding="base64" compression="zlib">
    eJxjYBgFo2AUDBXwCoIbaGnHVwimqR3cjAwMfIy0tGEUjILBBQANjQTa
   </data>
  </layer>
- <layer name="Walls" width="25" height="19">
+ <layer id="3" name="Walls" width="25" height="19">
   <data encoding="base64" compression="zlib">
    eJxjYBgFlIKFQLwEBwbKNVDDjjVAvB4HXkMlO7bjkTtEJTsO0cGOUX8QD0b9MejsWICMzzAwPIDJIbNHwdADAE/NJmU=
   </data>
  </layer>
- <layer name="Bettween w and f" width="25" height="19">
+ <layer id="4" name="Bettween w and f" width="25" height="19">
   <data encoding="base64" compression="zlib">
    eJxjYBgF1AQH6GDHaTrYMQpGwSgYBaOAegAAJdsBjA==
   </data>
  </layer>
- <layer name="Furniture" width="25" height="19">
+ <layer id="5" name="Furniture" width="25" height="19">
   <data encoding="base64" compression="zlib">
    eJztkkkKAjEUBV+nW8FhqW7Vw+hNFByuoeBwDQWHayg4XEPB4RAWmIXLVn420g9qE0gVhEjp14qldvzFhR/Wwd8N3BjhHxs2ek7qwwCG7n22wL80bEzwTmEGc9/Y4d8bNlZ417CBrW9c8F8NGwe8RzjB2TdyiZRP7Bo3vHd4wNPZeT9X4E2KUIJy4P+aLd0qkVSFWhSuUcfdgGbARrb/3AsTXhWP
   </data>
  </layer>
- <layer name="Items 1" width="25" height="19">
+ <layer id="6" name="Items 1" width="25" height="19">
   <data encoding="base64" compression="zlib">
    eJxjYBgFo2AUjILhA2QYB9oFo2AUYAIAUqMAHg==
   </data>
  </layer>
- <objectgroup name="Object Layer 1">
-  <object id="2" name="start point" type="start_point" gid="123" x="176" y="224" width="16" height="16">
-   <properties>
-    <property name="direction" value="up"/>
-   </properties>
-  </object>
+ <objectgroup id="7" name="Object Layer 1">
   <object id="6" name="blocker" gid="120" x="160" y="240" width="16" height="16"/>
   <object id="7" name="blocker" gid="120" x="144" y="208" width="16" height="16"/>
   <object id="8" name="blocker" gid="120" x="144" y="224" width="16" height="16"/>
@@ -88,5 +83,6 @@
     <property name="portal" value="nohnaim_target_2"/>
    </properties>
   </object>
+  <object id="69" name="nohnaim_house_2_target" type="portal_target" gid="136" x="192" y="224" width="16" height="16"/>
  </objectgroup>
 </map>

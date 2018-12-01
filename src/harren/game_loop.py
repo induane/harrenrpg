@@ -48,12 +48,12 @@ class GameState(object):
         if fullscreen:
             self.surface = pg.display.set_mode(
                 (self.xres, self.yres),
-                pg.FULLSCREEN | pg.DOUBLEBUF
+                pg.FULLSCREEN | pg.DOUBLEBUF | pg.HWSURFACE
             )
         else:
             self.surface = pg.display.set_mode(
                 (self.xres, self.yres),
-                pg.DOUBLEBUF
+                pg.DOUBLEBUF | pg.HWSURFACE
             )
 
         self.clock = pg.time.Clock()
@@ -146,6 +146,9 @@ class GameState(object):
         flip = pg.display.flip
 
         while True:
+            if self.current_level in ('quit', 'exit'):
+                LOG.info('Exiting...')
+                self._exit()
             # LOG.debug('Frames Per Second: %s', self.clock.get_fps())
             # If the level has changed, load the new level
             if self.level_has_changed or self.level_instance is None:

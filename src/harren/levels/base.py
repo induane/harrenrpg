@@ -61,7 +61,7 @@ class BaseLevel(object):
             self.game_screen.get_size(),
             clamp_camera=False,
             background_color=self.map_data.background_color,
-            alpha=False,
+            alpha=True
         )
         self.map_layer.zoom = 2
 
@@ -71,7 +71,7 @@ class BaseLevel(object):
         # layer for sprites as 2
         self.scroll_group = PyscrollGroup(
             map_layer=self.map_layer,
-            default_layer=3
+            default_layer=5
         )
         if self.player1:
             self.scroll_group.add(self.player1)
@@ -82,6 +82,7 @@ class BaseLevel(object):
                     self.scroll_group.add(s_npc)
                 except Exception:
                     LOG.exception('Cannot add static npc')
+        self.game_screen.fill((0, 0, 0))
 
     def __call__(self):
         self.start()

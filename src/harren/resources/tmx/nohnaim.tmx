@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="2018.11.14" orientation="orthogonal" renderorder="right-down" width="87" height="89" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#56ab49" nextlayerid="14" nextobjectid="1148">
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="87" height="89" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#56ab49" nextlayerid="14" nextobjectid="1149">
  <properties>
   <property name="music" value="enchanted_festival.ogg"/>
   <property name="name" value="nohnaim"/>
@@ -749,12 +749,14 @@
   <object id="1027" name="nohnaim_portal_1" type="portal" gid="1055" x="528" y="736" width="16" height="16">
    <properties>
     <property name="destination" value="nohnaim_house_1"/>
+    <property name="portal" value="nohnaim_house_1_target"/>
    </properties>
   </object>
   <object id="1029" name="nohnaim_target_1" type="portal_target" gid="1052" x="528" y="752" width="16" height="16"/>
   <object id="1030" name="nohnaim_portal_2" type="portal" gid="1055" x="848" y="656" width="16" height="16">
    <properties>
     <property name="destination" value="nohnaim_house_2"/>
+    <property name="portal" value="nohnaim_house_2_target"/>
    </properties>
   </object>
   <object id="1031" name="nohnaim_target_2" type="portal_target" gid="1052" x="848" y="672" width="16" height="16"/>
@@ -830,6 +832,7 @@
   <object id="1104" name="nohnaim_portal_3" type="portal" gid="1055" x="928" y="1280" width="16" height="16">
    <properties>
     <property name="destination" value="nohnaim_secret_1"/>
+    <property name="portal" value="nohnaim_secret_1_target"/>
    </properties>
   </object>
   <object id="1106" name="nohnaim_target_3" type="portal_target" gid="1052" x="912" y="1280" width="16" height="16"/>
@@ -893,9 +896,14 @@
   </object>
   <object id="1143" name="Sign" type="static_npc" x="912" y="800" width="16" height="16">
    <properties>
-    <property name="dialog0" value="This house is famous."/>
+    <property name="dialog0" value="This house is famous for bad decoration."/>
    </properties>
   </object>
   <object id="1147" name="blocker" gid="1036" x="0" y="528" width="16" height="15.75"/>
+  <object id="1148" name="House" type="static_npc" x="880" y="800" width="16" height="16">
+   <properties>
+    <property name="dialog0" value="No one is home"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>
