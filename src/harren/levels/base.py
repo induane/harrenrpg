@@ -54,7 +54,6 @@ class BaseLevel(object):
 
         LOG.debug('Collecting TMX data...')
         # Collect tmx_data and a surface
-        self.tmx_data = load_pygame(self.map_path)
         self.map_data = pyscroll.data.TiledMapData(self.tmx_data)
         self.map_layer = pyscroll.BufferedRenderer(
             self.map_data,
@@ -90,6 +89,10 @@ class BaseLevel(object):
     def start(self):
         self.play_music()
         self.draw()
+
+    @cachedproperty
+    def tmx_data(self):
+        return load_pygame(self.map_path)
 
     @property
     def font_15(self):

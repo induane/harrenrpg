@@ -46,13 +46,13 @@ unify: build_reqs
 prod: build
 	$(IN_ENV) harren --fullscreen
 
-run:
+run: build
 	$(IN_ENV) harren --no-splash
 
-run-debug:
+run-debug: build
 	$(IN_ENV) harren -l DEBUG --no-splash
 
-run-fs:
+run-fs: build
 	$(IN_ENV) harren --fullscreen --no-splash
 
 help: build
