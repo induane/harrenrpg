@@ -43,13 +43,16 @@ freeze: env
 unify: build_reqs
 	- $(IN_ENV) unify --in-place --recursive src/
 
-run: build
+prod: build
+	$(IN_ENV) harren --fullscreen
+
+run:
 	$(IN_ENV) harren --no-splash
 
-run-debug: build
+run-debug:
 	$(IN_ENV) harren -l DEBUG --no-splash
 
-run-fs: build
+run-fs:
 	$(IN_ENV) harren --fullscreen --no-splash
 
 help: build
