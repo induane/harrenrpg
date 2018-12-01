@@ -14,7 +14,7 @@ class Overworld(BaseLevel):
 
     def __init__(self, game_loop, **kwargs):
         super(Overworld, self).__init__(
-            'overworld.tmx',
+            'harren_map.tmx',
             game_loop,
             **kwargs
         )

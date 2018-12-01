@@ -36,6 +36,7 @@ class GameState(object):
             'current_level': 'game_select',
             'previous_level': 'load_screen',
             'player1': {},
+            'quest_inventory': [],
         }
         self.level_instance = None
         self.current_time = 0.0
