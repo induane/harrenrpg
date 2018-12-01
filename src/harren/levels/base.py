@@ -92,6 +92,10 @@ class BaseLevel(object):
         self.draw()
 
     @property
+    def font_15(self):
+        return self.game_loop.font_20
+
+    @property
     def font_20(self):
         return self.game_loop.font_20
 
@@ -248,10 +252,24 @@ class BaseLevel(object):
         # Draw any dialog
         self.draw_dialog(surface, viewport)
 
+        # Draw fps if applicable
+        self.draw_fps(surface, viewport)
+
         self.game_screen.blit(surface, (0, 0), viewport)
 
     def draw_text(self, surface):
         pass
+
+    def draw_fps(self, surface, viewport):
+        """Draw fps if show_fps is set on game loop."""
+        if getattr(self.game_loop, 'show_fps', False) is True:
+            fps = '{:.2f} FPS'.format(self.game_loop.clock.get_fps())
+            text = self.font_15.render(fps, True, (255, 255, 255))
+            text_rect = text.get_rect()
+            text_rect.bottomleft = viewport.bottomleft
+            text_rect.x += 5
+            text_rect.y -= 5
+            surface.blit(text, text_rect)
 
     def draw_dialog(self, surface, viewport):
         """Draw any current dialog."""

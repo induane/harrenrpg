@@ -28,6 +28,7 @@ class GameState(object):
         self.yres = kwargs.get('yres', 600)
         fullscreen = kwargs.get('fullscreen', False)
         no_splash = kwargs.get('no_splash', False)
+        self.show_fps = False
         caption = 'Harren Press'
         self.state = {
             'volume': 0.4,
@@ -102,6 +103,11 @@ class GameState(object):
         return self.surface.get_rect()
 
     @cachedproperty
+    def font_15(self):
+        """Return the main font as 15pt."""
+        return get_font('Triforce.ttf', size=15)
+
+    @cachedproperty
     def font_20(self):
         """Return the main font."""
         return get_font('Triforce.ttf', size=20)
@@ -174,6 +180,11 @@ class GameState(object):
                         self._exit()
                     if event.key == pg.K_F5 and alt_held:
                         self._save()
+                    if event.key == pg.K_F1 and alt_held:
+                        if self.show_fps:
+                            self.show_fps = False
+                        else:
+                            self.show_fps = True
 
                     # If the level requests only keydown events, route them
                     # here

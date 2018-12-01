@@ -4,6 +4,7 @@ from harren.levels.base import BaseLevel
 from harren.levels.loadscreen import LoadScreen
 from harren.levels.game_select import GameSelect
 from harren.levels.nohnaim import Nohnaim
+from harren.levels.overworld import Overworld
 from harren.levels.nohnaim_houses import (
     NohnaimHouse1,
     NohnaimHouse2,
@@ -17,6 +18,7 @@ LEVEL_MAP = {
     'nohnaim_house_2': NohnaimHouse2,
     'nohnaim_secret_1': NohnaimSecret1,
     'nohnaim': Nohnaim,
+    'overworld': Overworld,
 }
 
 
@@ -28,4 +30,5 @@ __all__ = (
     'NohnaimHouse1',
     'NohnaimHouse2',
     'NohnaimSecret1',
+    'Overworld',
 )
