@@ -3,13 +3,16 @@ from __future__ import unicode_literals, absolute_import
 # Standard
 import logging
 
+# Third Party
+import pygame as pg
+
 # Project
 from harren.utils import pg_utils
 
 LOG = logging.getLogger(__name__)
 
 
-class Player(object):
+class Player(pg.sprite.Sprite):
 
     __slots__ = (
         'current_time',
@@ -30,6 +33,7 @@ class Player(object):
     )
 
     def __init__(self, game_loop, sprite_path, **kwargs):
+        super(Player, self).__init__()
         self.game_loop = game_loop
         self.initial_state = 'resting'
         sprite_data = pg_utils.get_sprite_map(sprite_path)
@@ -50,19 +54,24 @@ class Player(object):
         self.teleport_target = None
         super(Player, self).__init__(**kwargs)
 
+    def _transform_image(self, image):
+        """Scale down the image if scale down is set."""
+        if not self.scale_down:
+            return image
+        orig_rect = image.get_rect()
+        new_width = int(orig_rect.width / 2)
+        new_height = int(orig_rect.height / 2)
+        return pg.transform.scale(image, (new_width, new_height))
+
     def _get_img_set(self, state):
         """From a given state return a tuple of images."""
         if state == 'move-left':
-            LOG.debug('got move left images')
             images = self.left_images
         elif state == 'move-right':
-            LOG.debug('got move right images')
             images = self.right_images
         elif state == 'move-up':
-            LOG.debug('got move up images')
             images = self.up_images
         elif state == 'move-down':
-            LOG.debug('got move down images')
             images = self.down_images
         elif state == 'resting':
             images = [self.down_images[0], self.down_images[0]]
@@ -77,10 +86,8 @@ class Player(object):
                 images = self._get_img_set(self.state)
                 self.image = images[self.index]
                 if self.index == 0:
-                    LOG.debug('flipping index to 1')
                     self.index = 1
                 else:
-                    LOG.debug('flipping index to 0')
                     self.index = 0
             self.current_time = self.game_loop.current_time
 

@@ -48,19 +48,21 @@ def get_sprite_image(x, y, width, height, sprite_sheet):
     return img
 
 
-def get_sprite_map(path):
+def get_sprite_map(path, grid_size=16):
     """Make a dictionary of images from sprite sheet."""
     LOG.debug('Getting sprite map %s', path)
     sprite = get_image(path)
+    col1 = grid_size * 2
+    col2 = grid_size * 3
     return {
-        'up_1': get_sprite_image(0, 0, 32, 32, sprite),
-        'up_2': get_sprite_image(32, 0, 32, 32, sprite),
-        'down_1': get_sprite_image(64, 0, 32, 32, sprite),
-        'down_2': get_sprite_image(96, 0, 32, 32, sprite),
-        'left_1': get_sprite_image(0, 32, 32, 32, sprite),
-        'left_2': get_sprite_image(32, 32, 32, 32, sprite),
-        'right_1': get_sprite_image(64, 32, 32, 32, sprite),
-        'right_2': get_sprite_image(96, 32, 32, 32, sprite),
+        'up_1': get_sprite_image(0, 0, grid_size, grid_size, sprite),
+        'up_2': get_sprite_image(grid_size, 0, grid_size, grid_size, sprite),
+        'down_1': get_sprite_image(col1, 0, grid_size, grid_size, sprite),
+        'down_2': get_sprite_image(col2, 0, grid_size, grid_size, sprite),
+        'left_1': get_sprite_image(0, grid_size, grid_size, grid_size, sprite),
+        'left_2': get_sprite_image(grid_size, grid_size, grid_size, grid_size, sprite),  # noqa
+        'right_1': get_sprite_image(col1, grid_size, grid_size, grid_size, sprite),  # noqa
+        'right_2': get_sprite_image(col2, grid_size, grid_size, grid_size, sprite),  # noqa
     }
 
 

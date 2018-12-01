@@ -15,11 +15,9 @@ import pyscroll.data
 from pyscroll.group import PyscrollGroup
 
 # Project
-from harren.utils import color
 from harren import resources
 from harren.player import Player
 from harren.npc import StaticNPC
-from harren.tilerender import render_tile
 from harren.utils.dialog import dialog_from_props
 from harren.utils.pg_utils import get_image, load_music
 
@@ -37,9 +35,11 @@ class BaseLevel(object):
         self.exclude_players = kwargs.get('exclude_players', False)
         self.music = kwargs.get('music', None)
         self.keydown_only = False
+        self.keydown_orig = self.keydown_only   # Stash for flipping back to
         self.current_dialog = []
-        self.velocity = 4  # Default movement velocity
+        self.velocity = 2  # Default movement velocity
 
+        LOG.debug('Populating image cache...')
         self.image_cache = []
         for image in kwargs.get('images', []):
             # If there is no location data tuple, just blit to the middle
@@ -52,17 +52,16 @@ class BaseLevel(object):
                 img = get_image(img_path)
                 self.image_cache.append((img, x, y))
 
+        LOG.debug('Collecting TMX data...')
         # Collect tmx_data and a surface
-        # self.tmx_data, self.map_image = render_tile(self.map_path)
         self.tmx_data = load_pygame(self.map_path)
-
         self.map_data = pyscroll.data.TiledMapData(self.tmx_data)
         self.map_layer = pyscroll.BufferedRenderer(
             self.map_data,
             self.game_screen.get_size(),
             clamp_camera=False,
             background_color=self.map_data.background_color,
-            alpha=True,
+            alpha=False,
         )
         self.map_layer.zoom = 2
 
@@ -72,8 +71,17 @@ class BaseLevel(object):
         # layer for sprites as 2
         self.scroll_group = PyscrollGroup(
             map_layer=self.map_layer,
-            default_layer=2
+            default_layer=3
         )
+        if self.player1:
+            self.scroll_group.add(self.player1)
+        objects = self.custom_objects
+        for s_npc in objects['static_npcs']:
+            if s_npc.image:
+                try:
+                    self.scroll_group.add(s_npc)
+                except Exception:
+                    LOG.exception('Cannot add static npc')
 
     def __call__(self):
         self.start()
@@ -162,43 +170,31 @@ class BaseLevel(object):
         self.game_screen.blit(surface, (0, 0), viewport)
 
     def draw(self):
-
+        player1 = self.player1
         viewport = self.game_screen.get_rect()
         surface = pg.Surface((viewport.width, viewport.height))
-
-        # draw the map and all sprites
-        # self.scroll_group.draw(surface)
-
-        # map_image = self.map_image
-        # map_rect = self.map_image.get_rect()
-        # viewport = self.game_screen.get_rect()
-        # surface = pg.Surface((map_rect.width, map_rect.height))
         colliders = self.custom_objects['colliders']
         portals = self.custom_objects['portals']
         static_npcs = self.custom_objects['static_npcs']
 
         # Center the viewport on player 1
-        self.player1.update()
-        # viewport.center = self.player1.rect.center
-        # viewport.clamp_ip(map_rect)
-        # center_coords = self.map_layer.translate_rect(self.player1.rect)
-        self.scroll_group.center(self.player1.rect)
+        player1.update()
+        self.scroll_group.center(player1.rect)
 
-        if self.player1.state.startswith('move'):
-            orig_x = self.player1.rect.x
-            orig_y = self.player1.rect.y
-            check_box = self.player1.rect.move(
-                self.player1.x_velocity,
-                self.player1.y_velocity,
+        if player1.state.startswith('move'):
+            orig_x = player1.rect.x
+            orig_y = player1.rect.y
+            check_box = player1.rect.move(
+                player1.x_velocity,
+                player1.y_velocity,
             )
-
             move_player = True
 
             for portal in portals:
                 if portal['rect'].colliderect(check_box):
-                    self.player1.state = 'teleporting'
-                    self.player1.teleport_target = portal['teleport_target']
-                    self.state['player1'] = self.player1.get_state()
+                    player1.state = 'teleporting'
+                    player1.teleport_target = portal['teleport_target']
+                    self.state['player1'] = player1.get_state()
                     self.game_loop.current_level = portal['destination']
                     return
 
@@ -216,25 +212,13 @@ class BaseLevel(object):
                         break
 
             if move_player is True:
-                self.player1.rect.move_ip(
-                    self.player1.x_velocity,
-                    self.player1.y_velocity
-                )
+                player1.rect.move_ip(player1.x_velocity, player1.y_velocity)
 
-            if (
-                self.player1.rect.x % 32 == 0 and
-                self.player1.rect.y % 32 == 0
-            ):
-                self.player1.state = 'resting'
-                self.state['player1'] = self.player1.get_state()
+            if (player1.rect.x % 16 == 0 and player1.rect.y % 16 == 0):
+                player1.state = 'resting'
+                self.state['player1'] = player1.get_state()
 
-        # Draw map first
-        # surface.blit(map_image, viewport, viewport)
-
-
-        self.scroll_group.draw(surface)
-
-        # Collection of all images to blit
+        # Collect all images to blit
         images_to_blit = []
 
         # If there are any images, draw them
@@ -251,13 +235,8 @@ class BaseLevel(object):
                 img_rect.x = x
             images_to_blit.append((img, img_rect))
 
-        # Collect static NPC's to blit
-        for s_npc in static_npcs:
-            if s_npc.image:
-                images_to_blit.append((s_npc.image, s_npc.rect))
-
-        # Next any players
-        images_to_blit.append((self.player1.image, self.player1.rect))
+        # Draw the main scroll group
+        self.scroll_group.draw(surface)
 
         # Draw all collected images to blit
         surface.blits(images_to_blit, doreturn=False)
@@ -313,6 +292,10 @@ class BaseLevel(object):
         teleport target.
         """
         player1 = Player(self.game_loop, 'player.png')
+        player1.rect.center = self.start_point.center
+        player1.rect.x = self.start_point.x
+        player1.rect.y = self.start_point.y
+
         state_data = self.state['player1']
         if state_data:
             is_teleporting = state_data['state'] == 'teleporting'
@@ -336,19 +319,6 @@ class BaseLevel(object):
                     else:
                         LOG.warning('Could not find target portal %s',
                                     teleport_target)
-                        # Fall back to start point
-                        player1.rect.center = self.start_point.center
-                        player1.rect.x = self.start_point.x
-                        player1.rect.y = self.start_point.y
-                # Otherwise use the start point
-                else:
-                    player1.rect.center = self.start_point.center
-                    player1.rect.x = self.start_point.x
-                    player1.rect.y = self.start_point.y
-        else:
-            player1.rect.center = self.start_point.center
-            player1.rect.x = self.start_point.x
-            player1.rect.y = self.start_point.y
         return player1
 
     @cachedproperty
@@ -368,31 +338,30 @@ class BaseLevel(object):
         portal_targets = []
         static_npcs = []
         pg_rect = pg.Rect
-        translate_rect = self.map_layer.translate_rect
         for obj in self.tmx_data.objects:
             properties = obj.__dict__
             name = properties.get('name')
             asset_type = properties.get('type')
             if asset_type == 'blocker' or name == 'blocker':
-                colliders.append(translate_rect(pg_rect(
+                colliders.append(pg_rect(
                     properties['x'],
                     properties['y'], 16, 16
-                )))
+                ))
             elif not start_point and any((
                 asset_type in ('start_point', 'start point', 'starting point'),
                 name in ('start_point', 'start point', 'starting point'),
             )):
-                start_point = translate_rect(pg_rect(
+                start_point = pg_rect(
                     properties['x'],
                     properties['y'], 16, 16
-                ))
+                )
             elif asset_type == 'portal_target':
                 portal_targets.append({
                     'name': name,
-                    'rect': translate_rect(pg_rect(
+                    'rect': pg_rect(
                         properties['x'],
                         properties['y'], 16, 16
-                    ))
+                    )
                 })
             elif asset_type == 'portal' or name == 'portal':
                 custom_properties = properties.get('properties', {})
@@ -404,10 +373,10 @@ class BaseLevel(object):
                 else:
                     portals.append({
                         'name': name,
-                        'rect': translate_rect(pg_rect(
+                        'rect': pg_rect(
                             properties['x'],
                             properties['y'], 16, 16
-                        )),
+                        ),
                         'destination': destination,
                         'teleport_target': teleport_target,
                     })
@@ -417,10 +386,7 @@ class BaseLevel(object):
                 static_npcs.append(StaticNPC(
                     self.game_loop,
                     sprite,
-                    translate_rect(pg_rect(
-                        properties['x'],
-                        properties['y'], 16, 16
-                    )),
+                    pg_rect(properties['x'], properties['y'], 16, 16),
                     dialog=dialog_from_props(custom_properties)
                 ))
 
@@ -442,9 +408,8 @@ class BaseLevel(object):
         """
         start_point = self.custom_objects['start_point']
         if not start_point:
-            start_point = self.map_layer.translate_rect(
-                pg.Rect(0, 0, 16, 16)
-            )
+            start_point = pg.Rect(0, 0, 16, 16)
+        LOG.debug('Got start point %s', start_point)
         return start_point
 
     def _pop_dialog(self):

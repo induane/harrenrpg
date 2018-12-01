@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="25" height="19" tilewidth="16" tileheight="16" backgroundcolor="#130f30" nextobjectid="74">
+<map version="1.2" tiledversion="2018.11.14" orientation="orthogonal" renderorder="right-down" width="25" height="19" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#130f30" nextlayerid="7" nextobjectid="74">
  <tileset firstgid="1" name="tileset1" tilewidth="16" tileheight="16" tilecount="50" columns="10">
   <image source="../graphics/tileset1.png" width="160" height="80"/>
  </tileset>
@@ -12,32 +12,32 @@
  <tileset firstgid="293" name="house" tilewidth="16" tileheight="16" tilecount="896" columns="32">
   <image source="../graphics/house.png" width="512" height="448"/>
  </tileset>
- <layer name="Floor" width="25" height="19">
+ <layer id="1" name="Floor" width="25" height="19">
   <data encoding="base64" compression="zlib">
    eJxjYBgFowACJEjElNjxAohf0tgOevhj1I5RO6hpBzpQQsKjYGgDAIk+DCg=
   </data>
  </layer>
- <layer name="Rugs" width="25" height="19">
+ <layer id="2" name="Rugs" width="25" height="19">
   <data encoding="base64" compression="zlib">
    eJxjYBgFo2B4gkJGBoYiRtraMRFo/iQa20EP0ADEjUi4iQZ2dAFxNxLuoYEdU4B4KhKeRgM7RsEoIAcAAOb0CjA=
   </data>
  </layer>
- <layer name="Walls" width="25" height="19">
+ <layer id="3" name="Walls" width="25" height="19">
   <data encoding="base64" compression="zlib">
    eJxjYBgFlIKFQLyESAxU20COHWuAeD2ReA2ZdmwnTS1ZdhwiTS1Zdoz6g3hAjD8smRkYrJhp649IoPlRzIM7PuhkxwJkDAyPBTA5IFsBXZ4cO0bBwAAAozkxFQ==
   </data>
  </layer>
- <layer name="Furniture" width="25" height="19">
+ <layer id="4" name="Furniture" width="25" height="19">
   <data encoding="base64" compression="zlib">
    eJzt1EcKwkAYhuFJAXtZuIvgQXSrN1GwHMKNgt1L2L2G3XvYyxF8yUowxsU4C8Efnk0mfN8wEyKE+6QNITLGh5ckJ0t+TnFHhfyq4o4e+X0MMFTUNSN3jgWWsHQh4sijgCJKulzHjtz90/6T5KVQQx0NNCU7PKYQXvP1+YjcMSaYSna8mxW5a2ywVdRxIPeIE86KOnzckR8BBCW+t5hmK39tYw6T0GyOHS3Op40OuorO6kLuFTfcJTosl7UQdxBGBFHF/5r//N48ACBKIGE=
   </data>
  </layer>
- <layer name="Items 1" width="25" height="19">
+ <layer id="5" name="Items 1" width="25" height="19">
   <data encoding="base64" compression="zlib">
    eJxjYBgFo2AU0Ar8GmgHEAEEGQfaBQwMskA3CA0Cd4yCUUArAADGBQE+
   </data>
  </layer>
- <objectgroup name="Object Layer 1">
+ <objectgroup id="6" name="Object Layer 1">
   <object id="2" name="start point" type="start_point" gid="123" x="192" y="224" width="16" height="16">
    <properties>
     <property name="direction" value="up"/>

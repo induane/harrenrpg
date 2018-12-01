@@ -31,6 +31,10 @@ class PyscrollGroup(pygame.sprite.LayeredUpdates):
         """
         return self._map_layer.view_rect.copy()
 
+    def offset_rect(self, rect):
+        ox, oy = self._map_layer.get_center_offset()
+        return rect.move(ox, oy)
+
     def draw(self, surface):
         """ Draw all sprites and map onto the surface
 

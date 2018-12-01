@@ -21,3 +21,7 @@ class LoadScreen(BaseLevel):
 
     def play_music(self):
         pass
+
+    @property
+    def player1(self):
+        return None

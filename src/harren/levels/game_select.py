@@ -21,6 +21,10 @@ class GameSelect(BaseLevel):
         self.select_index = 0
         self.keydown_only = True  # Only handle keydown events
 
+    @property
+    def player1(self):
+        return None
+
     def draw(self):
         self._simple_draw()  # Use the simple draw method
 
