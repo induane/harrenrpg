@@ -65,7 +65,7 @@ class GameSelect(BaseLevel):
 
     def space_pressed(self):
         if self.select_index == 0:
-            self.game_loop.current_level = 'overworld'  # The default start level
+            self.game_loop.current_level = 'nohnaim'  # The default start level
         else:
             path = os.path.join(
                 CONFIG_FOLDER,

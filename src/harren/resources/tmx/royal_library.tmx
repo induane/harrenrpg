@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="16" tileheight="16" infinite="0" nextlayerid="12" nextobjectid="1">
+ <tileset firstgid="1" name="perspective_walls" tilewidth="64" tileheight="64" tilecount="16" columns="4">
+  <tileoffset x="-32" y="0"/>
+  <image source="../../examples/perspective_walls.png" width="256" height="256"/>
+  <tile id="13">
+   <properties>
+    <property name="door" value="true"/>
+   </properties>
+  </tile>
+  <tile id="14">
+   <properties>
+    <property name="door" value="true"/>
+   </properties>
+  </tile>
+  <tile id="15">
+   <properties>
+    <property name="pickup" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="17" name="forest1" tilewidth="16" tileheight="32" tilecount="8" columns="4">
+  <image source="../../harren_rpg-master/src/harren/resources/graphics/tree1.png" width="64" height="64"/>
+ </tileset>
+ <tileset firstgid="25" name="house" tilewidth="16" tileheight="16" tilecount="896" columns="32">
+  <image source="../../harren_rpg-master/src/harren/resources/graphics/house.png" width="512" height="448"/>
+ </tileset>
+ <tileset firstgid="921" name="medievalsigns" tilewidth="16" tileheight="16" tilecount="16" columns="4">
+  <image source="../../harren_rpg-master/src/harren/resources/graphics/medievalsigns.png" width="64" height="64"/>
+ </tileset>
+ <tileset firstgid="937" name="tileset1" tilewidth="16" tileheight="16" tilecount="50" columns="10">
+  <image source="../../harren_rpg-master/src/harren/resources/graphics/tileset1.png" width="160" height="80"/>
+ </tileset>
+ <tileset firstgid="987" name="tileset3" tilewidth="16" tileheight="16" tilecount="132" columns="11">
+  <image source="../../harren_rpg-master/src/harren/resources/graphics/tileset3.png" width="176" height="192"/>
+ </tileset>
+ <tileset firstgid="1119" name="tileset2" tilewidth="16" tileheight="16" tilecount="110" columns="10">
+  <image source="../../harren_rpg-master/src/harren/resources/graphics/tileset2.png" width="160" height="180"/>
+ </tileset>
+ <layer id="3" name="floor" width="32" height="32">
+  <data encoding="base64" compression="zlib">
+   eJxTYmFgUAZi1QHCukDsNoBYCer/gaJB/tcbQHrU/+S7H5R+1ZAwNfx/gAHBP8iA3/0w+2E0NnWEzEN3D0g9jA9ST2n8EjKPVPfK4sFyQCxPY/9r4MGaQKyFpv4Bif4fSulfhQWR9tTJNIcS9+sDsQEQGwKx0QD43wqIrYHYBohtB8D/6PaP+p++/kdPfyMt/Y/6f9T/o/4f9f9I9f9A13+uLJA+rDsQe5BpDgDHTr/s
+  </data>
+ </layer>
+ <layer id="1" name="Walls" width="32" height="32">
+  <data encoding="base64" compression="zlib">
+   eJzt0TEKgDAMRuFfSL2Filsr7t7/Zgay2klKBN8Hj2YKgRZJk8LTO7JZeGu3KMtpUZbLIvzD4n+9epv155Gq72/eYf0ZwPeV7AMAAEhyA19YBBM=
+  </data>
+ </layer>
+ <layer id="2" name="Walls level 2" width="32" height="32">
+  <data encoding="base64" compression="zlib">
+   eJzt1TEOgCAUA9CGfF25Au7uXpejivlMTpBvrIlt0oGlL7CQgQpS1tYluLGZl+Xv5mX5h3lZfiTyY34Gyu1c3/SjkS9f/r/99nWVmY5uj2yx/atp/tkeS+qVL5/lM/OF+8uXz/RPgs8JqA==
+  </data>
+ </layer>
+ <layer id="8" name="Tile Layer 4" width="32" height="32">
+  <data encoding="base64" compression="zlib">
+   eJztUktuwlAMdBDdoEpdJLCm++743aIgQXsDegGgazb0AnzW3AFuUm7SHqCDxBMjC78QSFAl3kgjx3Y8o8QWCQj4XxiCH57+k0jdN4/+Oouexgz8yvD+LfWey8dn/R/23839IpCmX7T/C+m/4rkL9sqn+0Wgk6Kf1g8IyAObSGQb2XnR+IbXLrLzrKhFMq2CCRhT1HX3/g+8fsmPcz1jaexROcQ26i2wCTYo6rqbi0siSemow7mesTQeyf8d9TdwAPYp6rqbbcCrSf6c6xlLg/0/UZ+AY3BEUdfdbB9eA/LnXM9YGuxv7czane/+z90/+1s7s3bnu/889u9ya3e++89j/y63due7/0v2v0J9CS7AOehyXXezvvu3tLQG+2eF7/7PxTX+eSD437f/A/gHlHakhg==
+  </data>
+ </layer>
+ <layer id="11" name="Room Decor" width="32" height="32">
+  <data encoding="base64" compression="zlib">
+   eJztkksOgjAURR8UVwC6EZCFWCRRo5vwM3YPfjaiO3AJuhMdGEdeEjuptLZaiIOe5ATe5eW+CUTvHAKiY1Dz4Uts+87YvTi8b9t3xe7NcP/OiB7MXV9FHBIlodkui4g6kbu+ihS7mcW+6z6O3cLhfdd9/8KJ1b83zQD/G48+Z00xxZ0ZLGH+eoqsTUa4N4aTlu96PB6Px+NxQy+gdRcmMIZilvNfunQdOfI+zGAKxSznJvdVXbqOEvkQFpBDMcu5yX1Vl65jhXwJF3AOxSznJvdVXbqOPfId3MINFLOcm9xXddl0tMUTORNgDg==
+  </data>
+ </layer>
+</map>

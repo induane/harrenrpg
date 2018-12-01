@@ -70,7 +70,7 @@ class BaseLevel(object):
         # layer for sprites as 2
         self.scroll_group = PyscrollGroup(
             map_layer=self.map_layer,
-            default_layer=5
+            default_layer=10
         )
         if self.player1:
             self.scroll_group.add(self.player1)
@@ -184,6 +184,7 @@ class BaseLevel(object):
         colliders = self.custom_objects['colliders']
         portals = self.custom_objects['portals']
         static_npcs = self.custom_objects['static_npcs']
+        posters = self.custom_objects['posters']
 
         # Center the viewport on player 1
         player1.update()
@@ -205,6 +206,12 @@ class BaseLevel(object):
                     self.state['player1'] = player1.get_state()
                     self.game_loop.current_level = portal['destination']
                     return
+
+            for poster in posters:
+                if poster['rect'].colliderect(check_box):
+                    self.reset_player1(orig_x, orig_y)
+                    move_player = False
+                    break
 
             for s_npc in static_npcs:
                 if s_npc.rect.colliderect(check_box):
@@ -359,6 +366,7 @@ class BaseLevel(object):
         portals = []
         portal_targets = []
         static_npcs = []
+        posters = []
         pg_rect = pg.Rect
         for obj in self.tmx_data.objects:
             properties = obj.__dict__
@@ -411,6 +419,15 @@ class BaseLevel(object):
                     pg_rect(properties['x'], properties['y'], 16, 16),
                     dialog=dialog_from_props(custom_properties)
                 ))
+            elif asset_type == 'poster':
+                custom_properties = properties.get('properties', {})
+                sprite = custom_properties.get('sprite')
+                requires = custom_properties.get('requires').split(',')
+                posters.append({
+                    'image': custom_properties.get('image'),
+                    'requires': [x.strip() for x in requires],
+                    'rect': pg_rect(properties['x'], properties['y'], 16, 16)
+                })
 
         return {
             'colliders': colliders,
@@ -418,6 +435,7 @@ class BaseLevel(object):
             'portals': portals,
             'portal_targets': portal_targets,
             'static_npcs': static_npcs,
+            'posters': posters,
         }
 
     @cachedproperty

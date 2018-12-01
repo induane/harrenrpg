@@ -54,15 +54,6 @@ class Player(pg.sprite.Sprite):
         self.teleport_target = None
         super(Player, self).__init__(**kwargs)
 
-    def _transform_image(self, image):
-        """Scale down the image if scale down is set."""
-        if not self.scale_down:
-            return image
-        orig_rect = image.get_rect()
-        new_width = int(orig_rect.width / 2)
-        new_height = int(orig_rect.height / 2)
-        return pg.transform.scale(image, (new_width, new_height))
-
     def _get_img_set(self, state):
         """From a given state return a tuple of images."""
         if state == 'move-left':

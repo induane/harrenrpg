@@ -1,10 +1,11 @@
 from __future__ import absolute_import
 
-from harren.levels.base import BaseLevel
+from harren.levels.overworld import Overworld
+from harren.levels.nohnaim import Nohnaim
 from harren.levels.loadscreen import LoadScreen
 from harren.levels.game_select import GameSelect
-from harren.levels.nohnaim import Nohnaim
-from harren.levels.overworld import Overworld
+from harren.levels.base import BaseLevel
+from harren.levels.auria import Auria
 from harren.levels.nohnaim_houses import (
     NohnaimHouse1,
     NohnaimHouse2,
@@ -12,6 +13,7 @@ from harren.levels.nohnaim_houses import (
 )
 
 LEVEL_MAP = {
+    'auria': Auria,
     'game_select': GameSelect,
     'load_screen': LoadScreen,
     'nohnaim_house_1': NohnaimHouse1,
@@ -23,6 +25,7 @@ LEVEL_MAP = {
 
 
 __all__ = (
+    'Auria',
     'BaseLevel',
     'LEVEL_MAP',
     'LoadScreen',
