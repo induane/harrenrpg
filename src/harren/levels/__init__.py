@@ -31,8 +31,9 @@ with open(os.path.join(DATA_FOLDER, 'maps.toml'), 'rb') as f:
     data = toml.load(f)
 
 
-for values in data['maps'].values():
-    LEVEL_MAP[values['name']] = partial(map_constructor, **values)
+for name, values in data.items():
+    values['name'] = name
+    LEVEL_MAP[name] = partial(map_constructor, **values)
 
 
 __all__ = (

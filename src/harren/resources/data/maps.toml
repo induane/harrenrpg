@@ -1,25 +1,17 @@
-[maps]
-
-[maps.library]
-name = 'library'
+[library]
 filename = 'library.tmx'
 
-[maps.nohnaim]
-name = 'nohnaim'
+[nohnaim]
 filename = 'nohnaim.tmx'
 
-[maps.nohnaim_house_1]
-name = 'nohnaim_house_1'
+[nohnaim_house_1]
 filename = 'nohnaim_house_1.tmx'
 
-[maps.nohnaim_house_2]
-name = 'nohnaim_house_2'
+[nohnaim_house_2]
 filename = 'nohnaim_house_2.tmx'
 
-[maps.nohnaim_secret_1]
-name = 'nohnaim_secret_1'
+[nohnaim_secret_1]
 filename = 'nohnaim_secret_1.tmx'
 
-[maps.auria]
-name = 'auria'
+[auria]
 filename = 'auria.tmx'
