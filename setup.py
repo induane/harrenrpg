@@ -10,7 +10,7 @@ setup(
     keywords='game harren engine pygame',
     packages=find_packages('src'),
     package_dir={"": "src"},
-    install_requires=['log-color', 'pygame', 'six', 'boltons'],
+    install_requires=['log-color', 'pygame', 'six', 'boltons', 'pytoml'],
     entry_points={
         'console_scripts': ['harren = harren.entry_point:main']
     },

@@ -1,40 +1,41 @@
 from __future__ import absolute_import
 
-from harren.levels.overworld import Overworld
-from harren.levels.nohnaim import Nohnaim
-from harren.levels.loadscreen import LoadScreen
-from harren.levels.game_select import GameSelect
+# Standard
+import os
+from functools import partial
+
+# Third Party
+import pytoml as toml
+
 from harren.levels.base import BaseLevel
-from harren.levels.auria import Auria
-from harren.levels.library import Library
-from harren.levels.nohnaim_houses import (
-    NohnaimHouse1,
-    NohnaimHouse2,
-    NohnaimSecret1,
-)
+from harren.levels.game_select import GameSelect
+from harren.levels.loadscreen import LoadScreen
+from harren.levels.overworld import Overworld
+from harren.resources import DATA_FOLDER
+
 
 LEVEL_MAP = {
-    'auria': Auria,
     'game_select': GameSelect,
-    'library': Library,
     'load_screen': LoadScreen,
-    'nohnaim_house_1': NohnaimHouse1,
-    'nohnaim_house_2': NohnaimHouse2,
-    'nohnaim_secret_1': NohnaimSecret1,
-    'nohnaim': Nohnaim,
     'overworld': Overworld,
 }
 
 
+def map_constructor(game_loop, **kwargs):
+    name = kwargs.pop('name')
+    filename = kwargs.pop('filename')
+    return BaseLevel(filename, game_loop, name=name)
+
+
+with open(os.path.join(DATA_FOLDER, 'maps.toml'), 'rb') as f:
+    data = toml.load(f)
+    print(data)
+
+for values in data['maps'].values():
+    LEVEL_MAP[values['name']] = partial(map_constructor, **values)
+
+
 __all__ = (
-    'Auria',
     'BaseLevel',
     'LEVEL_MAP',
-    'Library',
-    'LoadScreen',
-    'Nohnaim',
-    'NohnaimHouse1',
-    'NohnaimHouse2',
-    'NohnaimSecret1',
-    'Overworld',
 )

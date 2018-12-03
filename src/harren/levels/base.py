@@ -29,6 +29,7 @@ class BaseLevel(object):
     def __init__(self, filename, game_loop, **kwargs):
         self.map_filename = filename
         self.map_path = os.path.join(resources.TMX_FOLDER, filename)
+        self.name = kwargs.get('name', os.path.splitext(filename)[0])
         LOG.debug('Initializing level with map %s', self.map_path)
         self.game_loop = game_loop
         self.battles_allowed = kwargs.get('battles_allowed', False)
