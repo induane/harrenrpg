@@ -44,7 +44,7 @@ class GameSelect(BaseLevel):
         # actually includes the new game option which is why we don't subtract
         # 1 here
         LOG.debug('UP pressed')
-        max_idx = len(self.save_files)
+        max_idx = len(self.save_files) + 1  # +1 accounts for the exit option
 
         if self.select_index <= 0:
             self.select_index = max_idx
@@ -56,7 +56,7 @@ class GameSelect(BaseLevel):
         # actually includes the new game option which is why we don't subtract
         # 1 here
         LOG.debug('Down pressed')
-        max_idx = len(self.save_files)
+        max_idx = len(self.save_files) + 1  # +1 accounts for the exit option
 
         if self.select_index >= max_idx:
             self.select_index = 0
@@ -66,6 +66,8 @@ class GameSelect(BaseLevel):
     def space_pressed(self):
         if self.select_index == 0:
             self.game_loop.current_level = 'nohnaim'  # The default start level
+        elif self.select_index == len(self.save_files) + 1:
+            self.game_loop._exit()  # Shutdown
         else:
             path = os.path.join(
                 CONFIG_FOLDER,
@@ -108,6 +110,16 @@ class GameSelect(BaseLevel):
             slot_rect.y = new_game_rect.y + y_val
             rectangle_data[idx] = slot_rect
             surface.blit(slot_text, slot_rect)
+
+        display = 'Exit'
+        exit_text = self.font_20.render(display, True, (255, 255, 255))
+        exit_rect = exit_text.get_rect()
+        exit_rect.midtop = screen_rectangle.midtop
+        exit_rect.centerx = screen_rectangle.centerx
+        y_val = 40 * (len(self.save_files) + 1)
+        exit_rect.y = new_game_rect.y + y_val
+        rectangle_data[len(self.save_files) + 1] = exit_rect
+        surface.blit(exit_text, exit_rect)
 
         # Given the current index value for the selections, draw an arrow.
         select = self.font_20.render('>> ', True, (255, 255, 255))
