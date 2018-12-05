@@ -55,6 +55,9 @@ run-debug: build
 run-fs: build
 	$(IN_ENV) harren --fullscreen --no-splash
 
+run-splash: build
+	$(IN_ENV) harren -l DEBUG
+
 help: build
 	$(IN_ENV) harren -h
 

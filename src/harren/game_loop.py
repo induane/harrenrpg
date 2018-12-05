@@ -5,15 +5,15 @@ import json
 import logging
 import os
 import sys
-import time
 
 # Third Party
-import pygame as pg
 from boltons.cacheutils import cachedproperty
+from pytmx.util_pygame import load_pygame
+import pygame as pg
 
 # Project
 from harren.levels import LEVEL_MAP
-from harren.resources import CONFIG_FOLDER
+from harren.resources import CONFIG_FOLDER, TMX_FOLDER
 from harren.utils.pg_utils import get_font
 
 LOG = logging.getLogger(__name__)
@@ -61,12 +61,20 @@ class GameState(object):
         self.clock = pg.time.Clock()
         self.level_has_changed = False
 
+        # If we're displaying the splash screen go ahead and pre-load the
+        # overworld map as caching that one is the most important
         if not no_splash:
             # Draw the loading screen
             load_screen = LEVEL_MAP['load_screen'](self)
             load_screen()   # Initial draw
             pg.display.flip()
-            time.sleep(1)   # Give time to display the load screen
+            self.overworld_map  # Forces the overworld map to get cached
+
+    @cachedproperty
+    def overworld_map(self):
+        """Return the overworld map (caching on first access)"""
+        map_path = os.path.join(TMX_FOLDER, 'harren_map.tmx')
+        return load_pygame(map_path)
 
     def set_state(self, state_dict):
         """Given a dict set the state values."""
