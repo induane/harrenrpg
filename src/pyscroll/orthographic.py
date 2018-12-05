@@ -36,14 +36,14 @@ class BufferedRenderer(object):
             self._rgba_clear_color = bg_fill
 
         # default options
-        self.data = data                           # reference to data source
-        self.clamp_camera = clamp_camera           # if true, cannot scroll past map edge
-        self.time_source = time_source             # determines how tile animations are processed
-        self.scaling_function = scaling_function   # what function to use when scaling the zoom buffer
-        self.tall_sprites = tall_sprites           # correctly render tall sprites
-        self.map_rect = None                       # pygame rect of entire map
+        self.data = data                          # reference to data source
+        self.clamp_camera = clamp_camera          # if true, cannot scroll past map edge
+        self.time_source = time_source            # determines how tile animations are processed
+        self.scaling_function = scaling_function  # what function to use when scaling the zoom buffer
+        self.tall_sprites = tall_sprites          # correctly render tall sprites
+        self.map_rect = None                      # pygame rect of entire map
 
-        # Tall Sprites
+        # Tall Spritesthat's
         # this value, if greater than 0, is the number of pixels from the bottom of
         # tall sprites which is compared against the bottom of a tile on the same
         # layer of the sprite.  In other words, if set, it prevents tiles from being
