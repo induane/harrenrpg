@@ -26,6 +26,9 @@ develop-eggs
 lib
 lib64
 __pycache__
+.spec
+harren.spec
+entry_point.spec
 
 # Installer logs
 pip-log.txt
