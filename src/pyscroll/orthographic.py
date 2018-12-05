@@ -84,7 +84,7 @@ class BufferedRenderer(object):
         self._real_ratio_y = 1.0      # zooming slightly changes aspect ratio; this compensates
         self.view_rect = Rect(0, 0, 0, 0)  # this represents the viewable map pixels
 
-        if hasattr(Surface, "blits"):
+        if hasattr(Surface, 'blits'):
             self._flush_tile_queue = self._flush_tile_queue_blits
 
         self.set_size(size)

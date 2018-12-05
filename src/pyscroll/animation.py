@@ -2,7 +2,7 @@ from collections import namedtuple
 
 __all__ = ('AnimationFrame', 'AnimationToken')
 
-AnimationFrame = namedtuple("AnimationFrame", "image duration")
+AnimationFrame = namedtuple('AnimationFrame', 'image duration')
 
 
 class AnimationToken(object):

@@ -113,13 +113,13 @@ def convert_to_bool(text):
         pass
 
     text = str(text).lower()
-    if text == "true":
+    if text == 'true':
         return True
-    if text == "yes":
+    if text == 'yes':
         return True
-    if text == "false":
+    if text == 'false':
         return False
-    if text == "no":
+    if text == 'no':
         return False
 
     raise ValueError
@@ -131,59 +131,59 @@ types = defaultdict(lambda: six.u)
 
 _str = six.u
 types.update({
-    "version": str,
-    "tiledversion": str,
-    "orientation": _str,
-    "renderorder": str,
-    "width": float,
-    "height": float,
-    "tilewidth": int,
-    "tileheight": int,
-    "hexsidelength": float,
-    "staggeraxis": str,
-    "staggerindex": str,
-    "backgroundcolor": str,
-    "nextobjectid": int,
-    "firstgid": int,
-    "source": _str,
-    "name": _str,
-    "spacing": int,
-    "margin": int,
-    "tilecount": int,
-    "columns": int,
-    "format": str,
-    "trans": _str,
-    "tile": int,
-    "terrain": str,
-    "probability": float,
-    "tileid": int,
-    "duration": int,
-    "color": str,
-    "id": int,
-    "opacity": float,
-    "visible": convert_to_bool,
-    "offsetx": int,
-    "offsety": int,
-    "encoding": _str,
-    "compression": _str,
-    "draworder": str,
-    "points": str,
-    "fontfamily": str,
-    "pixelsize": float,
-    "wrap": convert_to_bool,
-    "bold": convert_to_bool,
-    "italic": convert_to_bool,
-    "underline": convert_to_bool,
-    "strikeout": convert_to_bool,
-    "kerning": convert_to_bool,
-    "halign": str,
-    "valign": str,
-    "gid": int,
-    "type": _str,
-    "x": float,
-    "y": float,
-    "value": _str,
-    "rotation": float,
+    'version': str,
+    'tiledversion': str,
+    'orientation': _str,
+    'renderorder': str,
+    'width': float,
+    'height': float,
+    'tilewidth': int,
+    'tileheight': int,
+    'hexsidelength': float,
+    'staggeraxis': str,
+    'staggerindex': str,
+    'backgroundcolor': str,
+    'nextobjectid': int,
+    'firstgid': int,
+    'source': _str,
+    'name': _str,
+    'spacing': int,
+    'margin': int,
+    'tilecount': int,
+    'columns': int,
+    'format': str,
+    'trans': _str,
+    'tile': int,
+    'terrain': str,
+    'probability': float,
+    'tileid': int,
+    'duration': int,
+    'color': str,
+    'id': int,
+    'opacity': float,
+    'visible': convert_to_bool,
+    'offsetx': int,
+    'offsety': int,
+    'encoding': _str,
+    'compression': _str,
+    'draworder': str,
+    'points': str,
+    'fontfamily': str,
+    'pixelsize': float,
+    'wrap': convert_to_bool,
+    'bold': convert_to_bool,
+    'italic': convert_to_bool,
+    'underline': convert_to_bool,
+    'strikeout': convert_to_bool,
+    'kerning': convert_to_bool,
+    'halign': str,
+    'valign': str,
+    'gid': int,
+    'type': _str,
+    'x': float,
+    'y': float,
+    'value': _str,
+    'rotation': float,
 })
 
 # casting for properties type
@@ -208,11 +208,11 @@ def parse_properties(node):
         for subnode in child.findall('property'):
             cls = None
             try:
-                if "type" in subnode.keys():
+                if 'type' in subnode.keys():
                     module = importlib.import_module('builtins')
-                    cls = getattr(module, subnode.get("type"))
+                    cls = getattr(module, subnode.get('type'))
             except AttributeError:
-                logger.info("Type [} Not a built-in type. Defaulting to string-cast.")
+                logger.info('Type [} Not a built-in type. Defaulting to string-cast.')
             d[subnode.get('name')] = cls(subnode.get('value')) if cls is not None else subnode.get('value')
     return d
 
@@ -278,7 +278,7 @@ class TiledElement(object):
         if (not self.allow_duplicate_names and
                 self._contains_invalid_property_name(properties.items())):
             self._log_property_error_message()
-            raise ValueError("Reserved names and duplicate names are not allowed. Please rename your property inside the .tmx-file")
+            raise ValueError('Reserved names and duplicate names are not allowed. Please rename your property inside the .tmx-file')
 
         self.properties = properties
 
@@ -524,7 +524,7 @@ class TiledMap(TiledElement):
         except (IndexError, ValueError):
             raise ValueError
         except TypeError:
-            msg = "Tiles must be specified in integers."
+            msg = 'Tiles must be specified in integers.'
             logger.debug(msg)
             raise TypeError
 
@@ -541,11 +541,11 @@ class TiledMap(TiledElement):
             assert (int(gid) >= 0)
             return self.images[gid]
         except TypeError:
-            msg = "GIDs must be expressed as a number.  Got: {0}"
+            msg = 'GIDs must be expressed as a number.  Got: {0}'
             logger.debug(msg.format(gid))
             raise TypeError
         except (AssertionError, IndexError):
-            msg = "Coords: ({0},{1}) in layer {2} has invalid GID: {3}"
+            msg = 'Coords: ({0},{1}) in layer {2} has invalid GID: {3}'
             logger.debug(msg.format(gid))
             raise ValueError
 
@@ -565,7 +565,7 @@ class TiledMap(TiledElement):
         try:
             return self.layers[int(layer)].data[int(y)][int(x)]
         except (IndexError, ValueError):
-            msg = "Coords: ({0},{1}) in layer {2} is invalid"
+            msg = 'Coords: ({0},{1}) in layer {2} is invalid'
             logger.debug(msg, (x, y, layer))
             raise ValueError
 
@@ -585,7 +585,7 @@ class TiledMap(TiledElement):
         try:
             gid = self.layers[int(layer)].data[int(y)][int(x)]
         except (IndexError, ValueError):
-            msg = "Coords: ({0},{1}) in layer {2} is invalid."
+            msg = 'Coords: ({0},{1}) in layer {2} is invalid.'
             logger.debug(msg.format(x, y, layer))
             raise Exception
 
@@ -593,7 +593,7 @@ class TiledMap(TiledElement):
             try:
                 return self.tile_properties[gid]
             except (IndexError, ValueError):
-                msg = "Coords: ({0},{1}) in layer {2} has invalid GID: {3}"
+                msg = 'Coords: ({0},{1}) in layer {2} has invalid GID: {3}'
                 logger.debug(msg.format(x, y, layer, gid))
                 raise Exception
             except KeyError:
@@ -643,7 +643,7 @@ class TiledMap(TiledElement):
             assert (int(layer) >= 0)
             layer = int(layer)
         except (TypeError, AssertionError):
-            msg = "Layer must be a positive integer.  Got {0} instead."
+            msg = 'Layer must be a positive integer.  Got {0} instead.'
             logger.debug(msg.format(type(layer)))
             raise ValueError
 
@@ -798,7 +798,7 @@ class TiledMap(TiledElement):
         except KeyError:
             return None
         except TypeError:
-            msg = "GIDs must be an integer"
+            msg = 'GIDs must be an integer'
             logger.debug(msg)
             raise TypeError
 
@@ -862,7 +862,7 @@ class TiledTileset(TiledElement):
         # if true, then node references an external tileset
         source = node.get('source', None)
         if source:
-            if source[-4:].lower() == ".tsx":
+            if source[-4:].lower() == '.tsx':
 
                 # external tilesets don't save this, store it for later
                 self.firstgid = int(node.get('firstgid'))
@@ -873,12 +873,12 @@ class TiledTileset(TiledElement):
                 try:
                     node = et.parse(path).getroot()
                 except IOError:
-                    msg = "Cannot load external tileset: {0}"
+                    msg = 'Cannot load external tileset: {0}'
                     logger.error(msg.format(path))
                     raise Exception
 
             else:
-                msg = "Found external tileset, but cannot handle type: {0}"
+                msg = 'Found external tileset, but cannot handle type: {0}'
                 logger.error(msg.format(self.source))
                 raise Exception
 
@@ -888,14 +888,14 @@ class TiledTileset(TiledElement):
         # we store it separately in the parent (a TiledMap instance)
         register_gid = self.parent.register_gid
         for child in node.getiterator('tile'):
-            tiled_gid = int(child.get("id"))
+            tiled_gid = int(child.get('id'))
 
             p = {k: types[k](v) for k, v in child.items()}
             p.update(parse_properties(child))
 
             # images are listed as relative to the .tsx file, not the .tmx file:
             if source:
-                p["path"] = os.path.join(os.path.dirname(source), p["path"])
+                p['path'] = os.path.join(os.path.dirname(source), p['path'])
 
             # handle tiles that have their own image
             image = child.find('image')
@@ -913,7 +913,7 @@ class TiledTileset(TiledElement):
             frames = list()
             p['frames'] = frames
             if anim is not None:
-                for frame in anim.findall("frame"):
+                for frame in anim.findall('frame'):
                     duration = int(frame.get('duration'))
                     gid = register_gid(int(frame.get('tileid')) + self.firstgid)
                     frames.append(AnimationFrame(gid, duration))
@@ -1022,8 +1022,8 @@ class TiledTileLayer(TiledElement):
             data = b64decode(data_node.text.strip())
 
         elif encoding == 'csv':
-            next_gid = map(int, "".join(
-                line.strip() for line in data_node.text.strip()).split(","))
+            next_gid = map(int, ''.join(
+                line.strip() for line in data_node.text.strip()).split(','))
 
         elif encoding:
             msg = 'TMX encoding type: {0} is not supported.'
@@ -1095,7 +1095,7 @@ class TiledObjectGroup(TiledElement, list):
         self.visible = 1
         self.offsetx = 0
         self.offsety = 0
-        self.draworder = "topdown"
+        self.draworder = 'topdown'
 
         self.parse_xml(node)
 

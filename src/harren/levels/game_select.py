@@ -69,10 +69,8 @@ class GameSelect(BaseLevel):
         elif self.select_index == len(self.save_files) + 1:
             self.game_loop._exit()  # Shutdown
         else:
-            path = os.path.join(
-                CONFIG_FOLDER,
-                self.save_files[self.select_index - 1]
-            )
+            path = os.path.join(CONFIG_FOLDER,
+                                self.save_files[self.select_index - 1])
             LOG.debug('Opening save file %s', path)
             with open(path, 'rb') as f:
                 val = f.read().decode('utf-8')
