@@ -61,6 +61,9 @@ base_dialog = "Kids these days don't like eating grubs."
       "Know anyone who needs a stupid cat?",
       "I found this one recently in my latrine."
   ]
+  alt_dialog = "Scram! Take that cat and go!"
+  # Here alt dialog fires if you're on the find_cat quest but you've already
+  # taken the item "cat_item"
 
   # These items are put into the shadow inventory after talking to the player
   shadow_items = [

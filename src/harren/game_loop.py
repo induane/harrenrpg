@@ -7,13 +7,14 @@ import os
 import sys
 
 # Third Party
+import pygame as pg
+import pytoml as toml
 from boltons.cacheutils import cachedproperty
 from pytmx.util_pygame import load_pygame
-import pygame as pg
 
 # Project
 from harren.levels import LEVEL_MAP
-from harren.resources import CONFIG_FOLDER, TMX_FOLDER
+from harren.resources import CONFIG_FOLDER, DATA_FOLDER, TMX_FOLDER
 from harren.utils.pg_utils import get_font
 
 LOG = logging.getLogger(__name__)
@@ -75,6 +76,20 @@ class GameState(object):
         """Return the overworld map (caching on first access)"""
         map_path = os.path.join(TMX_FOLDER, 'harren_map.tmx')
         return load_pygame(map_path)
+
+    @cachedproperty
+    def quest_data(self):
+        path = os.path.join(DATA_FOLDER, 'quest.toml')
+        with open(path, 'rb') as f:
+            data = toml.loads(f.read())
+        return data
+
+    @cachedproperty
+    def npc_data(self):
+        path = os.path.join(DATA_FOLDER, 'npc.toml')
+        with open(path, 'rb') as f:
+            data = toml.loads(f.read())
+        return data
 
     def set_state(self, state_dict):
         """Given a dict set the state values."""

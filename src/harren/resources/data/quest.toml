@@ -1,8 +1,10 @@
 # This requires list is empty - no other quest must be completed to get it
 [find_cat]
+name = "The case of the missing cat"
 requires = []
 
 # This quest can only be handed out if the player has completed the find_cat
 # quest
 [find_dog]
+name = "The case of the missing dog"
 requires = ["find_cat", ]
