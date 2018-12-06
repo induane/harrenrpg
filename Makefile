@@ -8,6 +8,8 @@ else
 	IN_ENV=. $(ENV_DIR)/bin/activate &&
 endif
 
+BUILD_ENV = $(IN_ENV) PYTHONOPTIMIZE=1 &&
+
 all: test lint artifacts
 
 $(ENV_DIR):
@@ -22,6 +24,9 @@ $(NODE_DIR):
 
 build_reqs: env
 	$(IN_ENV) pip install unify
+
+package_reqs: env
+	$(IN_ENV) pip install pyinstaller
 
 build: build_reqs
 	$(IN_ENV) pip install --editable .
@@ -57,6 +62,9 @@ run-fs: build
 
 run-splash: build
 	$(IN_ENV) harren -l DEBUG
+
+package: package_reqs
+	$(BUILD_ENV) pyinstaller src/harren/entry_point.py --hidden-import pygame --hidden-import log-color --hidden-import six --hidden-import toml --hidden-import boltons -p src/harren --add-data "src/harren:harren" --name harren --onefile --noconsole
 
 help: build
 	$(IN_ENV) harren -h

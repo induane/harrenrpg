@@ -1,0 +1,68 @@
+[npc1]
+name = "Mister NPC"
+
+# The base dialog shows if no other conditions are met to trigger quests or
+# other dialog.
+base_dialog = "Hey there, I like meat. Yummmmm"
+
+  # Talking to this NPC will start this quest if the following conditions
+  # are met:
+  # 1. The player has not already started this quest
+  # 2. The player has completed the required quests
+  # 3. The player is not engaged in another quest with this NPC
+  [npc1.find_cat]
+  start_quest = true
+  dialog = "I lost my cat, please help me find it!"
+  alt_dialog = "Have you found my cat yet?"
+  # Some more info about the above section: Essentially the dialog is what is
+  # shown if the player is getting the quest for the first time. If they
+  # already have the quest and haven't triggered some other thing by having an
+  # item or something, the alt_dialog is what the player will see until they
+  # complete the quest or get some other items.
+  #
+  # Make sure to set start_quest to true for the event that is meant to kick
+  # off the quest in general. If it's not set, then the system will ignore it
+  # and the quest won't start. This is so that you don't talk to some other
+  # NPC that's involved in the quest and have it accidentally "start" the quest
+  # for you.
+
+  # Indentation (tabs and/or spaces) is allowed but not required
+  # Things after the . cannot have spaces, use an underscore
+  [npc1.find_cat.cat_item]
+  dialog = "You found my cat! How can I ever repay you?"
+  quest_complete = true
+  # Basically this whole section works like this - if you're engaged in the
+  # find_cat quest, your inventory is checked. If you happen to have in your
+  # inventory (shadow, or real inventory) the item "cat_item" then this section
+  # will fire. Since it has a quest_complete key set to True, this will also
+  # move this quest into the players "completed quests" player data.
+
+  [npc1.find_dog]
+  dialog = "This is really embarassing but now I've lost my dog"
+  alt_dialog = [
+    "Have you found my dog yet?",
+    "I really miss Scluffy Pufferdoodle"
+  ]
+  # Notice that the above alt_dialog is a list and not just a set of quoted
+  # text. All dialog fields can be either a single piece of dialog or a list.
+  # If it is a list then each will be shown to the player one at a time until
+  # the list is exhausted.
+
+
+[npc2]
+name = "Gardener Lady"
+base_dialog = "Kids these days don't like eating grubs."
+
+  # This whole "find_cat" section only fires if you're on the find_cat quest.
+  # Notice that I didn't set "start_quest" here.
+  [npc2.find_cat]
+  # use this "list" format when you want to have multiple lines of dialog
+  dialog = [
+      "Know anyone who needs a stupid cat?",
+      "I found this one recently in my latrine."
+  ]
+
+  # These items are put into the shadow inventory after talking to the player
+  shadow_items = [
+    'cat_item',
+  ]
