@@ -17,7 +17,7 @@ from pyscroll.group import PyscrollGroup
 # Project
 from harren import resources
 from harren.player import Player
-from harren.npc import StaticNPC
+from harren.npc import StaticNPC, NPC
 from harren.utils.dialog import dialog_from_props
 from harren.utils.pg_utils import get_image, load_music
 
@@ -83,6 +83,12 @@ class BaseLevel(object):
                     self.scroll_group.add(s_npc)
                 except Exception:
                     LOG.exception('Cannot add static npc')
+        for npc in objects['npcs']:
+            if npc.image:
+                try:
+                    self.scroll_group.add(npc)
+                except Exception:
+                    LOG.exception('Cannot add npc')
         self.game_screen.fill((0, 0, 0))
 
     def __call__(self):
@@ -186,6 +192,7 @@ class BaseLevel(object):
         colliders = self.custom_objects['colliders']
         portals = self.custom_objects['portals']
         static_npcs = self.custom_objects['static_npcs']
+        npcs = self.custom_objects['npcs']
         posters = self.custom_objects['posters']
 
         # Center the viewport on player 1
@@ -225,6 +232,13 @@ class BaseLevel(object):
                 if s_npc.rect.colliderect(check_box):
                     self.reset_player1(orig_x, orig_y)
                     self.current_dialog = s_npc.dialog[:]  # Copy the dialog
+                    move_player = False
+                    break
+
+            for npc in npcs:
+                if npc.rect.colliderect(check_box):
+                    self.reset_player1(orig_x, orig_y)
+                    # self.current_dialog = s_npc.dialog[:]  # Copy the dialog
                     move_player = False
                     break
 
@@ -382,6 +396,7 @@ class BaseLevel(object):
         portals = []
         portal_targets = []
         static_npcs = []
+        npcs = []
         posters = []
         pg_rect = pg.Rect
         for obj in self.tmx_data.objects:
@@ -435,6 +450,15 @@ class BaseLevel(object):
                     pg_rect(properties['x'], properties['y'], 16, 16),
                     dialog=dialog_from_props(custom_properties)
                 ))
+            elif asset_type == 'npc':
+                custom_properties = properties.get('properties', {})
+                sprite = custom_properties.get('sprite')
+                npcs.append(NPC(
+                    self.game_loop,
+                    sprite,
+                    pg_rect(properties['x'], properties['y'], 16, 16),
+                    data=custom_properties
+                ))
             elif asset_type == 'poster':
                 custom_properties = properties.get('properties', {})
                 sprite = custom_properties.get('sprite')
@@ -451,6 +475,7 @@ class BaseLevel(object):
             'portals': portals,
             'portal_targets': portal_targets,
             'static_npcs': static_npcs,
+            'npcs': npcs,
             'posters': posters,
         }
 

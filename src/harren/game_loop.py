@@ -37,6 +37,8 @@ class GameState(object):
             'current_level': 'game_select',
             'previous_level': 'load_screen',
             'player1': {},
+            'inventory': {},
+            'quests': {},
             'quest_inventory': {'magic_item_1': 1},
         }
         self.level_instance = None
