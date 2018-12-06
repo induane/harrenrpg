@@ -470,10 +470,12 @@ class BaseLevel(object):
             elif asset_type == 'static_npc':
                 custom_properties = properties.get('properties', {})
                 sprite = custom_properties.get('sprite')
+                direction = custom_properties.get('direction', 'down')
                 static_npcs.append(StaticNPC(
                     self.game_loop,
                     sprite,
                     pg_rect(properties['x'], properties['y'], 16, 16),
+                    direction=direction,
                     dialog=dialog_from_props(custom_properties)
                 ))
             elif asset_type == 'npc':

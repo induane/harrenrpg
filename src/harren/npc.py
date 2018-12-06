@@ -61,7 +61,7 @@ class NPC(pg.sprite.Sprite):
         self.game_loop = game_loop
         self.data = kwargs.get('data', {}) or {}
 
-        direction = kwargs.get('direction', 'down')
+        direction = self.data.get('direction', 'down')
         if sprite_path:
             sprite_data = pg_utils.get_sprite_map(sprite_path)
 
