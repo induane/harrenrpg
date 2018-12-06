@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="87" height="89" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#56ab49" nextlayerid="14" nextobjectid="1179">
+<map version="1.2" tiledversion="2018.11.14" orientation="orthogonal" renderorder="right-down" width="87" height="89" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#56ab49" nextlayerid="14" nextobjectid="1181">
  <properties>
   <property name="music" value="enchanted_festival.ogg"/>
   <property name="name" value="nohnaim"/>
@@ -46,7 +46,7 @@
  </layer>
  <layer id="11" name="Building Lower" width="87" height="89">
   <data encoding="base64" compression="zlib">
-   eJzt2btu1EAYhmFLNgiJghugyUVwCIsEhEBBv304CSTOtGkWKGhoOR9ERWiIgAZEKAnXgUQRoVwDEv/EM9rZsSc7ZrxgT95H+hTH3ji7X5zxzmyWAQAA7Dxv8ixbkbzN//czSc976fSD5CPdtu6LdLom+Uq3rfsmna5LvtMtAADJeCj39Vfc21ulOn0keSx5IXlJx9HsTp9InkqeSZ7TcbTbxWTW9HzK3Y/mNvJxVvVcal1v28fQ3IbT4f6ijLsffkPp64KVI0U2mpcclkzrVh6TzZc/kx1jfKhY0uPmDR1lUXo9WSZTWbQ6PSXbp/VjzTG17wzdVgw996RPsu+ztf9+UcZ3fEi3FW63c0V9TLc/PGMs3Va53f7Ks9cqm1aHqs+2ux3I448m/vfwdWu+V13Oolv5HVtJmW+8Nexe6baZJt2aa1gxc2Iz92W8rWrarW1Vz9PMedqk3jP3fUyO6dasMZjz2H7nWxnpr3ZGIc/LjBl9HjdiujVrDOY8oUKuyRS6XZrS7bLuddnzvneuGJ8nVAq9+RwoyrUAlUuSy5KDkkPF5BrBoNw3Uj+jjp2TnJectbbVGsRFyRX9+JB1hZS7Pa7XAuz1ghOSBWeNQN2nFnS36tg1yXXJVWtbrSvclNzS6wysK8xezT2s0b0Ms9H3915d5o7FdO3XtBu321Tve22I7YZu/bbrxr2m+f8fG0TO+/n/r/dO93Avoo8m3cb+HbvAnp9N8y/nWCnM5x509DWk0G0KryEV9py2K/Z0fEzeG/j8fubjoF2h3Yasie+KuN7cz/BSEDombDeOq05jenXP37d7xb6ifjvE7mLydW86r93u9W97Np+D3JFz3+1Zt7Nkuoy5dus+awIAAAAAAAAAAAAAAAAAAAAAAMDO9QfQb+gX
+   eJzt2btuE0EYhuGRdkFI3AJNLoJDMBIQAgW9+3ASSJxp0xgoaGg5H0QFNERAAyKUhOtAoohQrgGJf7Iz8njWE88ya1iP30f6FGfX3thf1rOesVIAAADz53Wh1BvJ2+J/P5P8vJdOP0g+0m3rvkin65KvdNu6b9LphuQ73QIAkI0Hcl1/ybW9VbrTh5JHkueSF3SczO30seSJ5KnkGR0nu1WOZt3Mp/ztaG6zGGbNzKU2zG13H5rb9DrcV1bxtyOsL32dd3K4VINFySHJpG7lPmqxeow6yvhQs2LGzesm2rL0eqKK0ll2Oj0pt0+Z+9p9ettpuq3pB65Jn2TbZ2f7vbJKaH+fbmv8bhfK8bHd/giMsXRb53f7q1CvdLacDnWfbXfbk/sfyfz/EerW/q67nEa38je2k7PQeGu5vdJtM026teewZufEdu7LeFvXtFvXmpmn2eO0SX9mnvUxOaVbu8Zgj+P6XWxnYH66GcQ8LztmzPK4kdKtXWOwx4kVc07m0O3KhG5XTa+rgc+9C+XwOLFy6C1kf1mtBehclFySHJAcLEfXCHrVtoF+jN53VnJOcsa5rdcgLkgum/vHrCvk3O0xsxbgrhcclyx5awT6OrVkutX7rkquSa44t/W6wg3JTbPOwLrC9I25hjW6lmE6Zv2zV5f5YzFdhzXtxu821+teG1K7oduwnbrxz2ne/0O9xHk/7//x3pke7ib00aTb1P9jF7jzs0n+5Rwrh/nc/Y6+hhy6zeE15MKd03bFno6PyXsjn9/PYhi0K7bbmDXxXQnnm/8dXg5ix4SdxnHdaUqv/vHn6Vqxuxx93Vvea3d7/due7fcgt+XYd+ao20lslynn7rjvmgAAAAAAAAAAAAAAAAAAAAAAADC//gAI6ufx
   </data>
  </layer>
  <layer id="12" name="Building Middle" width="87" height="89">
@@ -925,6 +925,16 @@
    <properties>
     <property name="destination" value="overworld"/>
     <property name="portal" value="harren_target_1"/>
+   </properties>
+  </object>
+  <object id="1179" name="npc2" type="npc" gid="1039" x="656" y="816" width="16" height="16">
+   <properties>
+    <property name="sprite" value="soldier.png"/>
+   </properties>
+  </object>
+  <object id="1180" name="npc1" type="npc" gid="1039" x="608" y="816" width="16" height="16">
+   <properties>
+    <property name="sprite" value="soldier.png"/>
    </properties>
   </object>
  </objectgroup>
