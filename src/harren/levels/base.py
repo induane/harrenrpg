@@ -292,6 +292,9 @@ class BaseLevel(object):
         # Draw any dialog
         self.draw_dialog(surface, viewport)
 
+        # Draw any notifications
+        self.draw_notifications(surface, viewport)
+
         # Draw fps if applicable
         self.draw_fps(surface, viewport)
 
@@ -332,6 +335,29 @@ class BaseLevel(object):
         dialog_text_rect = dialog_text.get_rect()
         dialog_text_rect.center = img_rect.center
         surface.blit(dialog_text, dialog_text_rect)
+
+    def draw_notifications(self, surface, viewport):
+        """Draw any current notifications."""
+        notification = self.game_loop.notification
+
+        if not notification:
+            return
+
+        img = self.dialog_image
+        img_rect = img.get_rect()
+        img_rect.topright = viewport.topright
+        img_rect.x -= 3
+        img_rect.y += 3
+        surface.blit(img, img_rect)
+
+        notification_text = self.font_20.render(
+            notification,
+            True,
+            (255, 255, 255)
+        )
+        notification_text_rect = notification_text.get_rect()
+        notification_text_rect.center = img_rect.center
+        surface.blit(notification_text, notification_text_rect)
 
     def reset_player1(self, x, y):
         self.player1.rect.x = x

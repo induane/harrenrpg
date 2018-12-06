@@ -116,13 +116,40 @@ class GameState(object):
     """Property to get and set the current level name."""
 
     def _get_previous_level(self):
-        return self.state.get('previous_level', 0.0)
+        return self.state.get('previous_level', None)
 
     def _set_previous_level(self, value):
         self.state['previous_level'] = value
 
     previous_level = property(_get_previous_level, _set_previous_level)
     """Simple property to get and set the previous level name."""
+
+    def _get_notification(self):
+        """Return a notification if it hasn't expired."""
+        start_time = getattr(self, '_notification_start_time', None)
+        notification = getattr(self, '_notification_text', None)
+        if not notification:
+            return None
+
+        # This shouldn't happen but if we have notification text but no
+        # start time, clear the notification text
+        if not start_time:
+            self._notification_text = None
+            return None
+
+        # Show the notification for 4 seconds
+        if self.current_time - start_time > 4000:
+            self._notification_text = None
+            return None
+
+        return notification
+
+    def _set_notification(self, text):
+        """Set notification text to display."""
+        self._notification_start_time = self.current_time
+        self._notification_text = text
+
+    notification = property(_get_notification, _set_notification)
 
     @property
     def quest_inventory(self):

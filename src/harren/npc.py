@@ -204,6 +204,8 @@ class NPC(pg.sprite.Sprite):
                 LOG.debug('Requirements for %s not met', quest_name)
                 continue
 
+            quest_info = quest_data.get(quest_name) or {}
+
             # If we can start a quest, lets do it!
             if quest.get('start_quest', False) is True:
                 self.game_loop.quests.append(quest_name)
@@ -214,6 +216,9 @@ class NPC(pg.sprite.Sprite):
                     return ['You got a quest!', ]
                 if isinstance(dialog, six.string_types):
                     dialog = [dialog, ]
+                self.game_loop.notification = 'New quest! {}'.format(
+                    quest_info.get('name', quest_name) or quest_name
+                )
                 return dialog[:]
 
         return self.base_dialog[:]
