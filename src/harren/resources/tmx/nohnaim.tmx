@@ -929,11 +929,13 @@
   </object>
   <object id="1179" name="npc2" type="npc" gid="1039" x="656" y="816" width="16" height="16">
    <properties>
+    <property name="direction" value="up"/>
     <property name="sprite" value="soldier.png"/>
    </properties>
   </object>
   <object id="1180" name="npc1" type="npc" gid="1039" x="608" y="816" width="16" height="16">
    <properties>
+    <property name="direction" value="up"/>
     <property name="sprite" value="soldier.png"/>
    </properties>
   </object>

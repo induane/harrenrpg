@@ -38,8 +38,9 @@ class GameState(object):
             'previous_level': 'load_screen',
             'player1': {},
             'inventory': {},
-            'quests': {},
             'quest_inventory': {'magic_item_1': 1},
+            'quests': [],
+            'completed_quests': [],
         }
         self.level_instance = None
         self.current_time = 0.0
@@ -126,6 +127,18 @@ class GameState(object):
     @property
     def quest_inventory(self):
         return self.state['quest_inventory']
+
+    @property
+    def inventory(self):
+        return self.state['inventory']
+
+    @property
+    def quests(self):
+        return self.state['quests']
+
+    @property
+    def completed_quests(self):
+        return self.state['completed_quests']
 
     @cachedproperty
     def screen_rectangle(self):

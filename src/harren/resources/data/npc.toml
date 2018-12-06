@@ -38,6 +38,7 @@ base_dialog = "Hey there, I like meat. Yummmmm"
   # move this quest into the players "completed quests" player data.
 
   [npc1.find_dog]
+  start_quest = true
   dialog = "This is really embarassing but now I've lost my dog"
   alt_dialog = [
     "Have you found my dog yet?",
@@ -47,6 +48,10 @@ base_dialog = "Hey there, I like meat. Yummmmm"
   # text. All dialog fields can be either a single piece of dialog or a list.
   # If it is a list then each will be shown to the player one at a time until
   # the list is exhausted.
+
+  [npc1.find_dog.dog_item]
+  dialog = "You found my dog! How can I ever repay you?"
+  quest_complete = true
 
 
 [npc2]
@@ -68,4 +73,21 @@ base_dialog = "Kids these days don't like eating grubs."
   # These items are put into the shadow inventory after talking to the player
   shadow_items = [
     'cat_item',
+  ]
+
+  # This whole "find_cat" section only fires if you're on the find_cat quest.
+  # Notice that I didn't set "start_quest" here.
+  [npc2.find_dog]
+  # use this "list" format when you want to have multiple lines of dialog
+  dialog = [
+      "Know anyone who needs a stupid dog?",
+      "I found this one in my latrine eating dead cats."
+  ]
+  alt_dialog = "Scram! Take that dog and go!"
+  # Here alt dialog fires if you're on the find_cat quest but you've already
+  # taken the item "cat_item"
+
+  # These items are put into the shadow inventory after talking to the player
+  shadow_items = [
+    'dog_item',
   ]

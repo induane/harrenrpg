@@ -238,7 +238,7 @@ class BaseLevel(object):
             for npc in npcs:
                 if npc.rect.colliderect(check_box):
                     self.reset_player1(orig_x, orig_y)
-                    # self.current_dialog = s_npc.dialog[:]  # Copy the dialog
+                    self.current_dialog = npc.interact()
                     move_player = False
                     break
 
@@ -452,6 +452,7 @@ class BaseLevel(object):
                 ))
             elif asset_type == 'npc':
                 custom_properties = properties.get('properties', {})
+                custom_properties['name'] = name  # Add name to custom data
                 sprite = custom_properties.get('sprite')
                 npcs.append(NPC(
                     self.game_loop,
