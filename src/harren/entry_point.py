@@ -63,6 +63,12 @@ def run_game():
         action='store_true',
         help='Skip the initial loading splash screen',
     )
+    parser.add_argument(
+        '--no-sound',
+        dest='no_sound',
+        action='store_true',
+        help='Disable sound',
+    )
 
     parsed_args = parser.parse_args()
 
@@ -154,10 +160,17 @@ def run_game():
     # Make the config folder if it doesn't already exist
     mkdir_p(resources.CONFIG_FOLDER)
 
+    # Disable or enable sound
+    if parsed_args.no_sound:
+        sound_enabled = False
+    else:
+        sound_enabled = True
+
     from harren.game_loop import GameState
     game = GameState(
         fullscreen=parsed_args.fullscreen,
-        no_splash=parsed_args.no_splash
+        no_splash=parsed_args.no_splash,
+        sound_enabled=sound_enabled,
     )
     game.main()
     __exit()

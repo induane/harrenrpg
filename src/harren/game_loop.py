@@ -29,6 +29,7 @@ class GameState(object):
         self.yres = kwargs.get('yres', 600)
         fullscreen = kwargs.get('fullscreen', False)
         no_splash = kwargs.get('no_splash', False)
+        self.sound_enabled = kwargs.get('sound_enabled', True)
         self.show_fps = False
         caption = 'Harren Press'
         self.state = {

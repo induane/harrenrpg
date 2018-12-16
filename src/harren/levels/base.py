@@ -150,6 +150,9 @@ class BaseLevel(object):
         return self.game_loop.surface
 
     def play_music(self):
+        if not self.game_loop.sound_enabled:
+            return  # Don't play the music
+
         pg.mixer.music.fadeout(100)
         if self.music_file:
             load_music(self.music_file)
