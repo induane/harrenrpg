@@ -63,13 +63,21 @@ GID_TRANS_ROT = 1 << 29
 # error message format strings go here
 duplicate_name_fmt = 'Cannot set user {} property on {} "{}"; Tiled property already exists.'
 
-flag_names = (
-    'flipped_horizontally',
-    'flipped_vertically',
-    'flipped_diagonally')
-
-TileFlags = namedtuple('TileFlags', flag_names)
 AnimationFrame = namedtuple('AnimationFrame', ['gid', 'duration'])
+
+
+class TileFlags(object):
+
+    __slots__ = (
+        'flipped_horizontally',
+        'flipped_vertically',
+        'flipped_diagonally'
+    )
+
+    def __init__(self, a, b, c):
+        self.flipped_horizontally = a
+        self.flipped_vertically = b
+        self.flipped_diagonally = c
 
 
 def default_image_loader(filename, flags, **kwargs):
@@ -253,7 +261,11 @@ class TiledElement(object):
                 _hasattr = hasattr(self, k.encode('utf-8'))
 
             if _hasattr:
-                msg = duplicate_name_fmt.format(k, self.__class__.__name__, self.name)
+                msg = duplicate_name_fmt.format(
+                    k,
+                    self.__class__.__name__,
+                    self.name
+                )
                 logger.error(msg)
                 return True
         return False
@@ -278,7 +290,10 @@ class TiledElement(object):
         if (not self.allow_duplicate_names and
                 self._contains_invalid_property_name(properties.items())):
             self._log_property_error_message()
-            raise ValueError('Reserved names and duplicate names are not allowed. Please rename your property inside the .tmx-file')
+            raise ValueError(
+                'Reserved names and duplicate names are not allowed. Please '
+                'rename your property inside the .tmx-file'
+            )
 
         self.properties = properties
 
@@ -932,7 +947,8 @@ class TiledTileset(TiledElement):
         if image_node is not None:
             self.source = image_node.get('source')
 
-            # When loading from tsx, tileset image path is relative to the tsx file, not the tmx:
+            # When loading from tsx, tileset image path is relative to the tsx
+            # file, not the tmx:
             if source:
                 self.source = os.path.join(os.path.dirname(source), self.source)
 

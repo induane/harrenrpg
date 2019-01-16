@@ -6,14 +6,14 @@ AnimationFrame = namedtuple('AnimationFrame', 'image duration')
 
 
 class AnimationToken(object):
-    __slots__ = ['next', 'positions', 'frames', 'index']
+    __slots__ = ('next', 'positions', 'frames', 'index')
 
     def __init__(self, positions, frames, initial_time=0):
         """
 
         :type frames: list
         :type positions: set
-        :type initial_time: int 
+        :type initial_time: int
         """
         frames = tuple(AnimationFrame(*i) for i in frames)
         self.positions = positions
@@ -23,15 +23,15 @@ class AnimationToken(object):
 
     def advance(self, last_time):
         """ Advance the frame, and set timer for next frame
-        
+
         Timer value is calculated by adding last_time and the
         duration of the next frame
-        
+
         The next frame is returned
-        
+
         This API may change in the future
-        
-        :param last_time: 
+
+        :param last_time:
         :return: Animation Frame
         """
         # advance the animation frame index, looping by default

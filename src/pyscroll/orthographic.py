@@ -15,7 +15,8 @@ LOG = logging.getLogger(__name__)
 
 
 class BufferedRenderer(object):
-    """ Renderer that support scrolling, zooming, layers, and animated tiles
+    """
+    Renderer that support scrolling, zooming, layers, and animated tiles
 
     The buffered renderer must be used with a data class to get tile, shape,
     and animation information.  See the data class api in pyscroll.data, or
