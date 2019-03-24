@@ -17,25 +17,21 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with pytmx.  If not, see <http://www.gnu.org/licenses/>.
 """
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-
-import itertools
 import logging
+from itertools import product
 
 import pytmx
 
-logger = logging.getLogger(__name__)
+LOG = logging.getLogger(__name__)
 
 try:
     from pygame.transform import flip, rotate
     import pygame
 except ImportError:
-    logger.error('cannot import pygame (is it installed?)')
+    LOG.error('cannot import pygame (is it installed?)')
     raise
 
-__all__ = ['load_pygame', 'pygame_image_loader', 'simplify', 'build_rects']
+__all__ = ('load_pygame', 'pygame_image_loader', 'simplify', 'build_rects')
 
 
 def handle_transformation(tile, flags):
@@ -104,7 +100,7 @@ def pygame_image_loader(filename, colorkey, **kwargs):
             try:
                 tile = image.subsurface(rect)
             except ValueError:
-                logger.error('Tile bounds outside bounds of tileset image')
+                LOG.error('Tile bounds outside bounds of tileset image')
                 raise
         else:
             tile = image.copy()
@@ -161,31 +157,33 @@ def build_rects(tmxmap, layer, tileset=None, real_gid=None):
         try:
             tileset = tmxmap.tilesets[tileset]
         except IndexError:
-            msg = 'Tileset #{0} not found in map {1}.'
-            logger.debug(msg.format(tileset, tmxmap))
-            raise IndexError
+            raise IndexError('Tileset #{} not found in map {}.'.format(
+                tileset,
+                tmxmap,
+            ))
 
     elif isinstance(tileset, str):
         try:
             tileset = [t for t in tmxmap.tilesets if t.name == tileset].pop()
         except IndexError:
-            msg = "Tileset \"{0}\" not found in map {1}."
-            logger.debug(msg.format(tileset, tmxmap))
-            raise ValueError
+            raise ValueError('Tileset "{}" not found in map {}.'.format(
+                tileset,
+                tmxmap,
+            ))
 
     elif tileset:
-        msg = 'Tileset must be either a int or string. got: {0}'
-        logger.debug(msg.format(type(tileset)))
-        raise TypeError
+        raise TypeError(
+            'Tileset must be either a int or string. got: {}'.format(
+                type(tileset)
+            )
+        )
 
     gid = None
     if real_gid:
         try:
             gid, flags = tmxmap.map_gid(real_gid)[0]
         except IndexError:
-            msg = 'GID #{0} not found'
-            logger.debug(msg.format(real_gid))
-            raise ValueError
+            raise ValueError('GID #{} not found'.format(real_gid))
 
     if isinstance(layer, int):
         layer_data = tmxmap.get_layer_data(layer)
@@ -194,11 +192,12 @@ def build_rects(tmxmap, layer, tileset=None, real_gid=None):
             layer = [l for l in tmxmap.layers if l.name == layer].pop()
             layer_data = layer.data
         except IndexError:
-            msg = "Layer \"{0}\" not found in map {1}."
-            logger.debug(msg.format(layer, tmxmap))
-            raise ValueError
+            raise ValueError('Layer "{}" not found in map {}'.format(
+                layer,
+                tmxmap,
+            ))
 
-    p = itertools.product(range(tmxmap.width), range(tmxmap.height))
+    p = product(range(tmxmap.width), range(tmxmap.height))
     if gid:
         points = [(x, y) for (x, y) in p if layer_data[y][x] == gid]
     else:
@@ -272,7 +271,8 @@ def simplify(all_points, tilewidth, tileheight):
                         y -= 1
                         break
                 else:
-                    if x <= ex: y -= 1
+                    if x <= ex:
+                        y -= 1
                     break
 
         c_rect = pygame.Rect(ox * tilewidth, oy * tileheight,
