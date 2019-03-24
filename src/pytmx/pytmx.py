@@ -17,12 +17,13 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with pytmx.  If not, see <http://www.gnu.org/licenses/>.
 """
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-
+import array
+import gzip
 import logging
 import os
+import struct
+import zlib
+from base64 import b64decode
 from collections import defaultdict, namedtuple
 from itertools import chain, product
 from operator import attrgetter
@@ -872,8 +873,6 @@ class TiledTileset(TiledElement):
         :param node: ElementTree element
         :return: self
         """
-        import os
-
         # if true, then node references an external tileset
         source = node.get('source', None)
         if source:
@@ -1023,45 +1022,38 @@ class TiledTileLayer(TiledElement):
         :param node: ElementTree xml node
         :return: self
         """
-        import struct
-        import array
-
         self._set_properties(node)
         data = None
         next_gid = None
         data_node = node.find('data')
-
         encoding = data_node.get('encoding', None)
-        if encoding == 'base64':
-            from base64 import b64decode
 
+        if encoding == 'base64':
             data = b64decode(data_node.text.strip())
 
         elif encoding == 'csv':
-            next_gid = map(int, ''.join(
-                line.strip() for line in data_node.text.strip()).split(','))
+            next_gid = map(
+                int,
+                ''.join(line.strip() for line in data_node.text.strip()
+            ).split(','))
 
         elif encoding:
-            msg = 'TMX encoding type: {0} is not supported.'
-            logger.error(msg.format(encoding))
-            raise Exception
+            raise Exception('TMX encoding type: {} is not supported.'.format(
+                encoding
+            ))
 
         compression = data_node.get('compression', None)
         if compression == 'gzip':
-            import gzip
-
             with gzip.GzipFile(fileobj=six.BytesIO(data)) as fh:
                 data = fh.read()
 
         elif compression == 'zlib':
-            import zlib
-
             data = zlib.decompress(data)
 
         elif compression:
-            msg = 'TMX compression type: {0} is not supported.'
-            logger.error(msg.format(compression))
-            raise Exception
+            raise Exception('TMX compression type: {} is not supported.'.format(
+                compression
+            ))
 
         # if data is None, then it was not decoded or decompressed, so
         # we assume here that it is going to be a bunch of tile elements
