@@ -3,8 +3,7 @@ Harren RPG
 
 A fantasy mini-RPG built with Python and Pygame.
 
-![preview](https://raw.github.com/induane/harren_rpg/master/screenshot.png)
-
+![picture](screenshot.png)
 
 Requirements: ``Python3``, ``Pygame>=1.9.1``
 
