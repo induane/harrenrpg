@@ -1086,11 +1086,9 @@ class TiledTileLayer(TiledElement):
         init = lambda: [0] * self.width
         reg = self.parent.register_gid
 
-        # H (16-bit) may be a limitation for very detailed maps
-        self.data = tuple(array.array('H', init()) for i in range(self.height))
+        self.data = tuple(array.array('L', init()) for i in range(self.height))
         for (y, x) in product(range(self.height), range(self.width)):
             self.data[y][x] = reg(*decode_gid(next(next_gid)))
-
         return self
 
 
