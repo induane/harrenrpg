@@ -118,20 +118,15 @@ def convert_to_bool(text):
     # handle "1" and "0"
     try:
         return bool(int(text))
-    except:
+    except Exception:
         pass
 
-    text = str(text).lower()
-    if text == 'true':
+    val = str(text).strip().lower()
+    if val in ('true', 'yes', '1', 'evet', 'y', ):
         return True
-    if text == 'yes':
-        return True
-    if text == 'false':
+    if val in ('false', 'no', '0', 'hiyur', 'n', ):
         return False
-    if text == 'no':
-        return False
-
-    raise ValueError
+    raise ValueError('Could not convert {} to a boolean value'.format(text))
 
 
 # used to change the unicode string returned from xml to
