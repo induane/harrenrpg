@@ -245,6 +245,8 @@ class GameState(object):
         get_pressed = pg.key.get_pressed
         get_ticks = pg.time.get_ticks
         flip = pg.display.flip
+        tick = self.clock.tick
+        route_keys = self.route_keys
 
         while True:
             if self.current_level in ('quit', 'exit'):
@@ -289,18 +291,18 @@ class GameState(object):
                     # If the level requests only keydown events, route them
                     # here
                     if self.level_instance.keydown_only:
-                        self.route_keys(keys, self.level_instance)
+                        route_keys(keys, self.level_instance)
 
             # If we aren't only watching for keydown events, route keys once
             # per gameloop
             if not self.level_instance.keydown_only:
-                self.route_keys(keys, self.level_instance)
+                route_keys(keys, self.level_instance)
 
             self.current_time = get_ticks()
             self.level_instance.draw()
 
             flip()
-            self.clock.tick(60)  # 60 FPS Target
+            tick(60)  # 60 FPS Target
 
         LOG.info('Exiting...')
         self._exit()

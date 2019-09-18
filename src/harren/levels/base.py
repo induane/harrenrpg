@@ -6,18 +6,18 @@ import logging
 import random
 
 # Third Party
-from boltons.cacheutils import cachedproperty
-from six import string_types
 import pygame as pg
-from pytmx.util_pygame import load_pygame
 import pyscroll
 import pyscroll.data
+from boltons.cacheutils import cachedproperty
 from pyscroll.group import PyscrollGroup
+from pytmx.util_pygame import load_pygame
+from six import string_types
 
 # Project
 from harren import resources
-from harren.player import Player
 from harren.npc import StaticNPC, NPC
+from harren.player import Player
 from harren.utils.dialog import dialog_from_props
 from harren.utils.pg_utils import get_image, load_music
 
