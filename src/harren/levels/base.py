@@ -582,8 +582,10 @@ class BaseLevel(object):
     def escape_pressed(self):
         self.current_dialog = []
         self.accept_spaces = True
-        self.accept_enter = True
         pass
+
+    def esc_pressed(self):
+        return self.escape_pressed()
 
     def up_released(self):
         pass
@@ -628,4 +630,4 @@ class BaseLevel(object):
         pass
 
     def enter_pressed(self):
-        self.space_pressed()
+        return self.space_pressed()

@@ -77,6 +77,11 @@ class GameSelect(BaseLevel):
                 state_dict = json.loads(val)
             self.game_loop.set_state(state_dict)
 
+    def escape_pressed(self):
+        prev_level = self.game_loop.state['previous_level']
+        self.game_loop.current_level = prev_level
+        self.level_has_changed = True
+
     def _draw_text(self, surface, **kwargs):
         """Custom text draw that can move the select arrow."""
         text = self.font_40.render('Select', True, (255, 255, 255))
