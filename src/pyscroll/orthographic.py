@@ -223,7 +223,7 @@ class BufferedRenderer(object):
         self._real_ratio_y = float(self._size[1]) / zoom_buffer_size[1]
 
     def set_size(self, size):
-        """ Set the size of the map in pixels
+        """Set the size of the map in pixels
 
         This is an expensive operation, do only when absolutely needed.
 
@@ -234,10 +234,9 @@ class BufferedRenderer(object):
         self._initialize_buffers(buffer_size)
 
     def redraw_tiles(self, surface):
-        """ redraw the visible portion of the buffer -- it is slow.
-        """
+        """Redraw the visible portion of the buffer -- this is slow."""
         # TODO/BUG: Redraw animated tiles correctly.  They are getting reset here
-        LOG.warning('pyscroll buffer redraw')
+        LOG.debug('pyscroll buffer redraw')
         self._clear_surface(self._buffer)
         self._tile_queue = self.data.get_tile_images_by_rect(self._tile_view)
         self._flush_tile_queue(surface)
