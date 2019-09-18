@@ -5,6 +5,7 @@ import json
 import logging
 import os
 import sys
+import time
 
 # Third Party
 import pygame as pg
@@ -25,6 +26,8 @@ class GameState(object):
 
     def __init__(self, *args, **kwargs):
         pg.init()
+        self.initialize_audio()
+
         self.xres = kwargs.get('xres', 800)
         self.yres = kwargs.get('yres', 600)
         fullscreen = kwargs.get('fullscreen', False)
@@ -74,6 +77,27 @@ class GameState(object):
             load_screen()   # Initial draw
             pg.display.flip()
             self.overworld_map  # Forces the overworld map to get cached
+
+    def initialize_audio(self):
+        """Setup the audio system."""
+        loop = 3
+        while True:
+            LOG.info('Initializing audio system...')
+            try:
+                pg.mixer.init()
+            except Exception:
+                if loop <= 0:
+                    LOG.exception('Unable to initialize audio system')
+                    break
+                else:
+                    try:
+                        pg.mixer.quit()
+                    except Exception:
+                        pass
+                    time.sleep(1)
+            else:
+                break
+            loop -= 1
 
     @cachedproperty
     def overworld_map(self):
@@ -230,7 +254,10 @@ class GameState(object):
             # If the level has changed, load the new level
             if self.level_has_changed or self.level_instance is None:
                 self.level_instance = LEVEL_MAP[self.current_level](self)
-                self.level_instance.play_music()
+                try:
+                    self.level_instance.play_music()
+                except pg.error:
+                    LOG.exception('Unable to play music')
                 self.level_has_changed = False
 
             events = event_get()
@@ -251,6 +278,8 @@ class GameState(object):
                         self._exit()
                     if event.key == pg.K_F5 and alt_held:
                         self._save()
+                    if event.key == pg.K_ESCAPE:
+                        self.current_level = 'game_select'
                     if event.key == pg.K_F1 and alt_held:
                         if self.show_fps:
                             self.show_fps = False
