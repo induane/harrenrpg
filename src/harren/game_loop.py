@@ -172,7 +172,7 @@ class GameState(object):
     def _set_notification(self, text):
         """Set notification text to display."""
         self._notification_start_time = self.current_time
-        self._notification_text = text
+        self._notification_text = '* {}'.format(text)
 
     notification = property(_get_notification, _set_notification)
 
@@ -206,6 +206,11 @@ class GameState(object):
     def font_20(self):
         """Return the main font."""
         return get_font('Triforce.ttf', size=20)
+
+    @cachedproperty
+    def font_25(self):
+        """Return the main font."""
+        return get_font('Triforce.ttf', size=25)
 
     @cachedproperty
     def font_40(self):

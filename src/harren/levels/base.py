@@ -104,11 +104,15 @@ class BaseLevel(object):
 
     @property
     def font_15(self):
-        return self.game_loop.font_20
+        return self.game_loop.font_15
 
     @property
     def font_20(self):
         return self.game_loop.font_20
+
+    @property
+    def font_25(self):
+        return self.game_loop.font_25
 
     @property
     def font_40(self):
@@ -353,7 +357,7 @@ class BaseLevel(object):
         img_rect.y += 3
         surface.blit(img, img_rect)
 
-        notification_text = self.font_20.render(
+        notification_text = self.font_25.render(
             notification,
             True,
             (255, 255, 255)
