@@ -2,29 +2,27 @@
 import argparse
 import logging
 import os
-import pkg_resources
 import sys
 from logging.config import dictConfig
+from pkg_resources import DistributionNotFound, get_distribution
 
 # Third Party
+from boltons.fileutils import mkdir_p
 from log_color import ColorStripper, ColorFormatter
 
 # Project
 from harren import resources
-from harren.py_compat import mkdir_p
 
 LOG = logging.getLogger(__name__)
 
 
-# Setup the version string globally
-try:
-    pkg_version = '%(prog)s {0}'.format(
-        pkg_resources.get_distribution('harren-rpg').version
-    )
-except pkg_resources.DistributionNotFound:
-    pkg_version = '%(prog)s Development'
-except Exception:
-    pkg_version = '%(prog)s Unknown'
+def get_version() -> str:
+    try:
+        return f"%(prog)s {get_distribution('harren_rpg').version}"
+    except DistributionNotFound:
+        return '%(prog)s Development'
+    except Exception:
+        return '%(prog)s Unknown'
 
 
 def run_game():
@@ -47,7 +45,7 @@ def run_game():
         '-V',
         '--version',
         action='version',
-        version=pkg_version,
+        version=get_version(),
         help='Display the version number.'
     )
     parser.add_argument(

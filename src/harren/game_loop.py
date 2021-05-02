@@ -130,7 +130,7 @@ class GameState(object):
 
     def _set_current_level(self, value):
         if value not in LEVEL_MAP:
-            raise ValueError('Unknown level: {}'.format(value))
+            raise ValueError(f'Unknown level: {value}')
 
         if value != self.state['current_level']:
             self.state['previous_level'] = self.state['current_level']
@@ -257,7 +257,7 @@ class GameState(object):
             if self.current_level in ('quit', 'exit'):
                 LOG.info('Exiting...')
                 self._exit()
-            # LOG.debug('Frames Per Second: %s', self.clock.get_fps())
+
             # If the level has changed, load the new level
             if self.level_has_changed or self.level_instance is None:
                 self.level_instance = LEVEL_MAP[self.current_level](self)
@@ -288,10 +288,7 @@ class GameState(object):
                     if event.key == pg.K_ESCAPE:
                         self.current_level = 'game_select'
                     if event.key == pg.K_F1 and alt_held:
-                        if self.show_fps:
-                            self.show_fps = False
-                        else:
-                            self.show_fps = True
+                        self.show_fls = not self.show_fps  # Toggle
 
                     # If the level requests only keydown events, route them
                     # here

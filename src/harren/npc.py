@@ -1,12 +1,9 @@
-from __future__ import unicode_literals, absolute_import
-
 # Standard
 import logging
 import random
 
 # Third Party
 import pygame as pg
-import six
 
 # Project
 from harren.utils import pg_utils
@@ -20,11 +17,10 @@ class StaticNPC(pg.sprite.Sprite):
     __slots__ = ('dialog', 'game_loop', 'image', 'rect')
 
     def __init__(self, game_loop, sprite_path, rect, **kwargs):
-        super(StaticNPC, self).__init__()
         self.game_loop = game_loop
-        self.dialog = kwargs.get('dialog', []) or []
+        self.dialog = kwargs.pop('dialog', []) or []
 
-        direction = kwargs.get('direction', 'down')
+        direction = kwargs.pop('direction', 'down')
         if sprite_path:
             sprite_data = pg_utils.get_sprite_map(sprite_path)
 
@@ -33,13 +29,13 @@ class StaticNPC(pg.sprite.Sprite):
             rand = random.randint(1, 2)
 
             if direction == 'down':
-                image = sprite_data['down_{}'.format(rand)]
+                image = sprite_data[f'down_{rand}']
             elif direction == 'up':
-                image = sprite_data['up_{}'.format(rand)]
+                image = sprite_data[f'up_{rand}']
             elif direction == 'left':
-                image = sprite_data['left_{}'.format(rand)]
+                image = sprite_data[f'left_{rand}']
             elif direction == 'right':
-                image = sprite_data['right_{}'.format(rand)]
+                image = sprite_data[f'right_{rand}']
             else:
                 raise Exception('Could not initialize sprite.')
             self.image = image
@@ -48,6 +44,7 @@ class StaticNPC(pg.sprite.Sprite):
         else:
             self.image = None
             self.rect = rect
+        super().__init__(**kwargs)
 
 
 class NPC(pg.sprite.Sprite):
@@ -57,11 +54,9 @@ class NPC(pg.sprite.Sprite):
                  'rect', 'npc_data', 'name', 'base_dialog', 'alt_dialog')
 
     def __init__(self, game_loop, sprite_path, rect, **kwargs):
-        super(NPC, self).__init__()
         self.game_loop = game_loop
-        self.data = kwargs.get('data', {}) or {}
-
-        direction = self.data.get('direction', 'down')
+        self.data = kwargs.pop('data', {}) or {}
+        direction = self.data.get('direction', 'down') or 'down'
         if sprite_path:
             sprite_data = pg_utils.get_sprite_map(sprite_path)
 
@@ -70,13 +65,13 @@ class NPC(pg.sprite.Sprite):
             rand = random.randint(1, 2)
 
             if direction == 'down':
-                image = sprite_data['down_{}'.format(rand)]
+                image = sprite_data[f'down_{rand}']
             elif direction == 'up':
-                image = sprite_data['up_{}'.format(rand)]
+                image = sprite_data[f'up_{rand}']
             elif direction == 'left':
-                image = sprite_data['left_{}'.format(rand)]
+                image = sprite_data[f'left_{rand}']
             elif direction == 'right':
-                image = sprite_data['right_{}'.format(rand)]
+                image = sprite_data[f'right_{rand}']
             else:
                 raise Exception('Could not initialize sprite.')
             self.image = image
@@ -91,10 +86,11 @@ class NPC(pg.sprite.Sprite):
         self.npc_data = self.game_loop.npc_data.get(self.data['name'], {})
         self.name = self.npc_data.pop('name', 'Jane')
         base_dialog = self.npc_data.pop('base_dialog', []) or []
-        if isinstance(base_dialog, six.string_types):
+        if isinstance(base_dialog, str):
             base_dialog = [base_dialog, ]
         self.base_dialog = base_dialog
         self.alt_dialog = self.npc_data.pop('alt_dialog', []) or []
+        super().__init__(**kwargs)
 
     def interact(self):
         """
@@ -151,7 +147,7 @@ class NPC(pg.sprite.Sprite):
                         if not dialog:
                             LOG.warning('NPC %s missing some quest dialog',
                                         self.name)
-                        if isinstance(dialog, six.string_types):
+                        if isinstance(dialog, str):
                             dialog = [dialog, ]
                         return dialog[:]
 
@@ -162,7 +158,7 @@ class NPC(pg.sprite.Sprite):
                 if not dialog:
                     return self.base_dialog[:]
                 else:
-                    if isinstance(dialog, six.string_types):
+                    if isinstance(dialog, str):
                         dialog = [dialog, ]
                     return dialog[:]
 
@@ -177,7 +173,7 @@ class NPC(pg.sprite.Sprite):
                 if not dialog:
                     LOG.warning('Quest %s missing dialog for npc %s',
                                 current_quest, self.name)
-                if isinstance(dialog, six.string_types):
+                if isinstance(dialog, str):
                     dialog = [dialog, ]
 
                 if active_data.get('quest_complete', False) is True:
@@ -185,11 +181,11 @@ class NPC(pg.sprite.Sprite):
                 return dialog[:]
 
             dialog = active_data.get('alt_dialog') or []
-            if isinstance(dialog, six.string_types):
+            if isinstance(dialog, str):
                 dialog = [dialog, ]
             return dialog[:]
 
-        # first serve!
+        # First serve!
         LOG.debug('No current quest, checking for new quest...')
 
         for quest_name, quest in npc_data.items():
@@ -214,7 +210,7 @@ class NPC(pg.sprite.Sprite):
                 if not dialog:
                     LOG.warning('No dialog quest, returning generic...')
                     return ['You got a quest!', ]
-                if isinstance(dialog, six.string_types):
+                if isinstance(dialog, str):
                     dialog = [dialog, ]
                 self.game_loop.notification = 'New quest! {}'.format(
                     quest_info.get('name', quest_name) or quest_name

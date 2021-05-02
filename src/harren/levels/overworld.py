@@ -16,7 +16,7 @@ class Overworld(BaseLevel):
     name = 'overworld'
 
     def __init__(self, game_loop, **kwargs):
-        super(Overworld, self).__init__('harren_map.tmx', game_loop, **kwargs)
+        super().__init__('harren_map.tmx', game_loop, **kwargs)
 
     @cachedproperty
     def tmx_data(self):

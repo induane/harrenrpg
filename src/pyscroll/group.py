@@ -1,18 +1,19 @@
+# Third Party
 import pygame
 
-__all__ = ('PyscrollGroup',)
+__all__ = ('PyscrollGroup', )
 
 
 class PyscrollGroup(pygame.sprite.LayeredUpdates):
-    """ Layered Group with ability to center sprites and scrolling map
-    """
+    """Layered Group with ability to center sprites and scrolling map."""
 
     def __init__(self, *args, **kwargs):
         pygame.sprite.LayeredUpdates.__init__(self, *args, **kwargs)
         self._map_layer = kwargs.get('map_layer')
 
     def center(self, value):
-        """ Center the group/map on a pixel
+        """
+        Center the group/map on a pixel
 
         The basemap and all sprites will be realigned to draw correctly.
         Centering the map will not change the rect of the sprites.
@@ -23,7 +24,8 @@ class PyscrollGroup(pygame.sprite.LayeredUpdates):
 
     @property
     def view(self):
-        """ Return a Rect representing visible portion of map
+        """
+        Return a Rect representing visible portion of map
 
         This rect can be modified, but will not change the renderer
 

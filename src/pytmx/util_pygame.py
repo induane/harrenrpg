@@ -17,29 +17,26 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with pytmx.  If not, see <http://www.gnu.org/licenses/>.
 """
+# Standard
 import logging
 from itertools import product
 
-import pytmx
+# Third Party
+from pygame.transform import flip, rotate
+from pygame import (
+    Color as pygame_Color,
+    image as pygame_image,
+    mask as pygame_mask,
+    Rect as pygame_Rect,
+    RLEACCEL as pygame_RLEACCEL,
+)
+
+# Project
+from .pytmx import TiledMap
+
 
 LOG = logging.getLogger(__name__)
-
-try:
-    from pygame.transform import flip, rotate
-    import pygame
-except ImportError:
-    LOG.error('cannot import pygame (is it installed?)')
-    raise
-
 __all__ = ('load_pygame', 'pygame_image_loader', 'simplify', 'build_rects')
-
-
-def handle_transformation(tile, flags):
-    if flags.flipped_diagonally:
-        tile = flip(rotate(tile, 270), 1, 0)
-    if flags.flipped_horizontally or flags.flipped_vertically:
-        tile = flip(tile, flags.flipped_horizontally, flags.flipped_vertically)
-    return tile
 
 
 def smart_convert(original, colorkey, pixelalpha):
@@ -55,7 +52,7 @@ def smart_convert(original, colorkey, pixelalpha):
 
     try:
         # count the number of pixels in the tile that are not transparent
-        px = pygame.mask.from_surface(original, threshold).count()
+        px = pygame_mask.from_surface(original, threshold).count()
     except:
         # pygame_sdl2 will fail because the mask module is not included
         # in this case, just convert_alpha and return it
@@ -68,7 +65,7 @@ def smart_convert(original, colorkey, pixelalpha):
     # there are transparent pixels, and tiled set a colorkey
     elif colorkey:
         tile = original.convert()
-        tile.set_colorkey(colorkey, pygame.RLEACCEL)
+        tile.set_colorkey(colorkey, pygame_RLEACCEL)
 
     # there are transparent pixels, and set for perpixel alpha
     elif pixelalpha:
@@ -90,10 +87,10 @@ def pygame_image_loader(filename, colorkey, **kwargs):
     :return:
     """
     if colorkey:
-        colorkey = pygame.Color('#{0}'.format(colorkey))
+        colorkey = pygame_Color(f'#{colorkey}')
 
     pixelalpha = kwargs.get('pixelalpha', True)
-    image = pygame.image.load(filename)
+    image = pygame_image.load(filename)
 
     def load_image(rect=None, flags=None):
         if rect:
@@ -106,7 +103,10 @@ def pygame_image_loader(filename, colorkey, **kwargs):
             tile = image.copy()
 
         if flags:
-            tile = handle_transformation(tile, flags)
+            if flags.flipped_diagonally:
+                tile = flip(rotate(tile, 270), 1, 0)
+            if flags.flipped_horizontally or flags.flipped_vertically:
+                tile = flip(tile, flags.flipped_horizontally, flags.flipped_vertically)
 
         tile = smart_convert(tile, colorkey, pixelalpha)
         return tile
@@ -115,7 +115,7 @@ def pygame_image_loader(filename, colorkey, **kwargs):
 
 
 def load_pygame(filename, *args, **kwargs):
-    """ Load a TMX file, images, and return a TiledMap class
+    """Load a TMX file, images, and return a TiledMap class
 
     PYGAME USERS: Use me.
 
@@ -134,7 +134,7 @@ def load_pygame(filename, *args, **kwargs):
     already done for you.
     """
     kwargs['image_loader'] = pygame_image_loader
-    return pytmx.TiledMap(filename, *args, **kwargs)
+    return TiledMap(filename, *args, **kwargs)
 
 
 def build_rects(tmxmap, layer, tileset=None, real_gid=None):
@@ -157,25 +157,17 @@ def build_rects(tmxmap, layer, tileset=None, real_gid=None):
         try:
             tileset = tmxmap.tilesets[tileset]
         except IndexError:
-            raise IndexError('Tileset #{} not found in map {}.'.format(
-                tileset,
-                tmxmap,
-            ))
+            raise IndexError(f'Tileset #{tileset} not found in map {tmxmap}.')
 
     elif isinstance(tileset, str):
         try:
             tileset = [t for t in tmxmap.tilesets if t.name == tileset].pop()
         except IndexError:
-            raise ValueError('Tileset "{}" not found in map {}.'.format(
-                tileset,
-                tmxmap,
-            ))
+            raise ValueError(f'Tileset "{tileset}" not found in map {tmxmap}.')
 
     elif tileset:
         raise TypeError(
-            'Tileset must be either a int or string. got: {}'.format(
-                type(tileset)
-            )
+            f'Tileset must be either a int or string - got: {type(tileset)}'
         )
 
     gid = None
@@ -183,7 +175,7 @@ def build_rects(tmxmap, layer, tileset=None, real_gid=None):
         try:
             gid, flags = tmxmap.map_gid(real_gid)[0]
         except IndexError:
-            raise ValueError('GID #{} not found'.format(real_gid))
+            raise ValueError(f'GID #{real_gid} not found')
 
     if isinstance(layer, int):
         layer_data = tmxmap.get_layer_data(layer)
@@ -192,10 +184,7 @@ def build_rects(tmxmap, layer, tileset=None, real_gid=None):
             layer = [l for l in tmxmap.layers if l.name == layer].pop()
             layer_data = layer.data
         except IndexError:
-            raise ValueError('Layer "{}" not found in map {}'.format(
-                layer,
-                tmxmap,
-            ))
+            raise ValueError(f"Layer '{layer}' not found in map {tmxmap}")
 
     p = product(range(tmxmap.width), range(tmxmap.height))
     if gid:
@@ -234,7 +223,7 @@ def simplify(all_points, tilewidth, tileheight):
         0 0 0 0 0 0 0
         0 0 1 1 1 1 1
 
-        you'll have the 4 rects that mask the area like this:
+    You'll have the 4 rects that mask the area like this:
 
         ..######......
         ..####........
@@ -245,9 +234,9 @@ def simplify(all_points, tilewidth, tileheight):
 
         pretty cool, right?
 
-    there may be cases where the number of rectangles is not as low as possible,
-    but I haven't found that it is excessively bad.  certainly much better than
-    making a list of rects, one for each tile on the map!
+    There may be cases where the number of rectangles is not as low as
+    possible, but I haven't found that it is excessively bad. Certainly much
+    better than making a list of rects, one for each tile on the map!
     """
 
     def pick_rect(points, rects):
@@ -275,13 +264,13 @@ def simplify(all_points, tilewidth, tileheight):
                         y -= 1
                     break
 
-        c_rect = pygame.Rect(ox * tilewidth, oy * tileheight,
+        c_rect = pygame_Rect(ox * tilewidth, oy * tileheight,
                              (ex - ox + 1) * tilewidth,
                              (y - oy + 1) * tileheight)
 
         rects.append(c_rect)
 
-        rect = pygame.Rect(ox, oy, ex - ox + 1, y - oy + 1)
+        rect = pygame_Rect(ox, oy, ex - ox + 1, y - oy + 1)
         kill = [p for p in points if rect.collidepoint(p)]
         [points.remove(i) for i in kill]
 

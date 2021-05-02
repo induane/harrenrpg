@@ -14,7 +14,7 @@ class LoadScreen(BaseLevel):
 
     def __init__(self, game_loop, **kwargs):
         kwargs['images'] = ['game_title.png']
-        super(LoadScreen, self).__init__('load.tmx', game_loop, **kwargs)
+        super().__init__('load.tmx', game_loop, **kwargs)
 
     def draw(self):
         self._simple_draw()  # Use the simple draw method

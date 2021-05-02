@@ -1,20 +1,21 @@
-from __future__ import division, print_function
-
+# Standard
 import logging
 import math
 import time
 from itertools import chain, groupby, product
 from operator import gt, itemgetter
 
-import pygame
-from pygame import Rect, Surface
+# Third Party
+from pygame import Rect, Surface, transform, SRCALPHA
 
-from pyscroll import quadtree, surface_clipping_context
+# Project
+from .quadtree import FastQuadTree
+from .lib import surface_clipping_context
 
 LOG = logging.getLogger(__name__)
 
 
-class BufferedRenderer(object):
+class BufferedRenderer:
     """
     Renderer that support scrolling, zooming, layers, and animated tiles
 
@@ -28,7 +29,7 @@ class BufferedRenderer(object):
     _rgb_clear_color = 0, 0, 0
 
     def __init__(self, data, size, clamp_camera=True, colorkey=None, alpha=False,
-                 time_source=time.time, scaling_function=pygame.transform.scale,
+                 time_source=time.time, scaling_function=transform.scale,
                  tall_sprites=0, **kwargs):
 
         bg_fill = kwargs.get('background_color')
@@ -451,14 +452,14 @@ class BufferedRenderer(object):
             self._buffer = Surface(buffer_size)
         elif self._clear_color == self._rgba_clear_color:
             if requires_zoom_buffer:
-                self._zoom_buffer = Surface(view_size, flags=pygame.SRCALPHA)
-            self._buffer = Surface(buffer_size, flags=pygame.SRCALPHA)
+                self._zoom_buffer = Surface(view_size, flags=SRCALPHA)
+            self._buffer = Surface(buffer_size, flags=SRCALPHA)
             self.data.convert_surfaces(self._buffer, True)
         elif self._clear_color is not self._rgb_clear_color:
             if requires_zoom_buffer:
-                self._zoom_buffer = Surface(view_size, flags=pygame.RLEACCEL)
+                self._zoom_buffer = Surface(view_size, flags=RLEACCEL)
                 self._zoom_buffer.set_colorkey(self._clear_color)
-            self._buffer = Surface(buffer_size, flags=pygame.RLEACCEL)
+            self._buffer = Surface(buffer_size, flags=RLEACCEL)
             self._buffer.set_colorkey(self._clear_color)
             self._buffer.fill(self._clear_color)
 
@@ -494,7 +495,7 @@ class BufferedRenderer(object):
 
         # TODO: figure out what depth -actually- does
         # values <= 8 tend to reduce performance
-        self._layer_quadtree = quadtree.FastQuadTree(rects, 4)
+        self._layer_quadtree = FastQuadTree(rects, 4)
 
         self.redraw_tiles(self._buffer)
 

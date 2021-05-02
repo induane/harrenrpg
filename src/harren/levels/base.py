@@ -1,5 +1,3 @@
-from __future__ import unicode_literals, absolute_import
-
 # Standard
 import os
 import logging
@@ -7,12 +5,7 @@ import random
 
 # Third Party
 import pygame as pg
-import pyscroll
-import pyscroll.data
 from boltons.cacheutils import cachedproperty
-from pyscroll.group import PyscrollGroup
-from pytmx.util_pygame import load_pygame
-from six import string_types
 
 # Project
 from harren import resources
@@ -20,11 +13,15 @@ from harren.npc import StaticNPC, NPC
 from harren.player import Player
 from harren.utils.dialog import dialog_from_props
 from harren.utils.pg_utils import get_image, load_music
+from pyscroll.data import TiledMapData
+from pyscroll.group import PyscrollGroup
+from pyscroll.orthographic import BufferedRenderer
+from pytmx.util_pygame import load_pygame
 
 LOG = logging.getLogger(__name__)
 
 
-class BaseLevel(object):
+class BaseLevel:
 
     def __init__(self, filename, game_loop, **kwargs):
         self.map_filename = filename
@@ -45,7 +42,7 @@ class BaseLevel(object):
         self.image_cache = []
         for image in kwargs.get('images', []):
             # If there is no location data tuple, just blit to the middle
-            if isinstance(image, string_types):
+            if isinstance(image, str):
                 img = get_image(image)
                 self.image_cache.append((img, None, None))
             else:
@@ -56,8 +53,8 @@ class BaseLevel(object):
 
         LOG.debug('Collecting TMX data...')
         # Collect tmx_data and a surface
-        self.map_data = pyscroll.data.TiledMapData(self.tmx_data)
-        self.map_layer = pyscroll.BufferedRenderer(
+        self.map_data = TiledMapData(self.tmx_data)
+        self.map_layer = BufferedRenderer(
             self.map_data,
             self.game_screen.get_size(),
             clamp_camera=False,
@@ -66,7 +63,7 @@ class BaseLevel(object):
         )
         self.map_layer.zoom = 2
 
-        # pyscroll supports layered rendering.  our map has 3 'under' layers
+        # pyscroll supports layered rendering. Our map has 3 'under' layers
         # layers begin with 0, so the layers are 0, 1, and 2.
         # since we want the sprite to be on top of layer 1, we set the default
         # layer for sprites as 2
@@ -170,7 +167,10 @@ class BaseLevel(object):
         viewport = self.game_screen.get_rect()
         surface = pg.Surface((viewport.width, viewport.height))
 
-        # draw the map and all sprites
+        # Alias so we can avoid an attribute lookup on each loop iteration
+        surface_blit = surface.blit
+
+        # Draw the map and all sprites
         self.scroll_group.draw(surface)
 
         # If there are any images, draw them
@@ -185,7 +185,7 @@ class BaseLevel(object):
                 img_rect.midbottom = self.viewport.midbottom
                 img_rect.y = y
                 img_rect.x = x
-            surface.blit(img, img_rect)
+            surface_blit(img, img_rect)
 
         # Draw any text on the surface
         self.draw_text(surface)
@@ -264,6 +264,7 @@ class BaseLevel(object):
 
         # Collect all images to blit
         images_to_blit = []
+        img_blit_append = images_to_blit.append  # Alias for performance
 
         # If there are any images, draw them
         for img, x, y in self.image_cache:
@@ -272,12 +273,12 @@ class BaseLevel(object):
             # If there is no location data tuple, just blit to the middle
             if x is None or y is None:
                 img_rect.center = viewport.center
-                surface.blit(img, img_rect)
+                # surface.blit(img, img_rect)
             else:
                 img_rect.midbottom = self.viewport.midbottom
                 img_rect.y = y
                 img_rect.x = x
-            images_to_blit.append((img, img_rect))
+            img_blit_append((img, img_rect))
 
         # Draw the main scroll group
         self.scroll_group.draw(surface)
@@ -287,7 +288,7 @@ class BaseLevel(object):
 
         # If we have encountered a poster, draw it
         if self.poster_image:
-            if isinstance(self.poster_image, string_types):
+            if isinstance(self.poster_image, str):
                 self.poster_image = get_image(self.poster_image)
             poster_rect = self.poster_image.get_rect()
             poster_rect.center = viewport.center
@@ -433,76 +434,63 @@ class BaseLevel(object):
         posters = []
         pg_rect = pg.Rect
         for obj in self.tmx_data.objects:
-            properties = obj.__dict__
-            name = properties.get('name')
-            asset_type = properties.get('type')
+            name = obj.name
+            asset_type = obj.type
             if asset_type == 'blocker' or name == 'blocker':
-                colliders.append(pg_rect(
-                    properties['x'],
-                    properties['y'], 16, 16
-                ))
+                colliders.append(pg_rect(obj.x, obj.y, 16, 16))
             elif not start_point and any((
                 asset_type in ('start_point', 'start point', 'starting point'),
                 name in ('start_point', 'start point', 'starting point'),
             )):
-                start_point = pg_rect(
-                    properties['x'],
-                    properties['y'], 16, 16
-                )
+                start_point = pg_rect(obj.x, obj.y, 16, 16)
             elif asset_type == 'portal_target':
                 portal_targets.append({
                     'name': name,
-                    'rect': pg_rect(
-                        properties['x'],
-                        properties['y'], 16, 16
-                    )
+                    'rect': pg_rect(obj.x, obj.y, 16, 16)
                 })
             elif asset_type == 'portal' or name == 'portal':
-                custom_properties = properties.get('properties', {})
+                custom_properties = obj.properties
                 destination = custom_properties.get('destination')
                 teleport_target = custom_properties.get('portal')
                 if not destination:
                     LOG.warning('Portal at %s, %s missing destination.',
-                                properties['x'], properties['y'])
+                                obj.x, obj.y)
                 else:
                     portals.append({
                         'name': name,
-                        'rect': pg_rect(
-                            properties['x'],
-                            properties['y'], 16, 16
-                        ),
+                        'rect': pg_rect(obj.x, obj.y, 16, 16),
                         'destination': destination,
                         'teleport_target': teleport_target,
                     })
             elif asset_type == 'static_npc':
-                custom_properties = properties.get('properties', {})
+                custom_properties = obj.properties
                 sprite = custom_properties.get('sprite')
                 direction = custom_properties.get('direction', 'down')
                 static_npcs.append(StaticNPC(
                     self.game_loop,
                     sprite,
-                    pg_rect(properties['x'], properties['y'], 16, 16),
+                    pg_rect(obj.x, obj.y, 16, 16),
                     direction=direction,
                     dialog=dialog_from_props(custom_properties)
                 ))
             elif asset_type == 'npc':
-                custom_properties = properties.get('properties', {})
+                custom_properties = obj.properties
                 custom_properties['name'] = name  # Add name to custom data
                 sprite = custom_properties.get('sprite')
                 npcs.append(NPC(
                     self.game_loop,
                     sprite,
-                    pg_rect(properties['x'], properties['y'], 16, 16),
+                    pg_rect(obj.x, obj.y, 16, 16),
                     data=custom_properties
                 ))
             elif asset_type == 'poster':
-                custom_properties = properties.get('properties', {})
+                custom_properties = obj.properties
                 sprite = custom_properties.get('sprite')
                 requires = custom_properties.get('requires').split(',')
                 posters.append({
                     'image': custom_properties.get('poster_image'),
                     'requires': [x.strip() for x in requires],
-                    'rect': pg_rect(properties['x'], properties['y'], 16, 16)
+                    'rect': pg_rect(obj.x, obj.y, 16, 16)
                 })
 
         return {

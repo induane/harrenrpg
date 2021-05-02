@@ -33,7 +33,6 @@ class Player(pg.sprite.Sprite):
     )
 
     def __init__(self, game_loop, sprite_path, **kwargs):
-        super(Player, self).__init__()
         self.game_loop = game_loop
         self.initial_state = 'resting'
         sprite_data = pg_utils.get_sprite_map(sprite_path)
@@ -52,7 +51,7 @@ class Player(pg.sprite.Sprite):
         self.x_velocity = 0
         self.index = 0
         self.teleport_target = None
-        super(Player, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def _get_img_set(self, state):
         """From a given state return a tuple of images."""

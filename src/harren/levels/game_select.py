@@ -16,8 +16,8 @@ class GameSelect(BaseLevel):
     name = 'game_select'
 
     def __init__(self, game_loop, **kwargs):
-        kwargs['images'] = ['title_box_empty.png']
-        super(GameSelect, self).__init__('load.tmx', game_loop, **kwargs)
+        kwargs['images'] = ['title_box_empty.png', ]
+        super().__init__('load.tmx', game_loop, **kwargs)
         self.select_index = 0
         self.keydown_only = True  # Only handle keydown events
 
