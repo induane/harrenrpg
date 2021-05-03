@@ -27,7 +27,7 @@ def get_image(path, **kwargs):
         if os.path.exists(path):
             resource_path = path
         else:
-            raise OSError('Image "{}" not found'.format(path))
+            raise OSError(f"Image '{path}' not found")
 
     LOG.debug('Getting image %s', resource_path)
     colorkey = kwargs.get('colorkey', (255, 0, 255))
@@ -69,13 +69,13 @@ def get_sprite_map(path, grid_size=16):
 def get_font(path, size=20):
     """Return a font instance from pygame for a given font."""
     if not path.lower().endswith('ttf'):
-        path = '{}.ttf'.format(path)
+        path = f'{path}.ttf'
     if not os.path.exists(path):
         new_path = os.path.join(resources.FONT_FOLDER, path)
         if os.path.exists(new_path):
             path = new_path
         else:
-            raise OSError('Font "{}" not found'.format(path))
+            raise OSError(f"Font '{path}' not found")
     path = os.path.join(resources.FONT_FOLDER, path)
     LOG.debug('Font %s size %s', path, size)
     return pg.font.Font(path, size)
@@ -88,5 +88,5 @@ def load_music(path):
         if os.path.exists(new_path):
             path = new_path
         else:
-            raise OSError('Music "{}" not found'.format(path))
+            raise OSError(f"Music '{path}' not found")
     return pg.mixer.music.load(path)

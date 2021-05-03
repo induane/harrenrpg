@@ -1,5 +1,3 @@
-from __future__ import unicode_literals, absolute_import
-
 # Standard
 import logging
 
@@ -15,20 +13,9 @@ LOG = logging.getLogger(__name__)
 class Player(pg.sprite.Sprite):
 
     __slots__ = (
-        'current_time',
-        'down_images',
-        'game_loop',
-        'image',
-        'index',
-        'initial_state',
-        'left_images',
-        'previous_state',
-        'rect',
-        'right_images',
-        'state',
-        'teleport_target',
-        'up_images',
-        'x_velocity',
+        'current_time', 'down_images', 'game_loop', 'image', 'index',
+        'initial_state', 'left_images', 'previous_state', 'rect',
+        'right_images', 'state', 'teleport_target', 'up_images', 'x_velocity',
         'y_velocity',
     )
 
@@ -85,15 +72,15 @@ class Player(pg.sprite.Sprite):
         """Return state data for the player."""
         rect = self.rect
         return {
-            'state': self.state,
-            'y_velocity': self.y_velocity,
-            'x_velocity': self.x_velocity,
-            'x': rect.x,
-            'y': rect.y,
             'center': rect.center,
             'index': self.index,
             'initial_state': self.initial_state,
+            'state': self.state,
             'teleport_target': self.teleport_target,
+            'x_velocity': self.x_velocity,
+            'x': rect.x,
+            'y_velocity': self.y_velocity,
+            'y': rect.y,
         }
 
     def set_state(self, data):

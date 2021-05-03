@@ -273,7 +273,6 @@ class BaseLevel:
             # If there is no location data tuple, just blit to the middle
             if x is None or y is None:
                 img_rect.center = viewport.center
-                # surface.blit(img, img_rect)
             else:
                 img_rect.midbottom = self.viewport.midbottom
                 img_rect.y = y
@@ -314,7 +313,7 @@ class BaseLevel:
     def draw_fps(self, surface, viewport):
         """Draw fps if show_fps is set on game loop."""
         if getattr(self.game_loop, 'show_fps', False) is True:
-            fps = '{:.2f} FPS'.format(self.game_loop.clock.get_fps())
+            fps = f'{self.game_loop.clock.get_fps():.2f} FPS'
             text = self.font_15.render(fps, True, (255, 255, 255))
             text_rect = text.get_rect()
             text_rect.bottomleft = viewport.bottomleft

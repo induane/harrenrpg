@@ -172,7 +172,7 @@ class GameState(object):
     def _set_notification(self, text):
         """Set notification text to display."""
         self._notification_start_time = self.current_time
-        self._notification_text = '* {}'.format(text)
+        self._notification_text = f'* {text}'
 
     notification = property(_get_notification, _set_notification)
 
@@ -288,7 +288,7 @@ class GameState(object):
                     if event.key == pg.K_ESCAPE:
                         self.current_level = 'game_select'
                     if event.key == pg.K_F1 and alt_held:
-                        self.show_fls = not self.show_fps  # Toggle
+                        self.show_fps = not self.show_fps  # Toggle
 
                     # If the level requests only keydown events, route them
                     # here

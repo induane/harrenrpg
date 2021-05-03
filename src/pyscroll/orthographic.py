@@ -284,7 +284,7 @@ class BufferedRenderer:
 
         :return: list
         """
-        retval = list()
+        retval = []
         append = retval.append
         sx, sy = self.get_center_offset()
         if self._zoom_level == 1.0:
@@ -304,7 +304,7 @@ class BufferedRenderer:
 
         :return: list
         """
-        retval = list()
+        retval = []
         append = retval.append
         sx, sy = self.get_center_offset()
         if self._zoom_level == 1.0:
@@ -364,7 +364,7 @@ class BufferedRenderer:
         hit = self._layer_quadtree.hit
         get_tile = self.data.get_tile_image
         tile_layers = tuple(self.data.visible_tile_layers)
-        dirty = list()
+        dirty = []
         dirty_append = dirty.append
 
         # TODO: check to avoid sorting overhead

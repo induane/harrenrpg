@@ -369,7 +369,8 @@ class TiledMapData(PyscrollDataAdapter):
         return self.tmx.images[id]
 
     def get_tile_images_by_rect(self, rect):
-        """ Speed up data access
+        """
+        Speed up data access
 
         More efficient because data is accessed and cached locally
         """
@@ -390,11 +391,10 @@ class TiledMapData(PyscrollDataAdapter):
         for l in self.tmx.visible_tile_layers:
             for y, row in rev(layers[l].data, y1, y2):
                 for x, gid in [i for i in rev(row, x1, x2) if i[1]]:
-                    # since the tile has been queried, assume it wants to be checked
-                    # for animations sometime in the future
+                    # Since the tile has been queried, assume it wants to be
+                    # checked for animations sometime in the future
                     if track and gid in tracked_gids:
                         anim_map[gid].positions.add((x, y, l))
-
                     try:
                         # animated, so return the correct frame
                         yield x, y, l, at[(x, y, l)]
