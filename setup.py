@@ -11,6 +11,7 @@ setup(
     packages=find_packages("src"),
     package_dir={"": "src"},
     install_requires=["log-color", "pygame", "six", "boltons", "pytoml"],
+    # test_suite="unittest",
     entry_points={"console_scripts": ["harren = harren.entry_point:main"]},
     package_data={
         "harren": [

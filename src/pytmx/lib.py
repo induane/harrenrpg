@@ -8,7 +8,7 @@ LOG = logging.getLogger(__name__)
 def convert_to_bool(value: Union[str, int]) -> bool:
     """Convert a few common variations of "true" and "false" to bool."""
     if isinstance(value, int):
-        return bool(int)
+        return bool(value)
 
     value = value.strip()
     # Handle "1" and "0" string values

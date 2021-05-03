@@ -19,13 +19,16 @@ env: $(ENV_DIR)
 
 artifacts: build-reqs sdist
 
-$(NODE_DIR):
-	$(NODE_INSTALL)
+# Quick test invoke
+qt: check-code
+	$(IN_ENV) python setup.py test
+
+test: build qt
 
 build-reqs: env
 	$(IN_ENV) pip install black
 
-package_reqs: env
+package-reqs: env
 	$(IN_ENV) pip install pyinstaller
 
 build: build-reqs
