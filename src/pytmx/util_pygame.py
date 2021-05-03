@@ -36,7 +36,7 @@ from .pytmx import TiledMap
 
 
 LOG = logging.getLogger(__name__)
-__all__ = ('load_pygame', 'pygame_image_loader', 'simplify', 'build_rects')
+__all__ = ("load_pygame", "pygame_image_loader", "simplify", "build_rects")
 
 
 def smart_convert(original, colorkey, pixelalpha):
@@ -79,7 +79,7 @@ def smart_convert(original, colorkey, pixelalpha):
 
 
 def pygame_image_loader(filename, colorkey, **kwargs):
-    """ pytmx image loader for pygame
+    """pytmx image loader for pygame
 
     :param filename:
     :param colorkey:
@@ -87,9 +87,9 @@ def pygame_image_loader(filename, colorkey, **kwargs):
     :return:
     """
     if colorkey:
-        colorkey = pygame_Color(f'#{colorkey}')
+        colorkey = pygame_Color(f"#{colorkey}")
 
-    pixelalpha = kwargs.get('pixelalpha', True)
+    pixelalpha = kwargs.get("pixelalpha", True)
     image = pygame_image.load(filename)
 
     def load_image(rect=None, flags=None):
@@ -97,7 +97,7 @@ def pygame_image_loader(filename, colorkey, **kwargs):
             try:
                 tile = image.subsurface(rect)
             except ValueError:
-                LOG.error('Tile bounds outside bounds of tileset image')
+                LOG.error("Tile bounds outside bounds of tileset image")
                 raise
         else:
             tile = image.copy()
@@ -133,7 +133,7 @@ def load_pygame(filename, *args, **kwargs):
     Don't attempt to convert() or convert_alpha() the individual tiles.  It is
     already done for you.
     """
-    kwargs['image_loader'] = pygame_image_loader
+    kwargs["image_loader"] = pygame_image_loader
     return TiledMap(filename, *args, **kwargs)
 
 
@@ -157,7 +157,7 @@ def build_rects(tmxmap, layer, tileset=None, real_gid=None):
         try:
             tileset = tmxmap.tilesets[tileset]
         except IndexError:
-            raise IndexError(f'Tileset #{tileset} not found in map {tmxmap}.')
+            raise IndexError(f"Tileset #{tileset} not found in map {tmxmap}.")
 
     elif isinstance(tileset, str):
         try:
@@ -166,16 +166,14 @@ def build_rects(tmxmap, layer, tileset=None, real_gid=None):
             raise ValueError(f'Tileset "{tileset}" not found in map {tmxmap}.')
 
     elif tileset:
-        raise TypeError(
-            f'Tileset must be either a int or string - got: {type(tileset)}'
-        )
+        raise TypeError(f"Tileset must be either a int or string - got: {type(tileset)}")
 
     gid = None
     if real_gid:
         try:
             gid, flags = tmxmap.map_gid(real_gid)[0]
         except IndexError:
-            raise ValueError(f'GID #{real_gid} not found')
+            raise ValueError(f"GID #{real_gid} not found")
 
     if isinstance(layer, int):
         layer_data = tmxmap.get_layer_data(layer)
@@ -264,9 +262,7 @@ def simplify(all_points, tilewidth, tileheight):
                         y -= 1
                     break
 
-        c_rect = pygame_Rect(ox * tilewidth, oy * tileheight,
-                             (ex - ox + 1) * tilewidth,
-                             (y - oy + 1) * tileheight)
+        c_rect = pygame_Rect(ox * tilewidth, oy * tileheight, (ex - ox + 1) * tilewidth, (y - oy + 1) * tileheight)
 
         rects.append(c_rect)
 

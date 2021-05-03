@@ -15,7 +15,10 @@ from pytmx import TiledObjectGroup
 from .lib import rect_to_bb, hex_to_rgb
 from .animation import AnimationFrame, AnimationToken
 
-__all__ = ('PyscrollDataAdapter', 'TiledMapData', )
+__all__ = (
+    "PyscrollDataAdapter",
+    "TiledMapData",
+)
 
 
 class PyscrollDataAdapter:
@@ -31,14 +34,14 @@ class PyscrollDataAdapter:
     # or properties.  they are listed here as class
     # instances, but use as properties is fine, too.
 
-    tile_size = None             # (int, int): size of each tile in pixels
-    map_size = None              # (int, int): size of map in tiles
-    visible_tile_layers = None   # list of visible layer integers
+    tile_size = None  # (int, int): size of each tile in pixels
+    map_size = None  # (int, int): size of map in tiles
+    visible_tile_layers = None  # list of visible layer integers
 
     def __init__(self):
-        self._last_time = None       # Last time map animations were updated
-        self._animation_queue = []   # List of animation tokens
-        self._animated_tile = {}     # Mapping of tile substitutions when animated
+        self._last_time = None  # Last time map animations were updated
+        self._animation_queue = []  # List of animation tokens
+        self._animated_tile = {}  # Mapping of tile substitutions when animated
         self._tracked_tiles = set()  # Track the tiles on screen with animations
 
     def process_animation_queue(self, tile_view):
@@ -179,7 +182,7 @@ class PyscrollDataAdapter:
             return self._get_tile_image(x, y, l)
 
     def _get_tile_image(self, x, y, l):
-        """ Return tile at the coordinates, or None is empty
+        """Return tile at the coordinates, or None is empty
 
         This is used to query the data source directly, without
         checking for animations or any other tile transformations.
@@ -283,7 +286,7 @@ class TiledMapData(PyscrollDataAdapter):
     def get_animations(self):
         for gid, d in self.tmx.tile_properties.items():
             try:
-                frames = d['frames']
+                frames = d["frames"]
             except KeyError:
                 continue
 
@@ -328,7 +331,7 @@ class TiledMapData(PyscrollDataAdapter):
     @property
     def background_color(self):
         bg = self.tmx.backgroundcolor
-        if isinstance(bg, str) and bg.startswith('#'):
+        if isinstance(bg, str) and bg.startswith("#"):
             # Some versions of pytmx return a hex value instead of rgb
             bg = hex_to_rgb(bg)
         return bg
@@ -343,14 +346,13 @@ class TiledMapData(PyscrollDataAdapter):
 
     @property
     def visible_object_layers(self):
-        """ This must return layer objects
+        """This must return layer objects
 
         This is not required for custom data formats.
 
         :return: Sequence of pytmx object layers/groups
         """
-        return (layer for layer in self.tmx.visible_layers
-                if isinstance(layer, TiledObjectGroup))
+        return (layer for layer in self.tmx.visible_layers if isinstance(layer, TiledObjectGroup))
 
     def _get_tile_image(self, x, y, l):
         try:
@@ -359,7 +361,7 @@ class TiledMapData(PyscrollDataAdapter):
             return None
 
     def _get_tile_image_by_id(self, id):
-        """ Return Image by a custom ID
+        """Return Image by a custom ID
 
         Used for animations.  Not required for static maps.
 
@@ -378,7 +380,7 @@ class TiledMapData(PyscrollDataAdapter):
         def rev(seq, start, stop):
             if start < 0:
                 start = 0
-            return enumerate(seq[start:stop + 1], start)
+            return enumerate(seq[start : stop + 1], start)
 
         x1, y1, x2, y2 = rect_to_bb(rect)
         images = self.tmx.images

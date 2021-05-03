@@ -13,10 +13,8 @@ def dialog_from_props(properties):
     for key, value in properties.items():
         if not key:
             continue
-        if key.startswith('dialog'):
-            num = ''.join(
-                [x for x in key if x in string.digits]
-            )
+        if key.startswith("dialog"):
+            num = "".join([x for x in key if x in string.digits])
             try:
                 dialog_data[int(num)] = value
             except ValueError:
@@ -24,12 +22,12 @@ def dialog_from_props(properties):
                 # 'dialogue length' or some other prop
                 pass
 
-    LOG.debug('Dialog Data: %s', dialog_data)
+    LOG.debug("Dialog Data: %s", dialog_data)
     dialog = []
     for key in sorted(dialog_data.keys()):
         dialog.append(dialog_data[key])
 
-    if not dialog and 'properties' in properties:
-        return dialog_from_props(properties['properties'])
+    if not dialog and "properties" in properties:
+        return dialog_from_props(properties["properties"])
     else:
         return dialog

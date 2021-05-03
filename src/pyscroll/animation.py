@@ -1,12 +1,12 @@
 from collections import namedtuple
 
-__all__ = ('AnimationFrame', 'AnimationToken')
+__all__ = ("AnimationFrame", "AnimationToken")
 
-AnimationFrame = namedtuple('AnimationFrame', 'image duration')
+AnimationFrame = namedtuple("AnimationFrame", "image duration")
 
 
 class AnimationToken:
-    __slots__ = ('next', 'positions', 'frames', 'index')
+    __slots__ = ("next", "positions", "frames", "index")
 
     def __init__(self, positions, frames, initial_time=0):
         """

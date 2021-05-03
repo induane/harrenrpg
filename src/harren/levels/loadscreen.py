@@ -10,11 +10,11 @@ LOG = logging.getLogger(__name__)
 
 
 class LoadScreen(BaseLevel):
-    name = 'loadscreen'
+    name = "loadscreen"
 
     def __init__(self, game_loop, **kwargs):
-        kwargs['images'] = ['game_title.png']
-        super().__init__('load.tmx', game_loop, **kwargs)
+        kwargs["images"] = ["game_title.png"]
+        super().__init__("load.tmx", game_loop, **kwargs)
 
     def draw(self):
         self._simple_draw()  # Use the simple draw method

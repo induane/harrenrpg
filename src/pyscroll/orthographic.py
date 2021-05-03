@@ -25,25 +25,35 @@ class BufferedRenderer:
 
     NOTE: colorkey and alpha transparency is quite slow
     """
+
     _rgba_clear_color = 0, 0, 0, 0
     _rgb_clear_color = 0, 0, 0
 
-    def __init__(self, data, size, clamp_camera=True, colorkey=None, alpha=False,
-                 time_source=time.time, scaling_function=transform.scale,
-                 tall_sprites=0, **kwargs):
+    def __init__(
+        self,
+        data,
+        size,
+        clamp_camera=True,
+        colorkey=None,
+        alpha=False,
+        time_source=time.time,
+        scaling_function=transform.scale,
+        tall_sprites=0,
+        **kwargs
+    ):
 
-        bg_fill = kwargs.get('background_color')
+        bg_fill = kwargs.get("background_color")
         if bg_fill:
             self._rgb_clear_color = bg_fill
             self._rgba_clear_color = bg_fill
 
         # default options
-        self.data = data                          # reference to data source
-        self.clamp_camera = clamp_camera          # if true, cannot scroll past map edge
-        self.time_source = time_source            # determines how tile animations are processed
+        self.data = data  # reference to data source
+        self.clamp_camera = clamp_camera  # if true, cannot scroll past map edge
+        self.time_source = time_source  # determines how tile animations are processed
         self.scaling_function = scaling_function  # what function to use when scaling the zoom buffer
-        self.tall_sprites = tall_sprites          # correctly render tall sprites
-        self.map_rect = None                      # pygame rect of entire map
+        self.tall_sprites = tall_sprites  # correctly render tall sprites
+        self.map_rect = None  # pygame rect of entire map
 
         # Tall Spritesthat's
         # this value, if greater than 0, is the number of pixels from the bottom of
@@ -57,7 +67,7 @@ class BufferedRenderer:
 
         # internal private defaults
         if colorkey and alpha:
-            LOG.error('cannot select both colorkey and alpha.  choose one.')
+            LOG.error("cannot select both colorkey and alpha.  choose one.")
             raise ValueError
         elif colorkey:
             self._clear_color = colorkey
@@ -67,40 +77,39 @@ class BufferedRenderer:
             self._clear_color = None
 
         # private attributes
-        self._anchored_view = True    # if true, map is fixed to upper left corner
-        self._previous_blit = None    # rect of the previous map blit when map edges are visible
-        self._size = None             # actual pixel size of the view, as it occupies the screen
-        self._redraw_cutoff = None    # size of dirty tile edge that will trigger full redraw
-        self._x_offset = None         # offsets are used to scroll map in sub-tile increments
+        self._anchored_view = True  # if true, map is fixed to upper left corner
+        self._previous_blit = None  # rect of the previous map blit when map edges are visible
+        self._size = None  # actual pixel size of the view, as it occupies the screen
+        self._redraw_cutoff = None  # size of dirty tile edge that will trigger full redraw
+        self._x_offset = None  # offsets are used to scroll map in sub-tile increments
         self._y_offset = None
-        self._buffer = None           # complete rendering of tilemap
-        self._tile_view = None        # this rect represents each tile on the buffer
-        self._half_width = None       # 'half x' attributes are used to reduce division ops.
+        self._buffer = None  # complete rendering of tilemap
+        self._tile_view = None  # this rect represents each tile on the buffer
+        self._half_width = None  # 'half x' attributes are used to reduce division ops.
         self._half_height = None
-        self._tile_queue = None       # tiles queued to be draw onto buffer
+        self._tile_queue = None  # tiles queued to be draw onto buffer
         self._animation_queue = None  # heap queue of animation token;  schedules tile changes
-        self._layer_quadtree = None   # used to draw tiles that overlap optional surfaces
-        self._zoom_buffer = None      # used to speed up zoom operations
-        self._zoom_level = 1.0        # negative numbers make map smaller, positive: bigger
-        self._real_ratio_x = 1.0      # zooming slightly changes aspect ratio; this compensates
-        self._real_ratio_y = 1.0      # zooming slightly changes aspect ratio; this compensates
+        self._layer_quadtree = None  # used to draw tiles that overlap optional surfaces
+        self._zoom_buffer = None  # used to speed up zoom operations
+        self._zoom_level = 1.0  # negative numbers make map smaller, positive: bigger
+        self._real_ratio_x = 1.0  # zooming slightly changes aspect ratio; this compensates
+        self._real_ratio_y = 1.0  # zooming slightly changes aspect ratio; this compensates
         self.view_rect = Rect(0, 0, 0, 0)  # this represents the viewable map pixels
 
-        if hasattr(Surface, 'blits'):
+        if hasattr(Surface, "blits"):
             self._flush_tile_queue = self._flush_tile_queue_blits
 
         self.set_size(size)
 
     def scroll(self, vector):
-        """ scroll the background in pixels
+        """scroll the background in pixels
 
         :param vector: (int, int)
         """
-        self.center((vector[0] + self.view_rect.centerx,
-                     vector[1] + self.view_rect.centery))
+        self.center((vector[0] + self.view_rect.centerx, vector[1] + self.view_rect.centery))
 
     def center(self, coords):
-        """ center the map on a pixel
+        """center the map on a pixel
 
         float numbers will be rounded.
 
@@ -165,12 +174,12 @@ class BufferedRenderer:
             self._flush_tile_queue(self._buffer)
 
         elif view_change > self._redraw_cutoff:
-            LOG.info('scrolling too quickly.  redraw forced')
+            LOG.info("scrolling too quickly.  redraw forced")
             self._tile_view.move_ip(dx, dy)
             self.redraw_tiles(self._buffer)
 
     def draw(self, surface, rect, surfaces=None):
-        """ Draw the map onto a surface
+        """Draw the map onto a surface
 
         pass a rect that defines the draw area for:
             drawing to an area smaller that the whole window/screen
@@ -201,7 +210,7 @@ class BufferedRenderer:
 
     @property
     def zoom(self):
-        """ Zoom the map in or out.
+        """Zoom the map in or out.
 
         Increase this number to make map appear to come closer to camera.
         Decrease this number to make map appear to move away from camera.
@@ -237,17 +246,16 @@ class BufferedRenderer:
     def redraw_tiles(self, surface):
         """Redraw the visible portion of the buffer -- this is slow."""
         # TODO/BUG: Redraw animated tiles correctly.  They are getting reset here
-        LOG.debug('pyscroll buffer redraw')
+        LOG.debug("pyscroll buffer redraw")
         self._clear_surface(self._buffer)
         self._tile_queue = self.data.get_tile_images_by_rect(self._tile_view)
         self._flush_tile_queue(surface)
 
     def get_center_offset(self):
-        """ Return x, y pair that will change world coords to screen coords
+        """Return x, y pair that will change world coords to screen coords
         :return: int, int
         """
-        return (-self.view_rect.centerx + self._half_width,
-                -self.view_rect.centery + self._half_height)
+        return (-self.view_rect.centerx + self._half_width, -self.view_rect.centery + self._half_height)
 
     def translate_point(self, point):
         """
@@ -264,7 +272,7 @@ class BufferedRenderer:
             return int(round((point[0] + mx)) * self._real_ratio_x), int(round((point[1] + my) * self._real_ratio_y))
 
     def translate_rect(self, rect):
-        """ Translate rect position and size to screen coordinates.  Respects zoom level.
+        """Translate rect position and size to screen coordinates.  Respects zoom level.
 
         :rtype: Rect
         """
@@ -278,7 +286,7 @@ class BufferedRenderer:
             return Rect(round((x + mx) * rx), round((y + my) * ry), round(w * rx), round(h * ry))
 
     def translate_points(self, points):
-        """ Translate coordinates and return screen coordinates
+        """Translate coordinates and return screen coordinates
 
         Will be returned in order passed as tuples.
 
@@ -298,7 +306,7 @@ class BufferedRenderer:
         return retval
 
     def translate_rects(self, rects):
-        """ Translate rect position and size to screen coordinates.  Respects zoom level.
+        """Translate rect position and size to screen coordinates.  Respects zoom level.
 
         Will be returned in order passed as Rects.
 
@@ -320,7 +328,7 @@ class BufferedRenderer:
         return retval
 
     def _render_map(self, surface, rect, surfaces):
-        """ Render the map and optional surfaces to destination surface
+        """Render the map and optional surfaces to destination surface
 
         :param surface: pygame surface to draw to
         :param rect: area to draw to
@@ -344,7 +352,7 @@ class BufferedRenderer:
                 self._draw_surfaces(surface, surfaces_offset, surfaces)
 
     def _clear_surface(self, surface, rect=None):
-        """ Clear the buffer, taking in account colorkey or alpha
+        """Clear the buffer, taking in account colorkey or alpha
 
         :return:
         """
@@ -352,7 +360,7 @@ class BufferedRenderer:
         surface.fill(clear_color, rect)
 
     def _draw_surfaces(self, surface, offset, surfaces):
-        """ Draw surfaces onto buffer, then redraw tiles that cover them
+        """Draw surfaces onto buffer, then redraw tiles that cover them
 
         :param surface: destination
         :param offset: offset to compensate for buffer alignment
@@ -401,7 +409,7 @@ class BufferedRenderer:
                         tile and surface_blit(tile, (x - ox, y - oy))
 
     def _queue_edge_tiles(self, dx, dy):
-        """ Queue edge tiles and clear edge areas on buffer if needed
+        """Queue edge tiles and clear edge areas on buffer if needed
 
         :param dx: Edge along X axis to enqueue
         :param dy: Edge along Y axis to enqueue
@@ -414,16 +422,17 @@ class BufferedRenderer:
         def append(rect):
             self._tile_queue = chain(self._tile_queue, self.data.get_tile_images_by_rect(rect))
             # TODO: optimize so fill is only used when map is smaller than buffer
-            self._clear_surface(self._buffer, ((rect[0] - v.left) * tw, (rect[1] - v.top) * th,
-                                               rect[2] * tw, rect[3] * th))
+            self._clear_surface(
+                self._buffer, ((rect[0] - v.left) * tw, (rect[1] - v.top) * th, rect[2] * tw, rect[3] * th)
+            )
 
-        if dx > 0:    # right side
+        if dx > 0:  # right side
             append((v.right - 1, v.top, dx, v.height))
 
         elif dx < 0:  # left side
             append((v.left, v.top, -dx, v.height))
 
-        if dy > 0:    # bottom side
+        if dy > 0:  # bottom side
             append((v.left, v.bottom - 1, v.width, dy))
 
         elif dy < 0:  # top side
@@ -432,13 +441,13 @@ class BufferedRenderer:
     @staticmethod
     def _calculate_zoom_buffer_size(size, value):
         if value <= 0:
-            LOG.error('zoom level cannot be zero or less')
+            LOG.error("zoom level cannot be zero or less")
             raise ValueError
         value = 1.0 / value
         return int(size[0] * value), int(size[1] * value)
 
     def _create_buffers(self, view_size, buffer_size):
-        """ Create the buffers, taking in account pixel alpha or colorkey
+        """Create the buffers, taking in account pixel alpha or colorkey
 
         :param view_size: pixel size of the view
         :param buffer_size: pixel size of the buffer
@@ -464,7 +473,7 @@ class BufferedRenderer:
             self._buffer.fill(self._clear_color)
 
     def _initialize_buffers(self, view_size):
-        """ Create the buffers to cache tile drawing
+        """Create the buffers to cache tile drawing
 
         :param view_size: (int, int): size of the draw area
         :return: None
@@ -490,8 +499,7 @@ class BufferedRenderer:
         self._x_offset = 0
         self._y_offset = 0
 
-        rects = [make_rect(*i) for i in product(range(buffer_tile_width),
-                                                range(buffer_tile_height))]
+        rects = [make_rect(*i) for i in product(range(buffer_tile_width), range(buffer_tile_height))]
 
         # TODO: figure out what depth -actually- does
         # values <= 8 tend to reduce performance
@@ -500,8 +508,7 @@ class BufferedRenderer:
         self.redraw_tiles(self._buffer)
 
     def _flush_tile_queue(self, surface):
-        """ Blit the queued tiles and block until the tile queue is empty
-        """
+        """Blit the queued tiles and block until the tile queue is empty"""
         tw, th = self.data.tile_size
         ltw = self._tile_view.left * tw
         tth = self._tile_view.top * th
@@ -513,7 +520,7 @@ class BufferedRenderer:
             surface_blit(image, (x * tw - ltw, y * th - tth))
 
     def _flush_tile_queue_blits(self, surface):
-        """ Blit the queued tiles and block until the tile queue is empty
+        """Blit the queued tiles and block until the tile queue is empty
 
         for pygame 1.9.4 +
         """

@@ -18,5 +18,5 @@ def rect_to_bb(rect):
 
 def hex_to_rgb(hex_str: str) -> Tuple[str, str, str]:
     """Convert html hex codes to RGB tuple."""
-    hex_str = hex_str.strip('#')
-    return tuple(int(hex_str[i:i + 2], 16) for i in (0, 2 ,4))
+    hex_str = hex_str.strip("#")
+    return tuple(int(hex_str[i : i + 2], 16) for i in (0, 2, 4))

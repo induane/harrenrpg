@@ -13,11 +13,13 @@ LOG = logging.getLogger(__name__)
 
 
 class GameSelect(BaseLevel):
-    name = 'game_select'
+    name = "game_select"
 
     def __init__(self, game_loop, **kwargs):
-        kwargs['images'] = ['title_box_empty.png', ]
-        super().__init__('load.tmx', game_loop, **kwargs)
+        kwargs["images"] = [
+            "title_box_empty.png",
+        ]
+        super().__init__("load.tmx", game_loop, **kwargs)
         self.select_index = 0
         self.keydown_only = True  # Only handle keydown events
 
@@ -36,14 +38,14 @@ class GameSelect(BaseLevel):
         except AttributeError:
             pass
         config_files = os.listdir(CONFIG_FOLDER)
-        self._save_files = [x for x in config_files if x.endswith('.save')]
+        self._save_files = [x for x in config_files if x.endswith(".save")]
         return self._save_files
 
     def up_pressed(self):
         # Max index is the length of the array minux 1 but the select array
         # actually includes the new game option which is why we don't subtract
         # 1 here
-        LOG.debug('UP pressed')
+        LOG.debug("UP pressed")
         max_idx = len(self.save_files) + 1  # +1 accounts for the exit option
 
         if self.select_index <= 0:
@@ -55,7 +57,7 @@ class GameSelect(BaseLevel):
         # Max index is the length of the array minux 1 but the select array
         # actually includes the new game option which is why we don't subtract
         # 1 here
-        LOG.debug('Down pressed')
+        LOG.debug("Down pressed")
         max_idx = len(self.save_files) + 1  # +1 accounts for the exit option
 
         if self.select_index >= max_idx:
@@ -65,26 +67,25 @@ class GameSelect(BaseLevel):
 
     def space_pressed(self):
         if self.select_index == 0:
-            self.game_loop.current_level = 'nohnaim'  # The default start level
+            self.game_loop.current_level = "nohnaim"  # The default start level
         elif self.select_index == len(self.save_files) + 1:
             self.game_loop._exit()  # Shutdown
         else:
-            path = os.path.join(CONFIG_FOLDER,
-                                self.save_files[self.select_index - 1])
-            LOG.debug('Opening save file %s', path)
-            with open(path, 'rb') as f:
-                val = f.read().decode('utf-8')
+            path = os.path.join(CONFIG_FOLDER, self.save_files[self.select_index - 1])
+            LOG.debug("Opening save file %s", path)
+            with open(path, "rb") as f:
+                val = f.read().decode("utf-8")
                 state_dict = json.loads(val)
             self.game_loop.set_state(state_dict)
 
     def escape_pressed(self):
-        prev_level = self.game_loop.state['previous_level']
+        prev_level = self.game_loop.state["previous_level"]
         self.game_loop.current_level = prev_level
         self.level_has_changed = True
 
     def _draw_text(self, surface, **kwargs):
         """Custom text draw that can move the select arrow."""
-        text = self.font_40.render('Select', True, (255, 255, 255))
+        text = self.font_40.render("Select", True, (255, 255, 255))
         text_rect = text.get_rect()
         screen_rectangle = self.game_loop.surface.get_rect()
         text_rect.midtop = screen_rectangle.midtop
@@ -95,7 +96,7 @@ class GameSelect(BaseLevel):
         # Track rectange information for drawn info
         rectangle_data = {}
 
-        new_game_text = self.font_20.render('New Game', True, (255, 255, 255))
+        new_game_text = self.font_20.render("New Game", True, (255, 255, 255))
         new_game_rect = new_game_text.get_rect()
         new_game_rect.midtop = screen_rectangle.midtop
         new_game_rect.centerx = screen_rectangle.centerx
@@ -104,7 +105,7 @@ class GameSelect(BaseLevel):
         surface.blit(new_game_text, new_game_rect)
 
         for idx, fn in enumerate(self.save_files, start=1):
-            display = fn[:-5].replace('_', ' ').title()
+            display = fn[:-5].replace("_", " ").title()
             slot_text = self.font_20.render(display, True, (255, 255, 255))
             slot_rect = slot_text.get_rect()
             slot_rect.midtop = screen_rectangle.midtop
@@ -114,7 +115,7 @@ class GameSelect(BaseLevel):
             rectangle_data[idx] = slot_rect
             surface.blit(slot_text, slot_rect)
 
-        display = 'Exit'
+        display = "Exit"
         exit_text = self.font_20.render(display, True, (255, 255, 255))
         exit_rect = exit_text.get_rect()
         exit_rect.midtop = screen_rectangle.midtop
@@ -125,7 +126,7 @@ class GameSelect(BaseLevel):
         surface.blit(exit_text, exit_rect)
 
         # Given the current index value for the selections, draw an arrow.
-        select = self.font_20.render('>> ', True, (255, 255, 255))
+        select = self.font_20.render(">> ", True, (255, 255, 255))
         select_rect = new_game_text.get_rect()
         select_rect.midleft = rectangle_data[self.select_index].midleft
         select_rect.x = select_rect.x - 50

@@ -17,36 +17,33 @@ $(ENV_DIR):
 
 env: $(ENV_DIR)
 
-artifacts: build_reqs sdist
+artifacts: build-reqs sdist
 
 $(NODE_DIR):
 	$(NODE_INSTALL)
 
-build_reqs: env
-	$(IN_ENV) pip install unify
+build-reqs: env
+	$(IN_ENV) pip install black
 
 package_reqs: env
 	$(IN_ENV) pip install pyinstaller
 
-build: build_reqs
+build: build-reqs
 	$(IN_ENV) pip install --editable .
 
-sdist: build_reqs
+sdist: build-reqs
 	$(IN_ENV) python setup.py sdist
 
 lint: flake8
 
-flake8: build_reqs
+flake8: build-reqs
 	- $(IN_ENV) flake8 src/harren > flake8.out
 
-shell: build_reqs build
+shell: build-reqs build
 	- $(IN_ENV) python
 
 freeze: env
 	- $(IN_ENV) pip freeze
-
-unify: build_reqs
-	- $(IN_ENV) unify --in-place --recursive src/
 
 prod: build
 	$(IN_ENV) harren --fullscreen
@@ -65,6 +62,12 @@ run-splash: build
 
 package: package_reqs
 	$(BUILD_ENV) pyinstaller src/harren/entry_point.py --hidden-import pygame --hidden-import log-color --hidden-import six --hidden-import toml --hidden-import boltons -p src/harren --add-data "src/harren:harren" --name harren --onefile --noconsole
+
+format-code:
+	$(IN_ENV) black -l 119 src/ tests/ setup.py
+
+check-code:
+	$(IN_ENV) black --check -l 119 src/ tests/ setup.py
 
 help: build
 	$(IN_ENV) harren -h
@@ -85,15 +88,17 @@ clean:
 	- @rm -f pep8.out
 	- @rm -f .coverage*
 	- @rm -rf tmp.json
+	- @find . -name '*.orig' -delete
+	- @find . -name '*.DS_Store' -delete
 	- @find . -name '*.pyc' -delete
 	- @find . -name '*.pyd' -delete
 	- @find . -name '*.pyo' -delete
-	- @find . -type d -name '__pycache__' -delete
+	- @find . -name '*__pycache__*' -delete
 	- @rm -rf src/harren/dist
 	- @rm -rf src/harren/build
 	- @rm -rf src/harren/entry_point.spec
 
-env_clean: clean
+env-clean: clean
 	- @rm -rf $(ENV_DIR)
 	- @rm -rf $(INSTALL_ENV_DIR)
 	- @rm -rf .env*

@@ -20,52 +20,42 @@ def get_version() -> str:
     try:
         return f"%(prog)s {get_distribution('harren_rpg').version}"
     except DistributionNotFound:
-        return '%(prog)s Development'
+        return "%(prog)s Development"
     except Exception:
-        return '%(prog)s Unknown'
+        return "%(prog)s Unknown"
 
 
 def run_game():
-    parser = argparse.ArgumentParser(description='Legend of Harren')
+    parser = argparse.ArgumentParser(description="Legend of Harren")
     parser.add_argument(
-        '-l',
-        '--log-level',
-        default='INFO',
-        choices=('DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'),
-        help='Logging level for command output.'
+        "-l",
+        "--log-level",
+        default="INFO",
+        choices=("DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"),
+        help="Logging level for command output.",
     )
     parser.add_argument(
-        '-L',
-        '--logfile',
-        dest='logfile',
-        default=None,
-        help='Location to place a log of the process output'
+        "-L", "--logfile", dest="logfile", default=None, help="Location to place a log of the process output"
+    )
+    parser.add_argument("-V", "--version", action="version", version=get_version(), help="Display the version number.")
+    parser.add_argument(
+        "-g",
+        "--fullscreen",
+        dest="fullscreen",
+        action="store_true",
+        help="Launch the new game in fullscreen mode",
     )
     parser.add_argument(
-        '-V',
-        '--version',
-        action='version',
-        version=get_version(),
-        help='Display the version number.'
+        "--no-splash",
+        dest="no_splash",
+        action="store_true",
+        help="Skip the initial loading splash screen",
     )
     parser.add_argument(
-        '-g',
-        '--fullscreen',
-        dest='fullscreen',
-        action='store_true',
-        help='Launch the new game in fullscreen mode',
-    )
-    parser.add_argument(
-        '--no-splash',
-        dest='no_splash',
-        action='store_true',
-        help='Skip the initial loading splash screen',
-    )
-    parser.add_argument(
-        '--no-sound',
-        dest='no_sound',
-        action='store_true',
-        help='Disable sound',
+        "--no-sound",
+        dest="no_sound",
+        action="store_true",
+        help="Disable sound",
     )
 
     parsed_args = parser.parse_args()
@@ -77,82 +67,86 @@ def run_game():
         logfile = None
 
     # Don't bother with a file handler if we're not logging to a file
-    handlers = ['console', 'filehandler'] if logfile else ['console', ]
+    handlers = (
+        ["console", "filehandler"]
+        if logfile
+        else [
+            "console",
+        ]
+    )
 
     # The base logging configuration
     BASE_CONFIG = {
-        'version': 1,
-        'disable_existing_loggers': False,
-        'formatters': {
-            'ConsoleFormatter': {
-                '()': ColorFormatter,
-                'format': '%(levelname)s: %(message)s',
-                'datefmt': '%Y-%m-%d %H:%M:%S',
+        "version": 1,
+        "disable_existing_loggers": False,
+        "formatters": {
+            "ConsoleFormatter": {
+                "()": ColorFormatter,
+                "format": "%(levelname)s: %(message)s",
+                "datefmt": "%Y-%m-%d %H:%M:%S",
             },
-            'VerboseFormatter': {
-                '()': ColorFormatter,
-                'format': ("%(levelname)-8s: %(asctime)s '%(message)s' "
-                           '%(name)s:%(lineno)s'),
-                'datefmt': '%Y-%m-%d %H:%M:%S',
+            "VerboseFormatter": {
+                "()": ColorFormatter,
+                "format": ("%(levelname)-8s: %(asctime)s '%(message)s' " "%(name)s:%(lineno)s"),
+                "datefmt": "%Y-%m-%d %H:%M:%S",
             },
-            'FileFormatter': {
-                '()': ColorStripper,
-                'format': ("%(levelname)-8s: %(asctime)s '%(message)s' "
-                           '%(name)s:%(lineno)s'),
-                'datefmt': '%Y-%m-%d %H:%M:%S',
+            "FileFormatter": {
+                "()": ColorStripper,
+                "format": ("%(levelname)-8s: %(asctime)s '%(message)s' " "%(name)s:%(lineno)s"),
+                "datefmt": "%Y-%m-%d %H:%M:%S",
             },
         },
-        'handlers': {
-            'console': {
-                'level': 'DEBUG',
-                'class': 'logging.StreamHandler',
-                'formatter': 'ConsoleFormatter',
+        "handlers": {
+            "console": {
+                "level": "DEBUG",
+                "class": "logging.StreamHandler",
+                "formatter": "ConsoleFormatter",
             },
         },
-        'loggers': {
-            'harren': {
-                'handlers': handlers,
-                'level': parsed_args.log_level,
+        "loggers": {
+            "harren": {
+                "handlers": handlers,
+                "level": parsed_args.log_level,
             },
-            'pygame': {
-                'handlers': handlers,
-                'level': parsed_args.log_level,
+            "pygame": {
+                "handlers": handlers,
+                "level": parsed_args.log_level,
             },
-            'pytmx': {
-                'handlers': handlers,
-                'level': parsed_args.log_level,
+            "pytmx": {
+                "handlers": handlers,
+                "level": parsed_args.log_level,
             },
-            'pyscroll': {
-                'handlers': handlers,
-                'level': parsed_args.log_level,
+            "pyscroll": {
+                "handlers": handlers,
+                "level": parsed_args.log_level,
             },
-        }
+        },
     }
 
     # If we have a log file, modify the dict to add in the filehandler conf
     if logfile:
-        BASE_CONFIG['handlers']['filehandler'] = {
-            'level': parsed_args.log_level,
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': logfile,
-            'formatter': 'FileFormatter',
+        BASE_CONFIG["handlers"]["filehandler"] = {
+            "level": parsed_args.log_level,
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": logfile,
+            "formatter": "FileFormatter",
         }
 
-    if parsed_args.log_level == 'DEBUG':
+    if parsed_args.log_level == "DEBUG":
         # Set a more noisy formatter
-        BASE_CONFIG['handlers']['console']['formatter'] = 'VerboseFormatter'
+        BASE_CONFIG["handlers"]["console"]["formatter"] = "VerboseFormatter"
 
     # Setup the loggers
     dictConfig(BASE_CONFIG)
 
-    LOG.info('#g<Launching Harren RPG!>')
+    LOG.info("#g<Launching Harren RPG!>")
     # Setup SDL Environment Variables
-    os.environ['SDL_VIDEO_CENTERED'] = '1'
+    os.environ["SDL_VIDEO_CENTERED"] = "1"
 
     try:
         import pygame  # noqa
     except ImportError:
-        LOG.exception('#y<PyGame not found... exiting.>')
+        LOG.exception("#y<PyGame not found... exiting.>")
         sys.exit(1)
 
     # Make the config folder if it doesn't already exist
@@ -165,6 +159,7 @@ def run_game():
         sound_enabled = True
 
     from harren.game_loop import GameState
+
     game = GameState(
         fullscreen=parsed_args.fullscreen,
         no_splash=parsed_args.no_splash,
@@ -178,7 +173,7 @@ def __exit(code=0):
     try:
         import pygame
     except ImportError:
-        LOG.exception('#y<PyGame not found... exiting...>')
+        LOG.exception("#y<PyGame not found... exiting...>")
         sys.exit(1)
     try:
         pygame.display.quit()
@@ -196,9 +191,9 @@ def main():
         run_game()
     except KeyboardInterrupt:
         # Write a nice message to stderr
-        sys.stderr.write(u'\n\u2717 Operation canceled by user.\n')
+        sys.stderr.write("\n\u2717 Operation canceled by user.\n")
         __exit(code=1)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

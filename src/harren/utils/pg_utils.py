@@ -29,8 +29,8 @@ def get_image(path, **kwargs):
         else:
             raise OSError(f"Image '{path}' not found")
 
-    LOG.debug('Getting image %s', resource_path)
-    colorkey = kwargs.get('colorkey', (255, 0, 255))
+    LOG.debug("Getting image %s", resource_path)
+    colorkey = kwargs.get("colorkey", (255, 0, 255))
     img = pg.image.load(resource_path)
     if img.get_alpha():
         img = img.convert_alpha()
@@ -50,26 +50,26 @@ def get_sprite_image(x, y, width, height, sprite_sheet):
 
 def get_sprite_map(path, grid_size=16):
     """Make a dictionary of images from sprite sheet."""
-    LOG.debug('Getting sprite map %s', path)
+    LOG.debug("Getting sprite map %s", path)
     sprite = get_image(path)
     col1 = grid_size * 2
     col2 = grid_size * 3
     return {
-        'up_1': get_sprite_image(0, 0, grid_size, grid_size, sprite),
-        'up_2': get_sprite_image(grid_size, 0, grid_size, grid_size, sprite),
-        'down_1': get_sprite_image(col1, 0, grid_size, grid_size, sprite),
-        'down_2': get_sprite_image(col2, 0, grid_size, grid_size, sprite),
-        'left_1': get_sprite_image(0, grid_size, grid_size, grid_size, sprite),
-        'left_2': get_sprite_image(grid_size, grid_size, grid_size, grid_size, sprite),  # noqa
-        'right_1': get_sprite_image(col1, grid_size, grid_size, grid_size, sprite),  # noqa
-        'right_2': get_sprite_image(col2, grid_size, grid_size, grid_size, sprite),  # noqa
+        "up_1": get_sprite_image(0, 0, grid_size, grid_size, sprite),
+        "up_2": get_sprite_image(grid_size, 0, grid_size, grid_size, sprite),
+        "down_1": get_sprite_image(col1, 0, grid_size, grid_size, sprite),
+        "down_2": get_sprite_image(col2, 0, grid_size, grid_size, sprite),
+        "left_1": get_sprite_image(0, grid_size, grid_size, grid_size, sprite),
+        "left_2": get_sprite_image(grid_size, grid_size, grid_size, grid_size, sprite),  # noqa
+        "right_1": get_sprite_image(col1, grid_size, grid_size, grid_size, sprite),  # noqa
+        "right_2": get_sprite_image(col2, grid_size, grid_size, grid_size, sprite),  # noqa
     }
 
 
 def get_font(path, size=20):
     """Return a font instance from pygame for a given font."""
-    if not path.lower().endswith('ttf'):
-        path = f'{path}.ttf'
+    if not path.lower().endswith("ttf"):
+        path = f"{path}.ttf"
     if not os.path.exists(path):
         new_path = os.path.join(resources.FONT_FOLDER, path)
         if os.path.exists(new_path):
@@ -77,7 +77,7 @@ def get_font(path, size=20):
         else:
             raise OSError(f"Font '{path}' not found")
     path = os.path.join(resources.FONT_FOLDER, path)
-    LOG.debug('Font %s size %s', path, size)
+    LOG.debug("Font %s size %s", path, size)
     return pg.font.Font(path, size)
 
 

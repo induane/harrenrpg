@@ -15,28 +15,28 @@ from harren.resources import DATA_FOLDER
 
 
 LEVEL_MAP = {
-    'game_select': GameSelect,
-    'load_screen': LoadScreen,
-    'overworld': Overworld,
+    "game_select": GameSelect,
+    "load_screen": LoadScreen,
+    "overworld": Overworld,
 }
 
 
 def map_constructor(game_loop, **kwargs):
-    name = kwargs.pop('name')
-    filename = kwargs.pop('filename')
+    name = kwargs.pop("name")
+    filename = kwargs.pop("filename")
     return BaseLevel(filename, game_loop, name=name)
 
 
-with open(os.path.join(DATA_FOLDER, 'maps.toml'), 'rb') as f:
+with open(os.path.join(DATA_FOLDER, "maps.toml"), "rb") as f:
     data = toml.load(f)
 
 
 for name, values in data.items():
-    values['name'] = name
+    values["name"] = name
     LEVEL_MAP[name] = partial(map_constructor, **values)
 
 
 __all__ = (
-    'BaseLevel',
-    'LEVEL_MAP',
+    "BaseLevel",
+    "LEVEL_MAP",
 )

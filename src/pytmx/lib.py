@@ -18,9 +18,21 @@ def convert_to_bool(value: Union[str, int]) -> bool:
         pass
 
     value = value.lower()
-    if value in ('true', 'yes', '1', 'evet', 'y', ):
+    if value in (
+        "true",
+        "yes",
+        "1",
+        "evet",
+        "y",
+    ):
         return True
-    if value in ('false', 'no', '0', 'hiyur', 'n', ):
+    if value in (
+        "false",
+        "no",
+        "0",
+        "hiyur",
+        "n",
+    ):
         return False
     raise ValueError(f"Could not convert '{value}' to a boolean value")
 
@@ -88,17 +100,14 @@ class DefaultORM:
 
 class HWIntORM(DefaultORM):
     """Object mapper for TiledMaps."""
+
     height: Callable = int
     width: Callable = int
 
 
 class TileFlags:
 
-    __slots__ = (
-        'flipped_horizontally',
-        'flipped_vertically',
-        'flipped_diagonally'
-    )
+    __slots__ = ("flipped_horizontally", "flipped_vertically", "flipped_diagonally")
 
     def __init__(self, a: bool, b: bool, c: bool):
         self.flipped_horizontally: bool = a
@@ -108,7 +117,7 @@ class TileFlags:
 
 class AnimationFrame:
 
-    __slots__ = ('gid', 'duration')
+    __slots__ = ("gid", "duration")
 
     def __init__(self, gid, duration: int):
         self.gid = gid
@@ -123,4 +132,4 @@ class AnimationFrame:
             return self.duration
         elif i == -2:
             return self.gid
-        raise IndexError('Out of range: %s', i)
+        raise IndexError("Out of range: %s", i)

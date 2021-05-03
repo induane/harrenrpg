@@ -19,32 +19,31 @@ from harren.resources import CONFIG_FOLDER, DATA_FOLDER, TMX_FOLDER
 from harren.utils.pg_utils import get_font
 
 LOG = logging.getLogger(__name__)
-LAST_SAVE_PATH = os.path.join(CONFIG_FOLDER, 'Last.save')
+LAST_SAVE_PATH = os.path.join(CONFIG_FOLDER, "Last.save")
 
 
 class GameState(object):
-
     def __init__(self, *args, **kwargs):
         pg.init()
         self.initialize_audio()
 
-        self.xres = kwargs.get('xres', 800)
-        self.yres = kwargs.get('yres', 600)
-        fullscreen = kwargs.get('fullscreen', False)
-        no_splash = kwargs.get('no_splash', False)
-        self.sound_enabled = kwargs.get('sound_enabled', True)
+        self.xres = kwargs.get("xres", 800)
+        self.yres = kwargs.get("yres", 600)
+        fullscreen = kwargs.get("fullscreen", False)
+        no_splash = kwargs.get("no_splash", False)
+        self.sound_enabled = kwargs.get("sound_enabled", True)
         self.show_fps = False
-        caption = 'Harren Press'
+        caption = "Harren Press"
         self.state = {
-            'volume': 0.4,
-            'current_time': 0.0,
-            'current_level': 'game_select',
-            'previous_level': 'load_screen',
-            'player1': {},
-            'inventory': {},
-            'quest_inventory': {'magic_item_1': 1},
-            'quests': [],
-            'completed_quests': [],
+            "volume": 0.4,
+            "current_time": 0.0,
+            "current_level": "game_select",
+            "previous_level": "load_screen",
+            "player1": {},
+            "inventory": {},
+            "quest_inventory": {"magic_item_1": 1},
+            "quests": [],
+            "completed_quests": [],
         }
         self.level_instance = None
         self.current_time = 0.0
@@ -56,15 +55,9 @@ class GameState(object):
         pg.display.set_caption(caption)
 
         if fullscreen:
-            self.surface = pg.display.set_mode(
-                (self.xres, self.yres),
-                pg.FULLSCREEN | pg.DOUBLEBUF | pg.HWSURFACE
-            )
+            self.surface = pg.display.set_mode((self.xres, self.yres), pg.FULLSCREEN | pg.DOUBLEBUF | pg.HWSURFACE)
         else:
-            self.surface = pg.display.set_mode(
-                (self.xres, self.yres),
-                pg.DOUBLEBUF | pg.HWSURFACE
-            )
+            self.surface = pg.display.set_mode((self.xres, self.yres), pg.DOUBLEBUF | pg.HWSURFACE)
 
         self.clock = pg.time.Clock()
         self.level_has_changed = False
@@ -73,8 +66,8 @@ class GameState(object):
         # overworld map as caching that one is the most important
         if not no_splash:
             # Draw the loading screen
-            load_screen = LEVEL_MAP['load_screen'](self)
-            load_screen()   # Initial draw
+            load_screen = LEVEL_MAP["load_screen"](self)
+            load_screen()  # Initial draw
             pg.display.flip()
             self.overworld_map  # Forces the overworld map to get cached
 
@@ -82,12 +75,12 @@ class GameState(object):
         """Setup the audio system."""
         loop = 3
         while True:
-            LOG.info('Initializing audio system...')
+            LOG.info("Initializing audio system...")
             try:
                 pg.mixer.init()
             except Exception:
                 if loop <= 0:
-                    LOG.exception('Unable to initialize audio system')
+                    LOG.exception("Unable to initialize audio system")
                     break
                 else:
                     try:
@@ -102,57 +95,57 @@ class GameState(object):
     @cachedproperty
     def overworld_map(self):
         """Return the overworld map (caching on first access)"""
-        map_path = os.path.join(TMX_FOLDER, 'harren_map.tmx')
+        map_path = os.path.join(TMX_FOLDER, "harren_map.tmx")
         return load_pygame(map_path)
 
     @cachedproperty
     def quest_data(self):
-        path = os.path.join(DATA_FOLDER, 'quest.toml')
-        with open(path, 'rb') as f:
+        path = os.path.join(DATA_FOLDER, "quest.toml")
+        with open(path, "rb") as f:
             data = toml.loads(f.read())
         return data
 
     @cachedproperty
     def npc_data(self):
-        path = os.path.join(DATA_FOLDER, 'npc.toml')
-        with open(path, 'rb') as f:
+        path = os.path.join(DATA_FOLDER, "npc.toml")
+        with open(path, "rb") as f:
             data = toml.loads(f.read())
         return data
 
     def set_state(self, state_dict):
         """Given a dict set the state values."""
         self.state.update(state_dict)
-        self.current_level = state_dict['current_level']
+        self.current_level = state_dict["current_level"]
         self.level_has_changed = True
 
     def _get_current_level(self):
-        return self.state.get('current_level', 'game_select')
+        return self.state.get("current_level", "game_select")
 
     def _set_current_level(self, value):
         if value not in LEVEL_MAP:
-            raise ValueError(f'Unknown level: {value}')
+            raise ValueError(f"Unknown level: {value}")
 
-        if value != self.state['current_level']:
-            self.state['previous_level'] = self.state['current_level']
-            self.state['current_level'] = value
+        if value != self.state["current_level"]:
+            self.state["previous_level"] = self.state["current_level"]
+            self.state["current_level"] = value
             self.level_has_changed = True
 
     current_level = property(_get_current_level, _set_current_level)
     """Property to get and set the current level name."""
 
     def _get_previous_level(self):
-        return self.state.get('previous_level', None)
+        return self.state.get("previous_level", None)
 
     def _set_previous_level(self, value):
-        self.state['previous_level'] = value
+        self.state["previous_level"] = value
 
     previous_level = property(_get_previous_level, _set_previous_level)
     """Simple property to get and set the previous level name."""
 
     def _get_notification(self):
         """Return a notification if it hasn't expired."""
-        start_time = getattr(self, '_notification_start_time', None)
-        notification = getattr(self, '_notification_text', None)
+        start_time = getattr(self, "_notification_start_time", None)
+        notification = getattr(self, "_notification_text", None)
         if not notification:
             return None
 
@@ -172,25 +165,25 @@ class GameState(object):
     def _set_notification(self, text):
         """Set notification text to display."""
         self._notification_start_time = self.current_time
-        self._notification_text = f'* {text}'
+        self._notification_text = f"* {text}"
 
     notification = property(_get_notification, _set_notification)
 
     @property
     def quest_inventory(self):
-        return self.state['quest_inventory']
+        return self.state["quest_inventory"]
 
     @property
     def inventory(self):
-        return self.state['inventory']
+        return self.state["inventory"]
 
     @property
     def quests(self):
-        return self.state['quests']
+        return self.state["quests"]
 
     @property
     def completed_quests(self):
-        return self.state['completed_quests']
+        return self.state["completed_quests"]
 
     @cachedproperty
     def screen_rectangle(self):
@@ -200,27 +193,27 @@ class GameState(object):
     @cachedproperty
     def font_15(self):
         """Return the main font as 15pt."""
-        return get_font('Triforce.ttf', size=15)
+        return get_font("Triforce.ttf", size=15)
 
     @cachedproperty
     def font_20(self):
         """Return the main font."""
-        return get_font('Triforce.ttf', size=20)
+        return get_font("Triforce.ttf", size=20)
 
     @cachedproperty
     def font_25(self):
         """Return the main font."""
-        return get_font('Triforce.ttf', size=25)
+        return get_font("Triforce.ttf", size=25)
 
     @cachedproperty
     def font_40(self):
         """Return the main font large size."""
-        return get_font('Triforce.ttf', size=40)
+        return get_font("Triforce.ttf", size=40)
 
     @cachedproperty
     def font_60(self):
         """Return the main font large size."""
-        return get_font('Triforce.ttf', size=60)
+        return get_font("Triforce.ttf", size=60)
 
     @staticmethod
     def route_keys(keys, level_instance):
@@ -254,8 +247,8 @@ class GameState(object):
         route_keys = self.route_keys
 
         while True:
-            if self.current_level in ('quit', 'exit'):
-                LOG.info('Exiting...')
+            if self.current_level in ("quit", "exit"):
+                LOG.info("Exiting...")
                 self._exit()
 
             # If the level has changed, load the new level
@@ -264,7 +257,7 @@ class GameState(object):
                 try:
                     self.level_instance.play_music()
                 except pg.error:
-                    LOG.exception('Unable to play music')
+                    LOG.exception("Unable to play music")
                 self.level_has_changed = False
 
             events = event_get()
@@ -275,18 +268,18 @@ class GameState(object):
             for event in events:
                 # Handle quit event gracefully
                 if event.type == pg.QUIT:
-                    LOG.info('Exiting...')
+                    LOG.info("Exiting...")
                     self._exit()
 
                 if event.type == pg.KEYDOWN:
                     # Pressing ALT-F4 also exits the game loop and save
                     if event.key == pg.K_F4 and alt_held:
-                        LOG.info('Exiting...')
+                        LOG.info("Exiting...")
                         self._exit()
                     if event.key == pg.K_F5 and alt_held:
                         self._save()
                     if event.key == pg.K_ESCAPE:
-                        self.current_level = 'game_select'
+                        self.current_level = "game_select"
                     if event.key == pg.K_F1 and alt_held:
                         self.show_fps = not self.show_fps  # Toggle
 
@@ -306,15 +299,15 @@ class GameState(object):
             flip()
             tick(60)  # 60 FPS Target
 
-        LOG.info('Exiting...')
+        LOG.info("Exiting...")
         self._exit()
 
     def _save(self):
         """Save the game to Save Slot"""
-        path = os.path.join(CONFIG_FOLDER, 'saved_game.save')
-        with open(path, 'wb') as f:
+        path = os.path.join(CONFIG_FOLDER, "saved_game.save")
+        with open(path, "wb") as f:
             f.truncate()
-            f.write(json.dumps(self.state, indent=4).encode('utf-8'))
+            f.write(json.dumps(self.state, indent=4).encode("utf-8"))
 
     def _exit(self, code=0):
         try:
@@ -325,7 +318,7 @@ class GameState(object):
             pg.quit()
         except Exception:
             pass
-        with open(LAST_SAVE_PATH, 'wb') as f:
+        with open(LAST_SAVE_PATH, "wb") as f:
             f.truncate()
-            f.write(json.dumps(self.state, indent=4).encode('utf-8'))
+            f.write(json.dumps(self.state, indent=4).encode("utf-8"))
         sys.exit(code)

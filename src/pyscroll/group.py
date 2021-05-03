@@ -1,7 +1,7 @@
 # Third Party
 import pygame
 
-__all__ = ('PyscrollGroup', )
+__all__ = ("PyscrollGroup",)
 
 
 class PyscrollGroup(pygame.sprite.LayeredUpdates):
@@ -9,7 +9,7 @@ class PyscrollGroup(pygame.sprite.LayeredUpdates):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self._map_layer = kwargs.get('map_layer')
+        self._map_layer = kwargs.get("map_layer")
 
     def center(self, value):
         """
